@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiuLa! 遺失物協尋平台</title>
+    <style>
+        :root {
+            --bg-color: #F3F0E1;
+            --primary-light: #CDDCF0;
+            --primary-dark: #492C13;
+            --accent-yellow: #FCE6B7;
+            --accent-gray: #D7D4B1;
+            --accent-red: #c72f02;
+            --text-color: #492C13;
+            --white: #FFFFFF;
+            --border-radius: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: #e0e0e0; /* 背景加深，凸顯手機版型 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 430px;
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            color: var(--text-color);
+        }
+
+        .page {
+            display: none;
+            padding: 24px;
+            flex-direction: column;
+            flex-grow: 1;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: var(--primary-dark);
+            text-align: center;
+            margin-bottom: 48px;
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 18px 24px;
+            border-radius: var(--border-radius);
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.1s, opacity 0.2s;
+            text-decoration: none;
+            width: 100%;
+            margin-bottom: 16px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--primary-dark);
+            color: var(--bg-color);
+        }
+
+        .btn-accent {
+            background-color: var(--accent-red);
+            color: var(--white);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-dark);
+            color: var(--primary-dark);
+            padding: 14px 24px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--primary-dark);
+            cursor: pointer;
+            margin-right: 12px;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--accent-gray);
+            border-radius: 12px;
+            font-size: 16px;
+            background-color: var(--white);
+            color: var(--text-color);
+            transition: border-color 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-dark);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            padding: 8px 0;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: normal;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Image Upload */
+        .upload-area {
+            border: 2px dashed var(--accent-gray);
+            border-radius: var(--border-radius);
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.2s;
+        }
+        
+        .upload-area:active {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .upload-area img.preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+        }
+
+        .upload-area .icon {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .upload-input {
+            display: none;
+        }
+
+        /* Tags */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .tag {
+            background-color: var(--accent-yellow);
+            color: var(--primary-dark);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tag .remove-tag {
+            cursor: pointer;
+            color: var(--accent-red);
+            font-size: 16px;
+        }
+
+        .add-tag-btn {
+            background-color: var(--accent-gray);
+            color: var(--primary-dark);
+            border: none;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background-color: var(--accent-gray);
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 4px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--primary-dark);
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .tab.active {
+            background-color: var(--bg-color);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards */
+        .card-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            gap: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .card-img {
+            width: 88px;
+            height: 88px;
+            background-color: var(--accent-gray);
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .card-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-tags {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 6px;
+        }
+
+        .card-meta {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .card-btn {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 8px;
+            margin-bottom: 0;
+            margin-top: auto;
+        }
+
+        /* Detail Page */
+        .detail-img {
+            width: 100%;
+            height: 280px;
+            background-color: var(--accent-gray);
+            border-radius: var(--border-radius);
+            object-fit: cover;
+            margin-bottom: 24px;
+        }
+
+        .detail-info {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 24px;
+        }
+        
+        .detail-info p {
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        
+        .detail-info p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Success Page */
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 50px;
+            color: var(--primary-dark);
+            margin: 60px auto 30px;
+        }
+
+        .success-text {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .case-number {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 40px;
+            background-color: var(--accent-yellow);
+            padding: 10px 20px;
+            border-radius: 12px;
+            display: inline-block;
+            align-self: center;
+        }
+        
+        /* Spacer */
+        .spacer {
+            flex-grow: 1;
+        }
+
+        /* Loading */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <!-- Page 1: 首頁 -->
+    <div id="page1" class="page active" style="justify-content: center;">
+        <h1>DiuLa!</h1>
+        <div class="subtitle">遺失物協尋平台</div>
+        
+        <button class="btn btn-primary" onclick="navTo('page3')">我要尋找遺失物</button>
+        <button class="btn btn-secondary" onclick="navTo('page2')">我撿到東西</button>
+    </div>
+
+    <!-- Page 2: 拾獲者上傳 -->
+    <div id="page2" class="page">
+        <h2><button class="back-btn" onclick="navTo('page1')">❮</button> 拾獲物登錄</h2>
+        
+        <div class="upload-area" onclick="document.getElementById('upload2').click()">
+            <div id="uploadText2" style="text-align: center;">
+                <div class="icon">📷</div>
+                <div style="font-weight: bold;">點擊上傳圖片</div>
+            </div>
+            <img id="preview2" class="preview" alt="預覽圖片">
+            <input type="file" id="upload2" class="upload-input" accept="image/*" onchange="previewImage(this, 'preview2', 'uploadText2')">
+        </div>
+
+        <div class="form-group">
+            <label>物品類別</label>
+            <div class="radio-group">
+                <label class="radio-label"><input type="radio" name="category2" checked> 一般物品</label>
+                <label class="radio-label"><input type="radio" name="category2"> 證件類</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>拾獲地點</label>
+            <input type="text" placeholder="例：台大圖書館二樓">
+        </div>
+
+        <div class="form-group">
+            <label>拾獲日期</label>
+            <input type="date">
+        </div>
+
+        <div class="form-group">
+            <label>備註（非必填）</label>
+            <textarea rows="3" placeholder="其他特徵描述..."></textarea>
+        </div>
+
+        <button class="btn btn-outline" id="aiBtn2" onclick="simulateAI('aiBtn2', 'tagsSection2', '✨ AI 辨識標籤')">✨ AI 辨識標籤</button>
+        
+        <div class="form-group hidden" id="tagsSection2">
+            <label>標籤確認</label>
+            <div class="tags-container" id="tagList2">
+                <div class="tag">#耳機 <span class="remove-tag" onclick="this.parentElement.remove()">✕</span></div>
+                <div class="tag">#黑色 <span class="remove-tag" onclick="this.parentElement.remove()">✕</span></div>
+                <div class="tag">#Sony <span class="remove-tag" onclick="this.parentElement.remove()">✕</span></div>
+                <button class="add-tag-btn">+ 新增標籤</button>
+            </div>
+        </div>
+
+        <div class="spacer"></div>
+        <button class="btn btn-primary" style="margin-top: 24px;" onclick="navTo('page5')">確認發布</button>
+    </div>
+
+    <!-- Page 3: 尋找者查詢 -->
+    <div id="page3" class="page">
+        <h2><button class="back-btn" onclick="navTo('page1')">❮</button> 尋找遺失物</h2>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab(0)">圖片搜尋</div>
+            <div class="tab" onclick="switchTab(1)">文字搜尋</div>
+        </div>
+        
+        <div id="tabContent0" class="tab-content active">
+            <div class="upload-area" onclick="document.getElementById('upload3').click()">
+                <div id="uploadText3" style="text-align: center;">
+                    <div class="icon">📷</div>
+                    <div style="font-weight: bold;">上傳遺失物圖片</div>
+                </div>
+                <img id="preview3" class="preview" alt="預覽圖片">
+                <input type="file" id="upload3" class="upload-input" accept="image/*" onchange="previewImage(this, 'preview3', 'uploadText3')">
+            </div>
+        </div>
+        
+        <div id="tabContent1" class="tab-content">
+            <div class="form-group">
+                <textarea rows="4" placeholder="請描述您的遺失物特徵..."></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>遺失地點</label>
+            <input type="text" placeholder="例：公館捷運站附近">
+        </div>
+
+        <div class="form-group">
+            <label>遺失日期</label>
+            <input type="date">
+        </div>
+
+        <button class="btn btn-outline" id="aiBtn3" onclick="simulateAI('aiBtn3', 'searchResultSection', '🔍 AI 辨識 & 搜尋')">🔍 AI 辨識 & 搜尋</button>
+
+        <div id="searchResultSection" class="hidden">
+            <div class="form-group">
+                <label>搜尋標籤</label>
+                <div class="tags-container">
+                    <div class="tag">#鑰匙圈 <span class="remove-tag" onclick="this.parentElement.remove()">✕</span></div>
+                    <div class="tag">#皮卡丘 <span class="remove-tag" onclick="this.parentElement.remove()">✕</span></div>
+                    <button class="add-tag-btn">+ 新增標籤</button>
+                </div>
+            </div>
+            
+            <div class="card-list">
+                <label>為您找到的可能結果：</label>
+                
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1584844111326-6469d77e4860?w=200&h=200&fit=crop" class="card-img" alt="Item">
+                    <div class="card-info">
+                        <div class="card-tags">#鑰匙圈 #皮卡丘 #黃色</div>
+                        <div class="card-meta">📍 公館捷運站 1號出口<br>🕒 2026-06-05</div>
+                        <button class="btn btn-secondary card-btn" onclick="navTo('page4')">查看詳情</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?w=200&h=200&fit=crop" class="card-img" alt="Item">
+                    <div class="card-info">
+                        <div class="card-tags">#鑰匙圈 #動漫 #黃色</div>
+                        <div class="card-meta">📍 台大正門<br>🕒 2026-06-06</div>
+                        <button class="btn btn-secondary card-btn" onclick="navTo('page4')">查看詳情</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1628151015968-3a4429e9ef04?w=200&h=200&fit=crop" class="card-img" alt="Item">
+                    <div class="card-info">
+                        <div class="card-tags">#錢包 #黃色</div>
+                        <div class="card-meta">📍 羅斯福路三段<br>🕒 2026-06-07</div>
+                        <button class="btn btn-secondary card-btn" onclick="navTo('page4')">查看詳情</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 4: 比對結果詳情 -->
+    <div id="page4" class="page">
+        <h2><button class="back-btn" onclick="navTo('page3')">❮</button> 物品詳情</h2>
+        
+        <img src="https://images.unsplash.com/photo-1584844111326-6469d77e4860?w=600&h=400&fit=crop" class="detail-img" alt="Item Detail">
+        
+        <div class="form-group">
+            <label>物品標籤</label>
+            <div class="tags-container">
+                <div class="tag">#鑰匙圈</div>
+                <div class="tag">#皮卡丘</div>
+                <div class="tag">#黃色</div>
+            </div>
+        </div>
+
+        <div class="detail-info">
+            <label>拾獲資訊</label>
+            <p>📍 <strong>地點：</strong>公館捷運站 1號出口</p>
+            <p>🕒 <strong>日期：</strong>2026-06-05 14:30</p>
+            <p>📝 <strong>備註：</strong>在售票機旁邊的地板上撿到的，看起來很新。</p>
+        </div>
+
+        <div class="spacer"></div>
+        <button class="btn btn-accent" onclick="alert('已發送聯繫通知給拾獲者！\n對方同意後將為您開啟對話。')">這是我的！聯繫確認</button>
+    </div>
+
+    <!-- Page 5: 發布成功 -->
+    <div id="page5" class="page" style="justify-content: center;">
+        <div class="success-icon">✓</div>
+        <div class="success-text">已成功登錄</div>
+        <div class="case-number">編號 #DL-20260607-001</div>
+        
+        <div class="spacer"></div>
+        <button class="btn btn-primary" onclick="navTo('page1')">返回首頁</button>
+    </div>
+
+</div>
+
+<script>
+    function navTo(pageId) {
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+        });
+        document.getElementById(pageId).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    function previewImage(input, previewId, textId) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById(previewId);
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                document.getElementById(textId).style.display = 'none';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function switchTab(index) {
+        document.querySelectorAll('.tab').forEach((tab, i) => {
+            if (i === index) tab.classList.add('active');
+            else tab.classList.remove('active');
+        });
+        
+        document.querySelectorAll('.tab-content').forEach((content, i) => {
+            if (i === index) content.classList.add('active');
+            else content.classList.remove('active');
+        });
+    }
+
+    function simulateAI(btnId, targetId, originalText) {
+        const btn = document.getElementById(btnId);
+        btn.innerHTML = '🔄 處理中...';
+        btn.classList.add('loading');
+        
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.classList.remove('loading');
+            document.getElementById(targetId).classList.remove('hidden');
+        }, 1200);
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2117 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DiuLa!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #F3F0E1;
+            --beige-color: transparent;
+            --primary-blue: #CDDCF0;
+            --dark-brown: #492C13;
+            --nav-active: #482B12;
+            --red-accent: #C72F02;
+            --card-bg: #FFFFFF;
+            --text-gray: #888888;
+            --border-color: #E0E0E0;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px 0;          /* 上下留點空間 */
+            background-color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            font-family: 'Chiron GoRound TC', sans-serif;
+            font-optical-sizing: auto;
+            font-display: swap;
+            color: var(--dark-brown);
+        }
+
+        .app-container {
+            width: 390px;
+            min-height: 844px;        /* iPhone 14 的高度 */
+            max-height: 844px;        /* 固定高度，超過就捲動 */
+            overflow-y: auto;
+            overflow-x: hidden;
+            border-radius: 40px;      /* 手機圓角 */
+            box-shadow: 
+                0 0 0 10px #2a2a2a,   /* 手機外框 */
+                0 0 0 12px #444,      /* 外框邊線 */
+                0 30px 60px rgba(0,0,0,0.6); /* 陰影 */
+            position: relative;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .app-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+
+        .page {
+            display: none;
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+            flex-direction: column;
+            background-color: var(--bg-color);
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        .page-center {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        h1, .title-20 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 16px 0;
+        }
+
+        p, .text-14 {
+            font-size: 14px;
+            font-weight: 400;
+            margin: 0 0 8px 0;
+        }
+
+        .caption-12 {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--text-gray);
+        }
+
+        .comfortaa {
+            font-family: 'Chiron GoRound TC', sans-serif;
+        }
+
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 24px;
+            border-radius: 24px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            border: none;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+            text-decoration: none;
+            font-family: 'Chiron GoRound TC', sans-serif;
+        }
+
+        .btn-green { background-color: #06C755; color: white; }
+        .btn-white { background-color: white; color: var(--dark-brown); border: 1px solid var(--border-color); }
+        .btn-brown { background-color: var(--dark-brown); color: white; }
+        .btn-red { background-color: var(--red-accent); color: white; }
+        .btn-gray { background-color: var(--card-bg); color: var(--dark-brown); }
+        .btn-text { background-color: transparent; color: var(--text-gray); text-decoration: underline; }
+
+        input[type="text"], input[type="date"], textarea, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            font-family: 'Chiron GoRound TC', sans-serif;
+            font-size: 14px;
+            color: var(--dark-brown);
+        }
+        input::placeholder, textarea::placeholder {
+            color: var(--text-gray);
+        }
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .pill-nav {
+            position: sticky;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            margin: 0 20px 20px 20px; /* add margins instead of left/right for sticky */
+            background-color: var(--primary-blue);
+            border-radius: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .pill-nav-item {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: var(--dark-brown);
+            transition: background-color 0.3s;
+        }
+        .pill-nav-item.active {
+            background-color: white;
+        }
+        .pill-nav-item svg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
+        }
+        .home-section {
+            background-color: var(--beige-color);
+            border-radius: 20px;
+            padding: 24px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .home-section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark-brown);
+            margin-bottom: 20px;
+        }
+        .white-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: transform 0.2s;
+        }
+        .white-card:last-child {
+            margin-bottom: 0;
+        }
+        .white-card:active {
+            transform: scale(0.98);
+        }
+        .white-card-icon {
+            width: 56px;
+            height: 56px;
+            margin-right: 20px;
+            fill: var(--dark-brown);
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .top-bar .back-btn {
+            cursor: pointer;
+            margin-right: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .top-bar h1 {
+            margin: 0;
+            flex: 1;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--text-gray);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 16px;
+            cursor: pointer;
+            background-color: var(--card-bg);
+            position: relative;
+            display: block;
+        }
+        .upload-area img.preview {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            display: none;
+            margin: 0 auto;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 12px;
+            margin: 4px 4px 4px 0;
+            color: var(--dark-brown);
+        }
+        .chip .remove {
+            margin-left: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--text-gray);
+        }
+        .chip.selectable {
+            cursor: pointer;
+        }
+        .chip.selectable.selected {
+            background-color: var(--primary-blue);
+            color: var(--dark-brown);
+            border-color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+        .tab.active {
+            color: var(--dark-brown);
+            border-bottom: 2px solid var(--dark-brown);
+        }
+
+        .scroll-tabs {
+            display: flex;
+            overflow-x: auto;
+            margin-bottom: 16px;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 8px;
+        }
+        .scroll-tabs::-webkit-scrollbar { display: none; }
+        .scroll-tab {
+            flex-shrink: 0;
+            padding: 8px 16px;
+            margin-right: 8px;
+            border-radius: 20px;
+            background-color: var(--card-bg);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-gray);
+        }
+        .scroll-tab.active {
+            background-color: var(--dark-brown);
+            color: white;
+        }
+
+        .flex-row { display: flex; align-items: center; }
+        .flex-col { display: flex; flex-direction: column; }
+        .space-between { justify-content: space-between; }
+        .mt-auto { margin-top: auto; }
+        .mt-4 { margin-top: 16px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-4 { margin-bottom: 16px; }
+        .w-100 { width: 100%; }
+        .gap-2 { gap: 8px; }
+
+        .badge {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            color: var(--dark-brown);
+            font-weight: 700;
+            display: inline-block;
+        }
+        .badge-blue { background-color: var(--primary-blue); }
+        .badge-yellow { background-color: #fff2cc; }
+        .badge-green { background-color: #d9ead3; }
+        .badge-found { background-color: #02B352; color: #ffffff; }
+        .badge-seeking { background-color: #C72F02; color: #ffffff; }
+
+        .icon { width: 24px; height: 24px; fill: currentColor; }
+
+        /* Custom Styles */
+        .home-cards { display: flex; gap: 16px; margin-bottom: 24px; }
+        .home-card {
+            flex: 1;
+            border-radius: 16px;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .home-card.blue { background-color: var(--primary-blue); }
+        .home-card.outlined { background-color: var(--bg-color); border: 2px solid var(--dark-brown); }
+
+        .result-card { align-items: flex-start; padding: 12px; }
+        .result-card .thumb {
+            width: 80px; height: 80px;
+            background-color: #D9D9D9;
+            border-radius: 8px;
+            margin-right: 12px;
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+        
+        .community-card { align-items: flex-start; padding: 12px; }
+        .community-card .thumb {
+            width: 60px; height: 60px;
+            background-color: #D9D9D9;
+            border-radius: 8px;
+            margin-right: 12px;
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+
+        .avatar { width: 60px; height: 60px; background-color: #D9D9D9; border-radius: 50%; margin-bottom: 8px; }
+        .search-bar { position: relative; margin-bottom: 20px; }
+        .search-bar svg { position: absolute; left: 12px; top: 12px; width: 20px; height: 20px; fill: var(--text-gray); }
+        .search-bar input { padding-left: 40px; margin-bottom: 0; }
+        
+        .add-tag-form { display: flex; gap: 8px; margin-top: 8px; }
+        .add-tag-form select { margin-bottom: 0; flex: 1; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--card-bg); font-family: 'Chiron GoRound TC', sans-serif; font-size: 14px; color: var(--dark-brown); }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .center-card {
+            background-color: var(--bg-color);
+            width: 85%;
+            max-height: 75vh;
+            border-radius: 24px;
+            overflow-y: auto;
+            position: relative;
+            animation: popIn 0.3s ease-out forwards;
+            display: flex;
+            flex-direction: column;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .center-card::-webkit-scrollbar {
+            display: none;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .modal-close {
+            cursor: pointer;
+        }
+        .modal-content {
+            padding: 0 20px 20px 20px;
+        }
+        .tag-category-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--dark-brown);
+            margin-bottom: 8px;
+            margin-top: 24px;
+        }
+        .tag-scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            padding-bottom: 8px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .tag-scroll-container::-webkit-scrollbar { display: none; }
+        .modal-tag {
+            background-color: #D6E4F0;
+            color: var(--dark-brown);
+            padding: 6px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .modal-tag.selected {
+            background-color: var(--primary-blue);
+            color: var(--dark-brown);
+            font-weight: 700;
+        }
+        .info-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .info-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            fill: var(--dark-brown);
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+        .info-text {
+            background-color: white;
+            border-radius: 8px;
+            padding: 8px 12px;
+            flex: 1;
+            font-size: 14px;
+            color: var(--dark-brown);
+            min-height: 20px;
+        }
+        
+        .illu-svg { width: 120px; height: 120px; margin-bottom: 24px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- PAGE 01: Login -->
+        <div id="page-01" class="page page-center active" style="background-color: var(--primary-blue);">
+            <img src="DiuLa_logo_transparent.png" alt="DiuLa Logo" style="width: 80%; height: auto; margin-bottom: 16px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <h1 class="comfortaa" style="font-size: 48px; color: var(--dark-brown); margin-bottom: 16px; display: none;">DiuLa!</h1>
+            <p class="text-14" style="margin-bottom: 48px;">尋找失物的好夥伴！</p>
+            <div style="width: 80%;">
+                <button class="btn btn-green" onclick="window.showPage('page-02', 'home')">LINE 登入</button>
+                <button class="btn btn-white" onclick="window.showPage('page-02', 'home')">Google 登入</button>
+            </div>
+        </div>
+        <!-- PAGE 02: Home -->
+        <div id="page-02" class="page">
+            <div style="background-color: var(--primary-blue); border-radius: 20px; padding: 12px 20px; display: flex; justify-content: center; align-items: center; margin-bottom: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                <!-- 預設顯示使用者的 LOGO 圖片，若找不到圖檔則顯示純文字以防破圖 -->
+                <img src="DiuLa_logo_transparent.png" alt="DiuLa Logo" style="height: 90px; width: auto;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <h1 class="comfortaa" style="font-size: 48px; color: var(--dark-brown); margin: 0; display: none;">DiuLa!</h1>
+            </div>
+            <div class="home-section">
+                <div class="home-section-title">尋找遺失物</div>
+                
+                <div class="white-card" onclick="window.showPage('page-03')">
+                    <img class="white-card-icon" src="icon_search.png" style="object-fit: contain;" alt="Search" onerror="this.style.display='none'">
+                    <div style="font-size: 20px; font-weight: 700; color: var(--dark-brown);">比對尋找</div>
+                </div>
+                <div class="white-card" onclick="window.showPage('page-17')">
+                    <img class="white-card-icon" src="icon_search.png" style="object-fit: contain;" alt="Community Search" onerror="this.style.display='none'">
+                    <div style="font-size: 20px; font-weight: 700; color: var(--dark-brown);">社群協尋</div>
+                </div>
+            </div>
+            <div class="home-section">
+                <div class="home-section-title">登錄拾獲物</div>
+                
+                <div style="display: flex; gap: 16px;">
+                    <div class="white-card" style="flex: 1; flex-direction: column; padding: 32px 16px; margin-bottom: 0;" onclick="window.showPage('page-12')">
+                        <div style="font-size: 24px; font-weight: 700; color: var(--dark-brown); margin-bottom: 16px;">證件類</div>
+                        <div style="font-size: 11px; color: var(--dark-brown); text-align: center;">例如：身分證、健保卡等</div>
+                    </div>
+                    
+                    <div class="white-card" style="flex: 1; flex-direction: column; padding: 32px 16px; margin-bottom: 0;" onclick="window.showPage('page-10')">
+                        <div style="font-size: 24px; font-weight: 700; color: var(--dark-brown); margin-bottom: 16px;">非證件類</div>
+                        <div style="font-size: 11px; color: var(--dark-brown); text-align: center;">其他類型物品</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- PAGE 03: Find (Image tab) -->
+        <div id="page-03" class="page">
+            <div class="top-bar">
+                <div class="back-btn" onclick="window.showPage('page-02', 'home')">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                </div>
+                <h1 class="title-20">尋找遺失物</h1>
+            </div>
+            <div class="tabs">
+                <div class="tab active">圖片</div>
+                <div class="tab" onclick="window.showPage('page-04')">文字</div>
+            </div>
+            <label class="upload-area" for="upload-p03">
+                <div id="upload-text-p03">
+                    <svg class="icon mb-2" style="width: 32px; height: 32px; color: var(--text-gray);" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    <div class="caption-12">點擊上傳圖片</div>
+                </div>
+                <img id="preview-p03" class="preview" src="" alt="預覽">
+            </label>
+            <input type="file" id="upload-p03" style="display:none;" accept="image/*" onchange="window.previewImage(this, 'preview-p03', 'upload-text-p03')">
+            <div class="flex-row gap-2" style="margin-bottom: 8px;">
+                <select id="city-03" class="city-select" onchange="window.updateDistricts('city-03', 'dist-03')" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Chiron GoRound TC', sans-serif;">
+                    <option value="" disabled selected>選擇縣市</option>
+                </select>
+                <select id="dist-03" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Chiron GoRound TC', sans-serif;">
+                    <option value="" disabled selected>選擇地區</option>
+                </select>
+            </div>
+            <input id="lost-date-03" type="date" >
+            <textarea id="lost-notes-03" placeholder="其他說明...（非必填）"></textarea>
+            <div style="margin-top: 16px; margin-bottom: 24px;">
+                <button class="btn btn-brown" onclick="window.prepareLostFlow('image', this)">開始 AI 辨識產生標籤</button>
+            </div>
+        </div>
+        <!-- PAGE 04: Find (Text tab) -->
+        <div id="page-04" class="page">
+            <div class="top-bar">
+                <div class="back-btn" onclick="window.showPage('page-02', 'home')">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                </div>
+                <h1 class="title-20">尋找遺失物</h1>
+            </div>
+            <div class="tabs">
+                <div class="tab" onclick="window.showPage('page-03')">圖片</div>
+                <div class="tab active">文字</div>
+            </div>
+            <textarea id="lost-desc-04" placeholder="描述你的遺失物，例：黑色 Sony 耳機，耳機殼有貼紙" style="min-height: 120px;"></textarea>
+            <div class="flex-row gap-2" style="margin-bottom: 8px;">
+                <select id="city-04" class="city-select" onchange="window.updateDistricts('city-04', 'dist-04')" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Chiron GoRound TC', sans-serif;">
+                    <option value="" disabled selected>選擇縣市</option>
+                </select>
+                <select id="dist-04" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Chiron GoRound TC', sans-serif;">
+                    <option value="" disabled selected>選擇地區</option>
+                </select>
+            </div>
+            <input id="lost-date-04" type="date" >
+            <textarea id="lost-notes-04" placeholder="其他說明...（非必填）"></textarea>
+            <div style="margin-top: 16px; margin-bottom: 24px;">
+                <button class="btn btn-brown" onclick="window.prepareLostFlow('text', this)">開始 AI 辨識產生標籤</button>
+            </div>
+        </div>
+        <!-- PAGE 05: AI Tags Confirm (Finder) -->
+        <div id="page-05" class="page" style="padding-top: 24px;">
+            <div style="margin-bottom: 16px; cursor: pointer; width: fit-content;" onclick="window.showPage('page-03')">
+                <svg class="icon" viewBox="0 0 24 24" style="width: 32px; height: 32px; color: var(--dark-brown);"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </div>
+            <div id="preview-container-05" style="width: 100%; height: 200px; border-radius: 12px; overflow: hidden; margin-bottom: 16px; display: none;">
+                <img id="confirm-img-05" src="" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="info-card">
+                <div id="lost-text-desc-05" class="text-14" style="font-weight: 700; margin-bottom: 8px; display: none;"></div>
+                <div class="info-row">
+                    <svg class="info-icon" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/></svg>
+                    <div id="info-date-05" class="info-text"></div>
+                </div>
+                <div class="info-row">
+                    <svg class="info-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    <div id="info-loc-05" class="info-text"></div>
+                </div>
+                <div class="info-row">
+                    <div class="text-14" style="width: 32px; text-align: left; font-weight: 700; flex-shrink: 0; line-height: 36px; color: var(--dark-brown);">備註</div>
+                    <div id="info-notes-05" class="info-text" style="color: var(--text-gray); min-height: 40px;">--</div>
+                </div>
+            </div>
+            <div class="info-card" style="margin-bottom: 24px;">
+                <div class="text-14" style="font-weight: 700; margin-bottom: 8px;">AI 標籤</div>
+                <div id="tags-container-05" class="flex-row" style="flex-wrap: wrap; gap: 8px;">
+                    <!-- Tags populated by JS -->
+                </div>
+            </div>
+            <div class="mt-auto" style="margin-bottom: 24px;">
+                <button class="btn" style="background-color: #D6E4F0; color: #D3430B; font-weight: 700;" onclick="window.handleSeekerSubmit()">確認並開始尋找</button>
+            </div>
+        </div>
+        <!-- PAGE 06: Match Result (Finder) -->
+        <div id="page-06" class="page">
+            <div class="top-bar">
+                <div class="back-btn" onclick="window.showPage('page-05')">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                </div>
+                <h1 class="title-20">比對結果</h1>
+            </div>
+            <div class="scroll-tabs">
+                <div class="scroll-tab active">DiuLa!</div>
+                <div class="scroll-tab" onclick="alert('謝旻負責串接中...')">警政署</div>
+                <div class="scroll-tab" onclick="alert('謝旻負責串接中...')">北捷</div>
+                <div class="scroll-tab" onclick="alert('謝旻負責串接中...')">高鐵</div>
+            </div>
+            <!-- Results -->
+            <div id="match-results-list">
+                <!-- Data populated from found_items matching algorithm -->
+            </div>
+            <div class="mt-auto">
+                <button class="btn btn-text" onclick="window.showPage('page-07')">都沒有我的物品</button>
+            </div>
+        </div>
+        <!-- PAGE 07: Not Found (Missing) -->
+        <div id="page-07" class="page page-center">
+            <svg class="illu-svg" viewBox="0 0 24 24" style="fill: var(--text-gray);">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                <text x="10.5" y="12" font-size="8" font-family="Arial" font-weight="bold" fill="var(--bg-color)">?</text>
+            </svg>
+            <h1 class="title-20" style="margin-bottom: 32px;">都沒有我的東西</h1>
+            <div class="w-100">
+                <button class="btn btn-brown" onclick="window.showPage('page-08')">開啟自動尋找與推播</button>
+                <button class="btn btn-gray" onclick="alert('開啟 Threads app...')">於官方 Threads 帳號發佈協尋文</button>
+            </div>
+            <div class="mt-auto">
+                <button class="btn btn-text" onclick="window.showPage('page-02', 'home')">返回首頁</button>
+            </div>
+        </div>
+        <!-- PAGE 08: Auto Push Enabled -->
+        <div id="page-08" class="page page-center">
+            <svg class="illu-svg" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="#06C755"/>
+                <path d="M10 15.17L7.83 13l-1.42 1.41L10 18l8-8-1.41-1.41z" fill="white"/>
+            </svg>
+            <h1 class="title-20" style="margin-bottom: 32px;">自動尋找與推播已開啟！</h1>
+            <div class="mt-auto w-100">
+                <button class="btn btn-white" onclick="window.showPage('page-02', 'home')">返回首頁</button>
+            </div>
+        </div>
+        <!-- PAGE 10: Register Found (Non-ID) -->
+        <div id="page-10" class="page">
+            <div class="top-bar">
+                <div class="back-btn" onclick="window.showPage('page-02', 'home')">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                </div>
+                <h1 class="title-20">登錄拾獲</h1>
+            </div>
+            <label class="upload-area" for="upload-p10">
+                <div id="upload-text-p10">
+                    <svg class="icon mb-2" style="width: 32px; height: 32px; color: var(--text-gray);" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    <div class="caption-12">點擊上傳圖片</div>
+                </div>
+                <img id="preview-p10" class="preview" src="" alt="預覽">
+            </label>
+            <input type="file" id="upload-p10" style="display:none;" accept="image/*" onchange="window.previewImage(this, 'preview-p10', 'upload-text-p10')">
+            <input id="found-date-10" type="date" >
+            <div class="flex-row gap-2" style="margin-bottom: 8px;">
+                <select id="city-10" class="city-select" onchange="window.updateDistricts('city-10', 'dist-10')" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Chiron GoRound TC', sans-serif;">
+                    <option value="" disabled selected>選擇縣市</option>
+                </select>
+                <select id="dist-10" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Chiron GoRound TC', sans-serif;">
+                    <option value="" disabled selected>選擇地區</option>
+                </select>
+            </div>
+            <input id="found-drop-10" type="text" placeholder="送往的地點（例：捷運服務台、警局）">
+            <textarea id="found-notes-10" placeholder="備註說明...（非必填）"></textarea>
+            <div style="margin-top: 16px; margin-bottom: 24px;">
+                <button class="btn btn-brown" onclick="window.prepareFoundFlow('non-id', this)">開始 AI 辨識產生標籤</button>
+            </div>
+        </div>
+        <!-- PAGE 11: AI Tags Confirm (Founder) -->
+        <div id="page-11" class="page" style="padding-top: 24px;">
+            <div style="margin-bottom: 16px; cursor: pointer; width: fit-content;" onclick="window.showPage('page-10')">
+                <svg class="icon" viewBox="0 0 24 24" style="width: 32px; height: 32px; color: var(--dark-brown);"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </div>
+            <div id="preview-container-11" style="width: 100%; height: 200px; border-radius: 12px; overflow: hidden; margin-bottom: 16px; display: none;">
+                <img id="confirm-img-11" src="" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="info-card">
+                <div class="info-row">
+                    <svg class="info-icon" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/></svg>
+                    <div id="info-date-11" class="info-text"></div>
+                </div>
+                <div class="info-row">
+                    <svg class="info-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    <div id="info-loc-11" class="info-text"></div>
+                </div>
+                <div class="info-row">
+                    <div class="text-14" style="width: 32px; text-align: left; font-weight: 700; flex-shrink: 0; line-height: 36px; color: var(--dark-brown);">備註</div>
+                    <div id="info-notes-11" class="info-text" style="color: var(--text-gray); min-height: 40px;">--</div>
+                </div>
+            </div>
+            <div class="info-card" style="margin-bottom: 24px;">
+                <div class="text-14" style="font-weight: 700; margin-bottom: 8px;">AI 標籤</div>
+                <div id="tags-container-11" class="flex-row" style="flex-wrap: wrap; gap: 8px;">
+                    <!-- Tags populated by JS -->
+                </div>
+            </div>
+            <div class="mt-auto" style="margin-bottom: 24px;">
+                <button class="btn" style="background-color: #D6E4F0; color: #D3430B; font-weight: 700;" onclick="window.commitReportToFirestore()">確認並開始尋找</button>
+            </div>
+        </div>
+        <!-- PAGE 12: Register Found (ID) -->
+        <div id="page-12" class="page">
+            <div class="top-bar">
+                <div class="back-btn" onclick="window.showPage('page-02', 'home')">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                </div>
+                <h1 class="title-20">登錄拾獲證件</h1>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px;">
+                <label class="card" style="margin-bottom:0; justify-content:flex-start; padding: 12px;"><input type="radio" name="id-type" value="身分證" checked style="margin-right: 8px;"> 身分證</label>
+                <label class="card" style="margin-bottom:0; justify-content:flex-start; padding: 12px;"><input type="radio" name="id-type" value="健保卡" style="margin-right: 8px;"> 健保卡</label>
+                <label class="card" style="margin-bottom:0; justify-content:flex-start; padding: 12px;"><input type="radio" name="id-type" value="臺灣護照" style="margin-right: 8px;"> 臺灣護照</label>
+                <label class="card" style="margin-bottom:0; justify-content:flex-start; padding: 12px;"><input type="radio" name="id-type" value="其他證件" style="margin-right: 8px;"> 其他證件</label>
+            </div>
+            <label class="upload-area" for="upload-p12">
+                <div id="upload-text-p12">
+                    <svg class="icon mb-2" style="width: 32px; height: 32px; color: var(--text-gray);" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    <div class="caption-12">點擊拍攝/上傳照片</div>
+                </div>
+                <img id="preview-p12" class="preview" src="" alt="預覽">
+            </label>
+            <input type="file" id="upload-p12" style="display:none;" accept="image/*" onchange="window.previewImage(this, 'preview-p12', 'upload-text-p12')">
+            <input id="found-date-12" type="date" >
+            <div class="flex-row gap-2" style="margin-bottom: 8px;">
+                <select id="city-12" class="city-select" onchange="window.updateDistricts('city-12', 'dist-12')" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Chiron GoRound TC', sans-serif;">
+                    <option value="" disabled selected>選擇縣市</option>
+                </select>
+                <select id="dist-12" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Chiron GoRound TC', sans-serif;">
+                    <option value="" disabled selected>選擇地區</option>
+                </select>
+            </div>
+            <input id="found-drop-12" type="text" placeholder="送往的地點">
+            <textarea id="found-notes-12" placeholder="備註說明...（非必填）"></textarea>
+            <div style="margin-top: 16px; margin-bottom: 24px;">
+                <button class="btn btn-brown" onclick="window.prepareFoundFlow('id', this)">開始 AI 辨識產生標籤</button>
+            </div>
+        </div>
+        <!-- PAGE 13: Publish Success -->
+        <div id="page-13" class="page page-center">
+            <svg class="illu-svg" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="#06C755"/>
+                <path d="M10 15.17L7.83 13l-1.42 1.41L10 18l8-8-1.41-1.41z" fill="white"/>
+            </svg>
+            <h1 class="title-20" style="margin-bottom: 16px;">登錄成功！</h1>
+            <div id="success-id" class="comfortaa" style="font-size: 20px; font-weight: 700; color: var(--dark-brown); margin-bottom: 24px;">＃DL-.......</div>
+            
+            <button class="btn btn-text" onclick="window.showPage('page-14', 'profile')">前往我的拾獲物</button>
+            
+            <div class="mt-auto w-100">
+                <button class="btn btn-white" onclick="window.showPage('page-02', 'home')">返回首頁</button>
+            </div>
+        </div>
+        <!-- PAGE 14: Profile -->
+        <div id="page-14" class="page" style="padding-top: 16px;">
+            
+            <!-- Top Logo Banner -->
+            <div style="background-color: var(--primary-blue); border-radius: 12px; height: 100px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                <img src="DiuLa_logo_transparent.png" alt="DiuLa Logo" style="height: 90px; width: auto;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <h1 class="comfortaa" style="font-size: 32px; color: var(--dark-brown); display: none; margin: 0;">DiuLa!</h1>
+            </div>
+            <!-- Profile Info Card -->
+            <div class="card flex-col center" style="padding: 24px; margin-bottom: 16px; background-color: var(--card-bg); box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <div style="width: 80px; height: 80px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 4px solid white; overflow: hidden; margin-bottom: 16px;">
+                    <img src="avatar.png" alt="大頭貼" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div style="width: 100%; height: 100%; display: none; align-items: center; justify-content: center; background-color: #f0f0f0;">
+                        <svg viewBox="0 0 24 24" style="width: 40px; height: 40px; fill: var(--text-gray);"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    </div>
+                </div>
+                <div class="title-20" style="margin-bottom: 24px;">張寧寧</div>
+                
+                <div class="flex-row" style="width: 100%; gap: 12px;">
+                    <div class="card flex-col center" style="flex: 1; margin: 0; padding: 16px 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; background-color: white;">
+                        <div class="text-14" style="color: var(--dark-brown);">修改個人資料</div>
+                    </div>
+                    <div class="card flex-col center" style="flex: 1; margin: 0; padding: 16px 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; background-color: white;">
+                        <div class="text-14" style="color: var(--dark-brown);">關於 <span class="comfortaa" style="font-weight: 700;">DiuLa!</span></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Lost & Found Buttons Card -->
+            <div class="card flex-col center" style="padding: 24px; margin-bottom: 16px; gap: 16px; background-color: var(--card-bg); box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <div class="card center" style="width: 100%; margin: 0; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; background-color: white;" onclick="window.showPage('page-15', 'profile')">
+                    <div class="title-20" style="margin: 0;">我的遺失物</div>
+                </div>
+                <div class="card center" style="width: 100%; margin: 0; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; background-color: white;" onclick="window.showPage('page-18', 'profile')">
+                    <div class="title-20" style="margin: 0;">我的拾獲物</div>
+                </div>
+            </div>
+            <!-- Logout Button -->
+            <div class="flex-col center" style="margin-top: 16px; padding-bottom: 24px;">
+                <button class="btn" style="background-color: white; color: var(--text-gray); box-shadow: 0 2px 8px rgba(0,0,0,0.05); width: auto; padding: 8px 32px; border: none; border-radius: 8px; font-family: 'Chiron GoRound TC', sans-serif;" onclick="window.confirmLogout()">登出</button>
+            </div>
+        </div>
+        <!-- PAGE 15: My Lost Items -->
+        <div id="page-15" class="page">
+            <div class="top-bar">
+                <div class="back-btn" onclick="window.showPage('page-14', 'profile')">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                </div>
+                <h1 class="title-20">我的遺失物</h1>
+            </div>
+            <div id="my-lost-items-list">
+                <!-- Data populated here -->
+            </div>
+        </div>
+        <!-- PAGE 16: My Lost Item Detail -->
+        <div id="page-16" class="page">
+            <div class="top-bar">
+                <div class="back-btn" onclick="window.showPage('page-15', 'profile')">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                </div>
+                <h1 class="title-20">我的遺失物</h1>
+            </div>
+            <div id="lost-detail-title" class="title-20 mb-4">載入中...</div>
+            <div id="lost-detail-desc" class="text-14 mb-4" style="color: var(--dark-brown); line-height: 1.5; display: none;"></div>
+            
+            <div id="lost-detail-img-container" style="width: 100%; height: 200px; background-color: var(--bg-color); border-radius: 12px; margin-bottom: 16px; background-size: contain; background-repeat: no-repeat; background-position: center; display: none;"></div>
+            <div class="text-14 mb-2"><strong>遺失日期：</strong> <span id="lost-detail-date">--</span></div>
+            <div class="text-14 mb-2"><strong>遺失地點：</strong> <span id="lost-detail-loc">--</span></div>
+            <div class="text-14 mb-4"><strong>備註：</strong> <span id="lost-detail-notes">--</span></div>
+            <div id="lost-detail-tags" class="flex-row" style="flex-wrap: wrap; margin-bottom: 16px;">
+                <!-- Tags populated here -->
+            </div>
+            <div class="card space-between" style="padding: 12px 16px;">
+                <a href="#" class="text-14" style="color: var(--primary-blue); text-decoration: none; margin: 0;">Threads 協尋貼文連結</a>
+                <span style="color: var(--red-accent); font-weight: 700; cursor: pointer; font-size: 14px;" onclick="window.confirmDeleteLost()">刪除</span>
+            </div>
+            <div class="text-14 mb-4"><strong>狀態：</strong> <span id="lost-detail-status" class="badge badge-yellow">載入中</span></div>
+            <div class="mt-auto">
+                <button class="btn btn-brown" onclick="window.confirmFound()">我找到了！</button>
+                <button class="btn btn-text" style="color: var(--red-accent);" onclick="window.confirmDeleteLost()">刪除此筆</button>
+            </div>
+        </div>
+        <!-- PAGE 17: Community -->
+        <div id="page-17" class="page">
+            <div class="top-bar">
+                <div class="back-btn" onclick="window.showPage('page-02', 'home')">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                </div>
+                <h1 class="title-20">社群協尋</h1>
+            </div>
+            <div class="flex-row mb-4" style="gap: 8px;">
+                <input type="date"  style="margin: 0; width: auto; flex: 1;">
+                <div class="search-bar" style="margin: 0; flex: 2;">
+                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <input type="text" placeholder="關鍵字">
+                </div>
+            </div>
+            <div id="community-list">
+                <!-- Data populated here -->
+            </div>
+        </div>
+        <!-- PAGE 18: My Found Items -->
+        <div id="page-18" class="page">
+            <div class="top-bar">
+                <div class="back-btn" onclick="window.showPage('page-14', 'profile')">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                </div>
+                <h1 class="title-20">我的拾獲物</h1>
+            </div>
+            <div id="my-found-items-list">
+                <!-- Data populated here -->
+            </div>
+        </div>
+        <!-- PAGE 19: Found Item Details -->
+        <div id="page-19" class="page">
+            <div class="top-bar">
+                <div class="back-btn" onclick="window.showPage('page-18', 'profile')">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                </div>
+                <h1 class="title-20">拾獲物詳情</h1>
+            </div>
+            <div id="found-detail-title" class="title-20 mb-4">載入中...</div>
+            
+            <div id="found-detail-img-container" style="width: 100%; height: 200px; background-color: var(--bg-color); border-radius: 12px; margin-bottom: 16px; background-size: contain; background-repeat: no-repeat; background-position: center; display: none;"></div>
+            <div class="text-14 mb-2"><strong>拾獲日期：</strong> <span id="found-detail-date">--</span></div>
+            <div class="text-14 mb-2"><strong>拾獲地點：</strong> <span id="found-detail-loc">--</span></div>
+            <div class="text-14 mb-4"><strong>送往地點：</strong> <span id="found-detail-drop">--</span></div>
+            <div class="text-14 mb-4"><strong>備註：</strong> <span id="found-detail-notes">--</span></div>
+            <div id="found-detail-tags" class="flex-row" style="flex-wrap: wrap; margin-bottom: 16px;">
+                <!-- Tags populated here -->
+            </div>
+            <div class="card space-between" style="padding: 12px 16px;">
+                <span style="color: var(--red-accent); font-weight: 700; cursor: pointer; font-size: 14px;" onclick="window.confirmDeleteFound()">刪除紀錄</span>
+            </div>
+            <div class="text-14 mb-4" style="display: none;"><strong>狀態：</strong> <span id="found-detail-status" class="badge badge-yellow">載入中</span></div>
+            <div class="mt-auto">
+                <button class="btn btn-brown" onclick="window.showPage('page-18', 'profile')">返回列表</button>
+                <button class="btn btn-text" style="color: var(--red-accent);" onclick="window.confirmDeleteFound()">刪除此筆</button>
+            </div>
+        </div>
+        <!-- Bottom Nav -->
+        <div id="bottom-nav" class="pill-nav" style="display: none;">
+            <div id="nav-profile" class="pill-nav-item" onclick="window.showPage('page-14', 'profile')">
+                <img src="icon_profile.png" style="width: 32px; height: 32px; object-fit: contain;" alt="Profile" onerror="this.style.display='none'">
+            </div>
+            <div id="nav-home" class="pill-nav-item" onclick="window.showPage('page-02', 'home')">
+                <img src="icon_home.png" style="width: 32px; height: 32px; object-fit: contain;" alt="Home" onerror="this.style.display='none'">
+            </div>
+        </div>
+        <!-- 刪除確認彈窗 -->
+        <div id="delete-modal" style="
+            display: none;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;">
+            <div style="
+                background: var(--bg-color);
+                border-radius: 16px;
+                padding: 24px;
+                width: 80%;
+                max-width: 300px;
+                text-align: center;">
+                <div class="title-20" style="margin-bottom: 8px;">確定要刪除？</div>
+                <div class="caption-12" style="margin-bottom: 24px;">
+                    提醒：確認後不會立即刪除，<br>將排定於系統處理
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-white" style="margin: 0; flex: 1;"
+                        onclick="window.cancelDelete()">否</button>
+                    <button class="btn btn-red" style="margin: 0; flex: 1;"
+                        onclick="window.executeDeleteLost()">是</button>
+                </div>
+            </div>
+        </div>
+        <!-- 登出確認彈窗 -->
+        <div id="logout-modal" style="
+            display: none;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;">
+            <div style="
+                background: var(--bg-color);
+                border-radius: 16px;
+                padding: 24px;
+                width: 80%;
+                max-width: 300px;
+                text-align: center;">
+                <div class="title-20" style="margin-bottom: 8px;">確定要登出？</div>
+                <div class="caption-12" style="margin-bottom: 24px;">
+                    登出後需重新登入才能使用各項功能
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-white" style="margin: 0; flex: 1;"
+                        onclick="window.cancelLogout()">取消</button>
+                    <button class="btn btn-red" style="margin: 0; flex: 1;"
+                        onclick="window.executeLogout()">登出</button>
+                </div>
+            </div>
+        </div>
+        <!-- 找到確認彈窗 -->
+        <div id="found-modal" style="
+            display: none;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;">
+            <div style="
+                background: var(--bg-color);
+                border-radius: 16px;
+                padding: 24px;
+                width: 80%;
+                max-width: 300px;
+                text-align: center;">
+                <div class="title-20" style="margin-bottom: 8px;">確認已找到？</div>
+                <div class="caption-12" style="margin-bottom: 24px;">
+                    若確認已找到，該筆協尋記錄將結束
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-white" style="margin: 0; flex: 1;"
+                        onclick="window.cancelFound()">取消</button>
+                    <button class="btn btn-brown" style="margin: 0; flex: 1;"
+                        onclick="window.executeFound()">確定</button>
+                </div>
+            </div>
+        </div>
+        <!-- Tag Selection Modal -->
+        <div id="tag-modal" class="modal-overlay" onclick="if(event.target === this) window.closeTagModal()">
+            <div class="center-card">
+                <div class="sticky-top-section" style="position: sticky; top: 0; background: var(--bg-color); z-index: 10; border-radius: 24px 24px 0 0; border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                    <div class="modal-header" style="justify-content: space-between; padding: 16px;">
+                        <div class="modal-close" onclick="window.closeTagModal()" style="cursor: pointer; display: flex; align-items: center;">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                        </div>
+                        <div class="title-20" style="margin: 0;">選擇標籤</div>
+                        <div id="modal-check-btn" class="modal-check" onclick="window.submitTagModal()" style="cursor: pointer; color: var(--text-gray); display: flex; align-items: center; opacity: 0.5; transition: all 0.2s;">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                        </div>
+                    </div>
+                    <div id="modal-selected-tags-container" style="padding: 0 20px 16px 20px; display: none; max-height: 150px; overflow-y: auto;">
+                        <!-- Selected tags injected here -->
+                    </div>
+                </div>
+                <div class="modal-content" id="modal-categories-container">
+                    <!-- Categories and tags injected by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module">
+// 負責切換網頁畫面的核心函數
+window.showPage = function(pageId, activeNavId) {
+    // 1. 隱藏所有的頁面
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    // 2. 顯示目標頁面
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
+    
+    // 3. 切換下方導覽列的狀態 (如果有傳入的話)
+    if (activeNavId) {
+        document.querySelectorAll('.nav-item').forEach(nav => {
+            nav.classList.remove('active');
+        });
+        const navItem = document.getElementById(activeNavId);
+        if (navItem) {
+            navItem.classList.add('active');
+        }
+    }
+    
+    // 切換頁面時，自動捲動到最上方
+    const appContainer = document.querySelector('.app-container');
+    if (appContainer) {
+        appContainer.scrollTo(0, 0);
+    } else {
+        window.scrollTo(0, 0);
+    }
+};
+const twLocations = {
+            "臺北市": ["中正區", "大同區", "中山區", "松山區", "大安區", "萬華區", "信義區", "士林區", "北投區", "內湖區", "南港區", "文山區"],
+            "新北市": ["萬里區", "金山區", "板橋區", "汐止區", "深坑區", "石碇區", "瑞芳區", "平溪區", "雙溪區", "貢寮區", "新店區", "坪林區", "烏來區", "永和區", "中和區", "土城區", "三峽區", "樹林區", "鶯歌區", "三重區", "新莊區", "泰山區", "林口區", "蘆洲區", "五股區", "八里區", "淡水區", "三芝區", "石門區"],
+            "桃園市": ["中壢區", "平鎮區", "龍潭區", "楊梅區", "新屋區", "觀音區", "桃園區", "龜山區", "八德區", "大溪區", "復興區", "大園區", "蘆竹區"],
+            "臺中市": ["中區", "東區", "南區", "西區", "北區", "北屯區", "西屯區", "南屯區", "太平區", "大里區", "霧峰區", "烏日區", "豐原區", "后里區", "石岡區", "東勢區", "和平區", "新社區", "潭子區", "大雅區", "神岡區", "大肚區", "沙鹿區", "龍井區", "梧棲區", "清水區", "大甲區", "外埔區", "大安區"],
+            "臺南市": ["中西區", "東區", "南區", "北區", "安平區", "安南區", "永康區", "歸仁區", "新化區", "左鎮區", "玉井區", "楠西區", "南化區", "仁德區", "關廟區", "龍崎區", "官田區", "麻豆區", "佳里區", "西港區", "七股區", "將軍區", "學甲區", "北門區", "新營區", "後壁區", "白河區", "東山區", "六甲區", "下營區", "柳營區", "鹽水區", "善化區", "大內區", "山上區", "新市區", "安定區"],
+            "高雄市": ["新興區", "前金區", "苓雅區", "鹽埕區", "鼓山區", "旗津區", "前鎮區", "三民區", "楠梓區", "小港區", "左營區", "仁武區", "大社區", "岡山區", "路竹區", "阿蓮區", "田寮區", "燕巢區", "橋頭區", "梓官區", "彌陀區", "永安區", "湖內區", "鳳山區", "大寮區", "林園區", "鳥松區", "大樹區", "旗山區", "美濃區", "六龜區", "內門區", "杉林區", "甲仙區", "桃源區", "那瑪夏區", "茂林區", "茄萣區"],
+            "基隆市": ["仁愛區", "信義區", "中正區", "中山區", "安樂區", "暖暖區", "七堵區"],
+            "新竹市": ["東區", "北區", "香山區"],
+            "嘉義市": ["東區", "西區"],
+            "新竹縣": ["竹北市", "湖口鄉", "新豐鄉", "新埔鎮", "關西鎮", "芎林鄉", "寶山鄉", "竹東鎮", "五峰鄉", "橫山鄉", "尖石鄉", "北埔鄉", "峨眉鄉"],
+            "苗栗縣": ["竹南鎮", "頭份市", "三灣鄉", "南庄鄉", "獅潭鄉", "後龍鎮", "通霄鎮", "苑裡鎮", "苗栗市", "造橋鄉", "頭屋鄉", "公館鄉", "大湖鄉", "泰安鄉", "銅鑼鄉", "三義鄉", "西湖鄉", "卓蘭鎮"],
+            "彰化縣": ["彰化市", "芬園鄉", "花壇鄉", "秀水鄉", "鹿港鎮", "福興鄉", "線西鄉", "和美鎮", "伸港鄉", "員林市", "社頭鄉", "永靖鄉", "埔心鄉", "溪湖鎮", "大村鄉", "埔鹽鄉", "田中鎮", "北斗鎮", "田尾鄉", "埤頭鄉", "溪州鄉", "竹塘鄉", "二林鎮", "大城鄉", "芳苑鄉", "二水鄉"],
+            "南投縣": ["南投市", "中寮鄉", "草屯鎮", "國姓鄉", "埔里鎮", "仁愛鄉", "名間鄉", "集集鎮", "水里鄉", "魚池鄉", "信義鄉", "竹山鎮", "鹿谷鄉"],
+            "雲林縣": ["斗南鎮", "大埤鄉", "虎尾鎮", "土庫鎮", "褒忠鄉", "東勢鄉", "台西鄉", "崙背鄉", "麥寮鄉", "斗六市", "林內鄉", "古坑鄉", "莿桐鄉", "西螺鎮", "二崙鄉", "北港鎮", "水林鄉", "口湖鄉", "四湖鄉", "元長鄉"],
+            "嘉義縣": ["番路鄉", "梅山鄉", "竹崎鄉", "阿里山鄉", "中埔鄉", "大埔鄉", "水上鄉", "鹿草鄉", "太保市", "朴子市", "東石鄉", "六腳鄉", "新港鄉", "民雄鄉", "大林鎮", "溪口鄉", "義竹鄉", "布袋鎮"],
+            "屏東縣": ["屏東市", "三地門鄉", "霧台鄉", "瑪家鄉", "九如鄉", "里港鄉", "高樹鄉", "鹽埔鄉", "長治鄉", "麟洛鄉", "竹田鄉", "內埔鄉", "萬丹鄉", "潮州鎮", "泰武鄉", "來義鄉", "萬巒鄉", "崁頂鄉", "新埤鄉", "南州鄉", "林邊鄉", "東港鎮", "琉球鄉", "佳冬鄉", "新園鄉", "枋寮鄉", "枋山鄉", "春日鄉", "獅子鄉", "車城鄉", "牡丹鄉", "恆春鎮", "滿州鄉"],
+            "宜蘭縣": ["宜蘭市", "頭城鎮", "礁溪鄉", "壯圍鄉", "員山鄉", "羅東鎮", "三星鄉", "大同鄉", "五結鄉", "冬山鄉", "蘇澳鎮", "南澳鄉", "釣魚台"],
+            "花蓮縣": ["花蓮市", "新城鄉", "秀林鄉", "吉安鄉", "壽豐鄉", "鳳林鎮", "光復鄉", "豐濱鄉", "瑞穗鄉", "萬榮鄉", "玉里鎮", "卓溪鄉", "富里鄉"],
+            "臺東縣": ["臺東市", "綠島鄉", "蘭嶼鄉", "延平鄉", "卑南鄉", "鹿野鄉", "關山鎮", "海端鄉", "池上鄉", "東河鄉", "成功鎮", "長濱鄉", "太麻里鄉", "金峰鄉", "大武鄉", "達仁鄉"],
+            "澎湖縣": ["馬公市", "西嶼鄉", "望安鄉", "七美鄉", "白沙鄉", "湖西鄉"],
+            "金門縣": ["金沙鎮", "金湖鎮", "金寧鄉", "金城鎮", "烈嶼鄉", "烏坵鄉"],
+            "連江縣": ["南竿鄉", "北竿鄉", "莒光鄉", "東引鄉"]
+        };
+
+        window.initCitySelects = function() {
+            const citySelects = document.querySelectorAll('.city-select');
+            citySelects.forEach(select => {
+                let options = '<option value="" disabled selected>選擇縣市</option>';
+                for (let city in twLocations) {
+                    options += `<option value="${city}">${city}</option>`;
+                }
+                select.innerHTML = options;
+            });
+        };
+
+        window.updateDistricts = function(cityId, distId) {
+            const city = document.getElementById(cityId).value;
+            const distSelect = document.getElementById(distId);
+            let options = '<option value="" disabled selected>選擇地區</option>';
+            if (city && twLocations[city]) {
+                twLocations[city].forEach(dist => {
+                    options += `<option value="${dist}">${dist}</option>`;
+                });
+            }
+            distSelect.innerHTML = options;
+        };
+
+        // Initialize selects when DOM loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.initCitySelects();
+            // 預設將所有的 date input 設為當天
+            const today = new Date().toLocaleDateString('en-CA'); // 'YYYY-MM-DD' local time
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                input.value = today;
+            });
+        });
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy, where, limit, doc, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        // =========================================================================
+        // Firebase Configuration
+        // =========================================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyC7w693GmLxWh7EFHpdIzcgvmPdkRVpq10",
+            authDomain: "diula--test.firebaseapp.com",
+            projectId: "diula--test",
+            storageBucket: "diula--test.firebasestorage.app",
+            messagingSenderId: "30709340302",
+            appId: "1:30709340302:web:0e6cd003a8e3d9a9c251df",
+            measurementId: "G-XK544H72PS"
+        };
+
+        let app, db, auth;
+        window.currentUid = null;
+
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+        } catch (error) {
+            console.error("Firebase init failed: ", error);
+        }
+
+        window.ensureAuth = async function() {
+            if (window.currentUid) return window.currentUid;
+            if (!auth) throw new Error("Auth not initialized");
+            const userCredential = await signInAnonymously(auth);
+            window.currentUid = userCredential.user.uid;
+            return window.currentUid;
+        }
+
+        // =========================================================================
+        // Closed-Loop Taxonomy
+        // =========================================================================
+        const PREDEFINED_TAXONOMY = {
+            "顏色": ["黑色", "白色", "灰色", "紅色", "橙色", "黃色", "綠色", "藍色", "紫色", "粉色", "棕色", "米色", "金色", "銀色", "透明", "彩色"],
+            "現金": ["台幣", "外幣"],
+            "有價證券": ["支票", "本票", "匯票", "股權證券", "債權證券", "認購（售）權證", "存托憑證", "國庫券", "債券"],
+            "紙本票券": ["車票", "演唱會門票", "統一發票"],
+            "錢包與包袋": ["皮夾/錢包", "卡夾", "卡套", "隨身包/背包", "行李箱/行李袋", "塑膠袋", "紙袋"],
+            "證件": ["身分證", "健保卡", "學生證", "護照", "存摺", "印章", "駕照", "行照", "居留證", "自然人憑證", "執照", "證書"],
+            "實體卡": ["悠遊卡/一卡通/icash", "信用卡/金融卡/簽帳卡", "儲值卡", "會員卡", "電話卡", "門禁卡"],
+            "電子產品": ["手機", "耳機", "智慧型手錶/手環", "筆記型電腦", "平板電腦", "相機", "行動電源", "隨身碟", "記憶卡", "硬碟", "電池", "充電器/充電線", "隨身聽"],
+            "衣物/佩戴物品": ["上衣", "下著", "帽子", "鞋子", "襪子", "手套", "圍巾/絲巾", "眼鏡", "手錶", "首飾", "安全帽", "皮帶", "其他穿搭物品"],
+            "鑰匙": ["鑰匙", "遙控器"],
+            "雨具": ["折傘", "長傘", "雨衣"],
+            "日常用品": ["杯/瓶/壺類", "玩具", "玩偶", "便當盒"],
+            "文件與文具": ["文件袋", "文件", "書本", "雜誌", "記事本", "電話本", "文具"],
+            "其他": ["包裹", "紙箱", "便當盒", "食品", "寵物用品", "家電", "其他"]
+        };
+
+        const ALL_TAGS = [];
+        for (const cat in PREDEFINED_TAXONOMY) {
+            ALL_TAGS.push(...PREDEFINED_TAXONOMY[cat]);
+        }
+
+        window.validateTags = function(tags) {
+            for (let tag of tags) {
+                if (!ALL_TAGS.includes(tag)) return false;
+            }
+            return true;
+        }
+
+        // State Management
+        window.currentLostData = {};
+        window.currentFoundData = {};
+        window.selectedTags = [];
+        window.tempSelectedTags = [];
+        let currentTargetContainerId = '';
+
+        window.openTagModal = function(targetContainerId) {
+            currentTargetContainerId = targetContainerId;
+            window.tempSelectedTags = [...window.selectedTags];
+            renderTagModal();
+            document.getElementById('tag-modal').style.display = 'flex';
+        }
+
+        window.closeTagModal = function() {
+            document.getElementById('tag-modal').style.display = 'none';
+        }
+
+        window.submitTagModal = function() {
+            window.selectedTags = [...window.tempSelectedTags];
+            renderTags(currentTargetContainerId);
+            document.getElementById('tag-modal').style.display = 'none';
+        }
+
+        window.toggleTagFromModal = function(tag) {
+            if (window.tempSelectedTags.includes(tag)) {
+                window.tempSelectedTags = window.tempSelectedTags.filter(t => t !== tag);
+            } else {
+                window.tempSelectedTags.push(tag);
+            }
+            renderTagModal(); // Re-render modal to show selection state
+        }
+
+        function renderTagModal() {
+            const checkBtn = document.getElementById('modal-check-btn');
+            if (checkBtn) {
+                if (window.tempSelectedTags.length > 0) {
+                    checkBtn.style.color = 'var(--dark-brown)';
+                    checkBtn.style.opacity = '1';
+                } else {
+                    checkBtn.style.color = 'var(--text-gray)';
+                    checkBtn.style.opacity = '0.5';
+                }
+            }
+            const selectedContainer = document.getElementById('modal-selected-tags-container');
+            if (selectedContainer) {
+                if (window.tempSelectedTags.length > 0) {
+                    let selHtml = `<div class="tag-category-title" style="margin-top: 0; margin-bottom: 8px;">已選標籤</div>`;
+                    selHtml += `<div class="tag-scroll-container" style="flex-wrap: wrap; overflow-x: hidden; padding-bottom: 0;">`;
+                    window.tempSelectedTags.forEach(tag => {
+                        selHtml += `<div class="modal-tag selected" onclick="window.toggleTagFromModal('${tag}')" style="padding: 6px 20px; display: inline-flex; align-items: center; gap: 6px;">${tag} <span style="font-weight: bold; font-size: 16px; line-height: 1;">×</span></div>`;
+                    });
+                    selHtml += `</div>`;
+                    selectedContainer.innerHTML = selHtml;
+                    selectedContainer.style.display = 'block';
+                } else {
+                    selectedContainer.innerHTML = '';
+                    selectedContainer.style.display = 'none';
+                }
+            }
+
+            const container = document.getElementById('modal-categories-container');
+            let html = '';
+
+            for (const cat in PREDEFINED_TAXONOMY) {
+                html += `<div class="tag-category-title">${cat}</div>`;
+                html += `<div class="tag-scroll-container">`;
+                PREDEFINED_TAXONOMY[cat].forEach(tag => {
+                    const isSelected = window.tempSelectedTags.includes(tag);
+                    const selClass = isSelected ? 'selected' : '';
+                    html += `<div class="modal-tag ${selClass}" onclick="window.toggleTagFromModal('${tag}')">${tag}</div>`;
+                });
+                html += `</div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        window.removeTag = function(tag, containerId) {
+            window.selectedTags = window.selectedTags.filter(t => t !== tag);
+            renderTags(containerId);
+            // If modal is open, re-render it to update UI
+            if (document.getElementById('tag-modal').style.display === 'flex') {
+                renderTagModal();
+            }
+        }
+
+        function renderTags(containerId) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            window.selectedTags.forEach(tag => {
+                html += `<div class="modal-tag selected">${tag} <span class="remove" onclick="window.removeTag('${tag}', '${containerId}')" style="margin-left: 8px;">×</span></div>`;
+            });
+            html += `<div class="modal-tag" onclick="window.openTagModal('${containerId}')">新增</div>`;
+            container.innerHTML = html;
+        }
+
+        // =========================================================================
+        // Global UI Functions
+        // =========================================================================
+        const bottomNav = document.getElementById('bottom-nav');
+
+        window.showPage = function(pageId, navTab = '') {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            if (pageId === 'page-01' || pageId === 'page-07' || pageId === 'page-08' || pageId === 'page-13') {
+                bottomNav.style.display = 'none';
+            } else {
+                bottomNav.style.display = 'flex';
+            }
+
+            if (navTab) {
+                document.querySelectorAll('.pill-nav-item').forEach(nav => nav.classList.remove('active'));
+                const navEl = document.getElementById('nav-' + navTab);
+                if (navEl) navEl.classList.add('active');
+            }
+
+            if (pageId === 'page-06') window.loadMatchResults();
+            if (pageId === 'page-15') window.loadMyLostItems();
+            if (pageId === 'page-18') window.loadMyFoundItems();
+            if (pageId === 'page-17') window.loadThreadsPosts();
+        }
+
+        window.compressImage = function(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 800;
+                        const MAX_HEIGHT = 800;
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.7)); // Compress to 70% JPEG
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+
+        window.previewImage = async function(input, imgId, textId) {
+            if (input.files && input.files[0]) {
+                const base64 = await window.compressImage(input.files[0]);
+                const imgEl = document.getElementById(imgId);
+                imgEl.src = base64;
+                imgEl.style.display = 'block';
+                if(document.getElementById(textId)) {
+                    document.getElementById(textId).style.display = 'none';
+                }
+            }
+        }
+
+        // =========================================================================
+        // Taxonomy Dropdown Logic (Removed as it is now in the Modal logic)
+        // =========================================================================
+
+        // =========================================================================
+        // Data Flow Logic
+        // =========================================================================
+        
+        window.analyzeWithGemini = async function(imageBase64, textContent, targetTagContainerId) {
+            let apiKey = prompt("🔐 測試階段：請輸入您的 Gemini API Key：\n(按取消則停止辨識)");
+            if (!apiKey) {
+                alert("未輸入 API Key，已取消 AI 辨識。");
+                return;
+            }
+
+            try {
+                console.log("🚀 正在呼叫 Gemini API...");
+                
+                let base64Data = "";
+                let mimeType = "image/jpeg"; 
+                
+                if (imageBase64) {
+                    const parts = imageBase64.split(','); 
+                    base64Data = parts[1]; 
+                    
+                    const match = parts[0].match(/:(.*?);/);
+                    if (match) mimeType = match[1];
+                } else {
+                    alert("❌ 請先上傳圖片再進行辨識！");
+                    return;
+                }
+
+                const promptText = `你是一個失物招領平台的輔助 AI。請根據圖片與以下文字描述，告訴我這項物品的 3 個核心特徵標籤（例如顏色、種類、品牌）。文字描述：${textContent || '無'}。請用繁體中文簡短回答。`;
+
+                const requestBody = {
+                    "contents": [{
+                        "parts": [
+                            {"text": promptText},
+                            {
+                                "inline_data": {
+                                    "mime_type": mimeType,
+                                    "data": base64Data
+                                }
+                            }
+                        ]
+                    }]
+                };
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`API 錯誤碼: ${response.status} - ${errorData.error?.message || '未知錯誤'}`);
+                }
+
+                const data = await response.json();
+                const aiText = data.candidates[0].content.parts[0].text;
+
+                console.log("✅ Gemini 回應成功：", aiText);
+                alert("🎉 辨識成功！AI 的分析結果：\n\n" + aiText);
+
+            } catch (error) {
+                console.error("❌ Gemini API 串接錯誤:", error);
+                alert("串接失敗！請打開 F12 開發者工具查看 Console 錯誤訊息。\n錯誤原因：" + error.message);
+            }
+        };
+
+        window.prepareLostFlow = async function(tabType, btnElement) {
+            if(btnElement) btnElement.innerText = '✨ AI 正在努力辨識中...';
+            window.selectedTags = [];
+            renderTags('tags-container-05');
+            window.currentLostData = {};
+            let imgBase64 = null;
+            let textDesc = '';
+
+            if (tabType === 'image') {
+                const imgEl = document.getElementById('preview-p03');
+                if (imgEl && imgEl.style.display === 'block') {
+                    window.currentLostData.image_base64 = imgEl.src;
+                    imgBase64 = imgEl.src;
+                }
+                const cityEl = document.getElementById('city-03');
+                const distEl = document.getElementById('dist-03');
+                const dateEl = document.getElementById('lost-date-03');
+                if(cityEl && distEl) window.currentLostData.location = `${cityEl.value || ''}${distEl.value ? ' ' + distEl.value : ''}`.trim();
+                if(dateEl) window.currentLostData.date = dateEl.value;
+                const notes = document.getElementById('lost-notes-03');
+                if(notes && notes.value) {
+                    window.currentLostData.notes = notes.value;
+                    textDesc += notes.value;
+                }
+            } else if (tabType === 'text') {
+                const desc = document.getElementById('lost-desc-04');
+                const cityEl = document.getElementById('city-04');
+                const distEl = document.getElementById('dist-04');
+                const dateEl = document.getElementById('lost-date-04');
+                if(cityEl && distEl) window.currentLostData.location = `${cityEl.value || ''}${distEl.value ? ' ' + distEl.value : ''}`.trim();
+                if(dateEl) window.currentLostData.date = dateEl.value;
+                if(desc && desc.value) {
+                    window.currentLostData.desc = desc.value;
+                    textDesc += desc.value + " ";
+                }
+                const notes = document.getElementById('lost-notes-04');
+                if(notes && notes.value) {
+                    window.currentLostData.notes = notes.value;
+                    textDesc += notes.value;
+                }
+            }
+            
+            // Populate info card UI
+            document.getElementById('info-date-05').innerText = window.currentLostData.date || '--';
+            document.getElementById('info-loc-05').innerText = window.currentLostData.location || '--';
+            document.getElementById('info-notes-05').innerText = window.currentLostData.notes || '--';
+
+            const imgEl05 = document.getElementById('confirm-img-05');
+            const previewContainer05 = document.getElementById('preview-container-05');
+            const txtDesc05 = document.getElementById('lost-text-desc-05');
+            if (imgBase64) {
+                imgEl05.src = imgBase64;
+                previewContainer05.style.display = 'block';
+                txtDesc05.style.display = 'none';
+            } else if (textDesc.trim()) {
+                previewContainer05.style.display = 'none';
+                txtDesc05.innerText = window.currentLostData.desc || textDesc;
+                txtDesc05.style.display = 'block';
+            } else {
+                previewContainer05.style.display = 'none';
+                txtDesc05.style.display = 'none';
+            }
+
+            if (imgBase64 || textDesc.trim()) {
+                await window.analyzeWithGemini(imgBase64, textDesc, 'tags-container-05');
+            }
+
+            if(btnElement) btnElement.innerText = '開始 AI 辨識產生標籤';
+            window.showPage('page-05');
+        }
+
+        window.prepareFoundFlow = async function(flowType, btnElement) {
+            if(btnElement) btnElement.innerText = '✨ AI 正在努力辨識中...';
+            window.selectedTags = [];
+            renderTags('tags-container-11');
+            window.currentFoundData = { flowType: flowType };
+            
+            let imgBase64 = null;
+            let textDesc = '';
+
+            if (flowType === 'id') {
+                const radio = document.querySelector('input[name="id-type"]:checked');
+                window.currentFoundData.idType = radio ? radio.value : '其他證件';
+                window.currentFoundData.date = document.getElementById('found-date-12').value;
+                const city = document.getElementById('city-12').value || '';
+                const dist = document.getElementById('dist-12').value || '';
+                window.currentFoundData.location = `${city}${dist ? ' ' + dist : ''}`.trim();
+                window.currentFoundData.dropLocation = document.getElementById('found-drop-12').value;
+                
+                const imgEl = document.getElementById('preview-p12');
+                if (imgEl && imgEl.style.display === 'block') {
+                    window.currentFoundData.image_base64 = imgEl.src;
+                    imgBase64 = imgEl.src;
+                }
+                const notes = document.getElementById('found-notes-12');
+                if(notes && notes.value) {
+                    window.currentFoundData.notes = notes.value;
+                    textDesc += `證件類型：${window.currentFoundData.idType} ` + notes.value;
+                } else {
+                    textDesc += `證件類型：${window.currentFoundData.idType}`;
+                }
+            } else {
+                window.currentFoundData.date = document.getElementById('found-date-10').value;
+                const city = document.getElementById('city-10').value || '';
+                const dist = document.getElementById('dist-10').value || '';
+                window.currentFoundData.location = `${city}${dist ? ' ' + dist : ''}`.trim();
+                window.currentFoundData.dropLocation = document.getElementById('found-drop-10').value;
+                
+                const imgEl = document.getElementById('preview-p10');
+                if (imgEl && imgEl.style.display === 'block') {
+                    window.currentFoundData.image_base64 = imgEl.src;
+                    imgBase64 = imgEl.src;
+                }
+                const notes = document.getElementById('found-notes-10');
+                if(notes && notes.value) {
+                    window.currentFoundData.notes = notes.value;
+                    textDesc += notes.value;
+                }
+            }
+            
+            // Populate info card UI
+            document.getElementById('info-date-11').innerText = window.currentFoundData.date || '--';
+            document.getElementById('info-loc-11').innerText = window.currentFoundData.location || '--';
+            document.getElementById('info-notes-11').innerText = window.currentFoundData.notes || '--';
+            
+            const imgEl11 = document.getElementById('confirm-img-11');
+            const previewContainer11 = document.getElementById('preview-container-11');
+            if (imgBase64) {
+                imgEl11.src = imgBase64;
+                previewContainer11.style.display = 'block';
+            } else {
+                previewContainer11.style.display = 'none';
+            }
+
+            if (imgBase64 || textDesc.trim()) {
+                await window.analyzeWithGemini(imgBase64, textDesc, 'tags-container-11');
+            }
+
+            if(btnElement) btnElement.innerText = '開始 AI 辨識產生標籤';
+            window.showPage('page-11');
+        }
+
+        window.handleSeekerSubmit = async function() {
+            if (window.selectedTags.length === 0) {
+                alert('請至少選擇一個標籤！');
+                return;
+            }
+            if (!window.validateTags(window.selectedTags)) {
+                alert('偵測到不合法標籤，已終止比對與寫入！');
+                return;
+            }
+
+            try {
+                const uid = await window.ensureAuth();
+                if(db) {
+                    await addDoc(collection(db, "lost_items"), {
+                        ...window.currentLostData,
+                        status: "尋找中",
+                        tags: window.selectedTags,
+                        timestamp: serverTimestamp(),
+                        user_id: uid
+                    });
+                }
+            } catch (e) {
+                console.error("Error adding lost item: ", e);
+            }
+            window.showPage('page-06');
+        }
+
+        window.commitReportToFirestore = async function() {
+            if (window.selectedTags.length === 0) {
+                alert('請至少選擇一個標籤！');
+                return;
+            }
+            if (!window.validateTags(window.selectedTags)) {
+                alert('偵測到不合法標籤，已終止寫入！');
+                return;
+            }
+
+            try {
+                const uid = await window.ensureAuth();
+                if(db) {
+                    const docData = {
+                        ...window.currentFoundData,
+                        tags: window.selectedTags,
+                        status: "保管中",
+                        timestamp: serverTimestamp(),
+                        user_id: uid,
+                        picker_id: uid
+                    };
+                    const docRef = await addDoc(collection(db, "found_items"), docData);
+                    console.log("Found item saved with ID: ", docRef.id);
+                    document.getElementById('success-id').innerText = "＃" + docRef.id.toUpperCase();
+                } else {
+                    document.getElementById('success-id').innerText = "＃DL-TEST001";
+                }
+            } catch (e) {
+                console.error("Error adding found item: ", e);
+                document.getElementById('success-id').innerText = "＃DL-ERROR";
+            }
+            window.showPage('page-13');
+        }
+
+        // =========================================================================
+        // Queries & Lists
+        // =========================================================================
+
+        window.loadMatchResults = async function() {
+            const container = document.getElementById('match-results-list');
+            if(!db) {
+                container.innerHTML = '<div style="text-align: center; padding: 20px;">Firebase 未設定</div>';
+                return;
+            }
+            container.innerHTML = '<div style="text-align: center; padding: 20px;">比對中...</div>';
+            try {
+                // Fetch found items where status is '保管中'
+                const q = query(
+                    collection(db, "found_items"), 
+                    where("status", "==", "保管中")
+                );
+                const querySnapshot = await getDocs(q);
+                
+                let matches = [];
+                const seekerTags = window.selectedTags;
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    let matchCount = 0;
+                    if (data.tags && Array.isArray(data.tags)) {
+                        matchCount = data.tags.filter(t => seekerTags.includes(t)).length;
+                    }
+                    if (matchCount > 0) {
+                        matches.push({
+                            id: doc.id,
+                            data: data,
+                            matchCount: matchCount
+                        });
+                    }
+                });
+
+                if (matches.length === 0) {
+                    window.showPage('page-07');
+                    return;
+                }
+                
+                // Sort descending by matchCount
+                matches.sort((a, b) => b.matchCount - a.matchCount);
+
+                container.innerHTML = '';
+                matches.forEach(item => {
+                    const data = item.data;
+                    let tagsHtml = '';
+                    if (data.tags && data.tags.length > 0) {
+                        data.tags.forEach(t => {
+                            tagsHtml += `<div class="caption-12" style="background: #e0e0e0; padding: 2px 6px; border-radius: 4px; margin-right: 4px; margin-bottom: 4px;">#${t}</div>`;
+                        });
+                    }
+                    
+                    const title = data.idType ? `${data.idType}` : (data.tags && data.tags.length > 0 ? data.tags[0] : '無名物品');
+                    const imgSrc = data.image_base64 || '';
+                    const imgHtml = imgSrc ? `<img class="thumb" src="${imgSrc}" />` : `<div class="thumb"></div>`;
+
+                    container.innerHTML += `
+                        <div class="card result-card">
+                            ${imgHtml}
+                            <div class="flex-col" style="flex: 1; overflow: hidden;">
+                                <div class="flex-row space-between" style="width: 100%;">
+                                    <div class="text-14" style="font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%;">${title}</div>
+                                    <div class="badge badge-yellow">相符度: ${item.matchCount}</div>
+                                </div>
+                                <div class="caption-12 mb-2">${data.location || '未知地點'} • ${data.date || '未知日期'}</div>
+                                <div class="flex-row" style="flex-wrap: wrap;">
+                                    ${tagsHtml}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch(e) {
+                console.error(e);
+                container.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--red-accent);">載入失敗（若您尚未填入 firebaseConfig 或需要建立複合索引）</div>';
+            }
+        }
+
+        window.loadMyLostItems = async function() {
+            const container = document.getElementById('my-lost-items-list');
+            if(!db) {
+                container.innerHTML = '<div style="text-align: center; padding: 20px;">Firebase 尚未設定</div>';
+                return;
+            }
+            container.innerHTML = '<div style="text-align: center; padding: 20px;">載入中...</div>';
+            try {
+                const q = query(collection(db, "lost_items"), orderBy("timestamp", "desc"));
+                const querySnapshot = await getDocs(q);
+                container.innerHTML = '';
+                if (querySnapshot.empty) {
+                    container.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-gray);">尚無遺失物資料</div>';
+                    return;
+                }
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const status = data.status || "尋找中";
+                    let badgeClass = 'badge-blue';
+                    if (status === '已找到') badgeClass = 'badge-found';
+                    else if (status === '尋找中') badgeClass = 'badge-seeking';
+                    else if (status === '自動推播中') badgeClass = 'badge-yellow';
+                    const mainTag = (data.tags && data.tags.length > 0) ? data.tags[0] : '遺失物品';
+                    const tagsText = (data.tags && data.tags.length > 0) ? data.tags.map(t => `#${t}`).join(' ') : `#${mainTag}`;
+                    const imgSrc = data.image_base64 || './Logo2.png';
+                    const imgHtml = `<img class="thumb" src="${imgSrc}" style="${data.image_base64 ? '' : 'object-fit: contain; background-color: var(--bg-color);'}" />`;
+
+                    container.innerHTML += `
+                        <div class="card result-card" onclick="window.viewLostDetail('${doc.id}')">
+                            ${imgHtml}
+                            <div class="flex-col" style="flex: 1; overflow: hidden;">
+                                <div class="caption-12" style="color: var(--dark-brown); font-weight: 700;">編號：＃${doc.id.substring(0,6).toUpperCase()}</div>
+                                <div class="text-14" style="font-weight: 700; margin-bottom: 4px; color: var(--primary-blue);">${tagsText}</div>
+                                <div class="caption-12 mb-2">遺失時間：${data.date || '未知日期'}</div>
+                                <div><span class="badge ${badgeClass}">${status}</span></div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (e) {
+                console.error("Error loading lost items: ", e);
+                container.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--red-accent);">載入失敗（若您尚未填入 firebaseConfig 或權限不足會顯示此訊息）</div>';
+            }
+        }
+
+        window.loadMyFoundItems = async function() {
+            const container = document.getElementById('my-found-items-list');
+            if(!db) {
+                container.innerHTML = '<div style="text-align: center; padding: 20px;">Firebase 尚未設定</div>';
+                return;
+            }
+            container.innerHTML = '<div style="text-align: center; padding: 20px;">載入中...</div>';
+            try {
+                const q = query(collection(db, "found_items"), orderBy("timestamp", "desc"));
+                const querySnapshot = await getDocs(q);
+                container.innerHTML = '';
+                if (querySnapshot.empty) {
+                    container.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-gray);">尚無拾獲物資料</div>';
+                    return;
+                }
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const status = data.status || "保管中";
+                    const badgeClass = status === '已歸還' ? 'badge-blue' : 'badge-yellow';
+                    const mainTag = (data.tags && data.tags.length > 0) ? data.tags[0] : '拾獲物品';
+                    const imgSrc = data.image_base64 || '';
+                    const imgHtml = imgSrc ? `<img class="thumb" src="${imgSrc}" />` : `<div class="thumb"></div>`;
+
+                    container.innerHTML += `
+                        <div class="card result-card" onclick="window.viewFoundDetail('${doc.id}')">
+                            ${imgHtml}
+                            <div class="flex-col" style="flex: 1; overflow: hidden;">
+                                <div class="caption-12" style="color: var(--dark-brown); font-weight: 700;">＃${doc.id.substring(0,6).toUpperCase()}</div>
+                                <div class="text-14" style="font-weight: 700;">${mainTag}</div>
+                                <div class="caption-12 mb-2">${data.location || '未知地點'} • ${data.date || '未知日期'}</div>
+                                <!-- <div><span class="badge ${badgeClass}">${status}</span></div> -->
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (e) {
+                console.error("Error loading found items: ", e);
+                container.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--red-accent);">載入失敗（若您尚未填入 firebaseConfig 或權限不足會顯示此訊息）</div>';
+            }
+        }
+        window.loadThreadsPosts = async function() {
+            const container = document.getElementById('community-list');
+            if(!db) {
+                container.innerHTML = '<div style="text-align: center; padding: 20px;">Firebase 尚未設定</div>';
+                return;
+            }
+            container.innerHTML = '<div style="text-align: center; padding: 20px;">載入中...</div>';
+            try {
+                const q = query(collection(db, "threads_posts"), orderBy("timestamp", "desc"));
+                let querySnapshot = await getDocs(q);
+                
+                // If empty, auto-populate fake data
+                if (querySnapshot.empty) {
+                    console.log("threads_posts is empty. Populating fake data...");
+                    await addDoc(collection(db, "threads_posts"), {
+                        content: "協尋！在世新撿到鑰匙",
+                        timestamp: serverTimestamp(),
+                        postUrl: "#"
+                    });
+                    await addDoc(collection(db, "threads_posts"), {
+                        content: "協尋！在世新發現一頂安全帽。",
+                        timestamp: serverTimestamp(),
+                        postUrl: "#"
+                    });
+                    // Re-fetch
+                    querySnapshot = await getDocs(q);
+                }
+
+                container.innerHTML = '';
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    container.innerHTML += `
+                        <div class="card community-card">
+                            <div class="thumb"></div>
+                            <div class="flex-col" style="flex: 1;">
+                                <div class="caption-12 mb-2">稍早</div>
+                                <div class="text-14 mb-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${data.content}</div>
+                                <a href="${data.postUrl || '#'}" class="caption-12" style="color: var(--primary-blue);">查看原文</a>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (e) {
+                console.error("Error loading community posts: ", e);
+                container.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--red-accent);">載入失敗（若您尚未填入 firebaseConfig 或資料庫權限不足會顯示此訊息）</div>';
+            }
+        }
+
+        // Initialize App
+        window.showPage('page-01');
+        // =========================================================================
+        // 刪除遺失物
+        // =========================================================================
+
+        // 儲存目前查看的遺失物 docId
+        window.currentViewingLostId = null;
+
+        // 從列表點進詳情時，記錄 docId
+        window.viewLostDetail = async function(docId) {
+            window.currentViewingLostId = docId;
+            window.showPage('page-16', 'profile');
+            
+            document.getElementById('lost-detail-title').innerText = "載入中...";
+            document.getElementById('lost-detail-desc').style.display = 'none';
+            document.getElementById('lost-detail-img-container').style.display = 'none';
+            document.getElementById('lost-detail-date').innerText = "--";
+            document.getElementById('lost-detail-loc').innerText = "--";
+            document.getElementById('lost-detail-notes').innerText = "--";
+            document.getElementById('lost-detail-tags').innerHTML = "";
+            document.getElementById('lost-detail-status').innerText = "載入中";
+            
+            try {
+                const docSnap = await getDoc(doc(db, "lost_items", docId));
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    const mainTag = (data.tags && data.tags.length > 0) ? data.tags[0] : '遺失物品';
+                    document.getElementById('lost-detail-title').innerText = `＃${docId.substring(0,6).toUpperCase()} ${mainTag}`;
+                    
+                    const descEl = document.getElementById('lost-detail-desc');
+                    if (data.desc) {
+                        descEl.innerText = data.desc;
+                        descEl.style.display = 'block';
+                    } else {
+                        descEl.style.display = 'none';
+                    }
+                    
+                    const imgContainer = document.getElementById('lost-detail-img-container');
+                    imgContainer.style.display = 'block';
+                    if (data.image_base64) {
+                        imgContainer.style.backgroundImage = `url(${data.image_base64})`;
+                        imgContainer.style.backgroundSize = 'contain';
+                        imgContainer.style.backgroundRepeat = 'no-repeat';
+                    } else {
+                        imgContainer.style.backgroundImage = `url(./Logo2.png)`;
+                        imgContainer.style.backgroundSize = 'contain';
+                        imgContainer.style.backgroundRepeat = 'no-repeat';
+                        imgContainer.style.backgroundColor = 'var(--bg-color)';
+                    }
+                    
+                    document.getElementById('lost-detail-date').innerText = data.date || "未知日期";
+                    document.getElementById('lost-detail-loc').innerText = data.location || "未知地點";
+                    document.getElementById('lost-detail-notes').innerText = data.notes || "--";
+                    
+                    if (data.tags) {
+                        let tagsHtml = '';
+                        data.tags.forEach(t => {
+                            tagsHtml += `<div class="chip">#${t}</div>`;
+                        });
+                        document.getElementById('lost-detail-tags').innerHTML = tagsHtml;
+                    }
+                    
+                    const status = data.status || "尋找中";
+                    let badgeClass = 'badge-blue';
+                    if (status === '已找到') badgeClass = 'badge-found';
+                    else if (status === '尋找中') badgeClass = 'badge-seeking';
+                    else if (status === '自動推播中') badgeClass = 'badge-yellow';
+                    const statusEl = document.getElementById('lost-detail-status');
+                    statusEl.innerText = status;
+                    statusEl.className = `badge ${badgeClass}`;
+                }
+            } catch (e) {
+                console.error("Error loading detail:", e);
+                document.getElementById('lost-detail-title').innerText = "載入失敗";
+            }
+        }
+
+        // 點「刪除此筆」按鈕
+        window.confirmDeleteLost = function() {
+            if (!window.currentViewingLostId) {
+                alert('找不到案件編號，請返回列表重試');
+                return;
+            }
+            // 顯示確認彈窗
+            document.getElementById('delete-modal').style.display = 'flex';
+        }
+
+        // 彈窗點「是」
+        window.executeDeleteLost = async function() {
+            document.getElementById('delete-modal').style.display = 'none';
+            
+            try {
+                await deleteDoc(doc(db, 'lost_items', window.currentViewingLostId));
+                console.log('✅ 刪除成功:', window.currentViewingLostId);
+                window.currentViewingLostId = null;
+                // 返回列表並重新載入
+                window.showPage('page-15', 'profile');
+            } catch (err) {
+                console.error('❌ 刪除失敗:', err);
+                alert('刪除失敗：' + err.message);
+            }
+        }
+
+        // 彈窗點「否」
+        window.cancelDelete = function() {
+            document.getElementById('delete-modal').style.display = 'none';
+        }
+
+        window.confirmLogout = function() {
+            document.getElementById('logout-modal').style.display = 'flex';
+        }
+        window.cancelLogout = function() {
+            document.getElementById('logout-modal').style.display = 'none';
+        }
+        window.executeLogout = function() {
+            document.getElementById('logout-modal').style.display = 'none';
+            window.showPage('page-01');
+        }
+
+        window.confirmFound = function() {
+            document.getElementById('found-modal').style.display = 'flex';
+        }
+        window.cancelFound = function() {
+            document.getElementById('found-modal').style.display = 'none';
+        }
+        window.executeFound = async function() {
+            document.getElementById('found-modal').style.display = 'none';
+            if (window.currentViewingLostId) {
+                try {
+                    await updateDoc(doc(db, "lost_items", window.currentViewingLostId), {
+                        status: "已找到"
+                    });
+                    if (window.loadMyLostItems) {
+                        window.loadMyLostItems();
+                    }
+                } catch (e) {
+                    console.error("更新狀態失敗: ", e);
+                    alert("更新狀態失敗，請稍後再試！");
+                }
+            }
+            window.showPage('page-15', 'profile');
+        }
+
+        // =========================================================================
+        // 拾獲物詳情與刪除
+        // =========================================================================
+        window.currentViewingFoundId = null;
+
+        window.viewFoundDetail = async function(docId) {
+            window.currentViewingFoundId = docId;
+            window.showPage('page-19', 'profile');
+            
+            document.getElementById('found-detail-title').innerText = '載入中...';
+            document.getElementById('found-detail-img-container').style.display = 'none';
+            document.getElementById('found-detail-date').innerText = '--';
+            document.getElementById('found-detail-loc').innerText = '--';
+            document.getElementById('found-detail-drop').innerText = '--';
+            document.getElementById('found-detail-notes').innerText = '--';
+            document.getElementById('found-detail-tags').innerHTML = '';
+            document.getElementById('found-detail-status').innerText = '載入中';
+            document.getElementById('found-detail-status').className = 'badge badge-yellow';
+
+            try {
+                const docRef = doc(db, "found_items", docId);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    const mainTag = (data.tags && data.tags.length > 0) ? data.tags[0] : '拾獲物品';
+                    document.getElementById('found-detail-title').innerText = `＃${docId.substring(0,6).toUpperCase()} ${mainTag}`;
+
+                    if (data.image_base64) {
+                        const imgContainer = document.getElementById('found-detail-img-container');
+                        imgContainer.style.backgroundImage = `url(${data.image_base64})`;
+                        imgContainer.style.display = 'block';
+                    }
+
+                    document.getElementById('found-detail-date').innerText = data.date || '--';
+                    document.getElementById('found-detail-loc').innerText = data.location || '--';
+                    document.getElementById('found-detail-drop').innerText = data.dropLocation || '--';
+                    document.getElementById('found-detail-notes').innerText = data.notes || '--';
+
+                    if (data.tags) {
+                        document.getElementById('found-detail-tags').innerHTML = data.tags.map(tag => `<div class="chip">#${tag}</div>`).join('');
+                    }
+
+                    const status = data.status || "保管中";
+                    const badgeClass = status === '已歸還' ? 'badge-blue' : 'badge-yellow';
+                    const statusEl = document.getElementById('found-detail-status');
+                    statusEl.innerText = status;
+                    statusEl.className = `badge ${badgeClass}`;
+
+                } else {
+                    alert('找不到資料');
+                    window.showPage('page-18', 'profile');
+                }
+            } catch(e) {
+                console.error("Error fetching doc:", e);
+                alert('讀取失敗');
+                window.showPage('page-18', 'profile');
+            }
+        }
+
+        window.confirmDeleteFound = function() {
+            if (!window.currentViewingFoundId) {
+                alert('找不到案件編號，請返回列表重試');
+                return;
+            }
+            if(confirm("確定要刪除這筆拾獲紀錄嗎？")) {
+                window.executeDeleteFound();
+            }
+        }
+
+        window.executeDeleteFound = async function() {
+            if (!window.currentViewingFoundId) return;
+            try {
+                await deleteDoc(doc(db, "found_items", window.currentViewingFoundId));
+                alert('已成功刪除該筆拾獲紀錄');
+                window.currentViewingFoundId = null;
+                window.showPage('page-18', 'profile');
+            } catch(e) {
+                console.error("Delete Error", e);
+                alert('刪除失敗，請稍後再試');
+            }
+        }
+    </script>
+</body>
+</html>
