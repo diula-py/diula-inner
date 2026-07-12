@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&display=swap" rel="stylesheet">
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
         :root {
             --bg-color: #F3F0E1;
@@ -527,7 +528,7 @@
             <h1 class="comfortaa" style="font-size: 48px; color: var(--dark-brown); margin-bottom: 16px; display: none;">DiuLa!</h1>
             <p class="text-14" style="margin-bottom: 48px;">尋找失物的好夥伴！</p>
             <div style="width: 80%;">
-                <button class="btn btn-green" onclick="window.showPage('page-02', 'home')">LINE 登入</button>
+                <button class="btn btn-green" onclick="window.loginLINE()">LINE 登入</button>
                 <button class="btn btn-white" onclick="window.showPage('page-02', 'home')">Google 登入</button>
             </div>
         </div>
@@ -834,13 +835,22 @@
             <!-- Profile Info Card -->
             <div class="card flex-col center" style="padding: 24px; margin-bottom: 16px; background-color: var(--card-bg); box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                 <div style="width: 80px; height: 80px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 4px solid white; overflow: hidden; margin-bottom: 16px;">
-                    <img src="avatar.png" alt="大頭貼" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div style="width: 100%; height: 100%; display: none; align-items: center; justify-content: center; background-color: #f0f0f0;">
+                    <img id="profile-avatar-img" src="avatar.png" alt="大頭貼" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div id="profile-avatar-placeholder" style="width: 100%; height: 100%; display: none; align-items: center; justify-content: center; background-color: #f0f0f0;">
                         <svg viewBox="0 0 24 24" style="width: 40px; height: 40px; fill: var(--text-gray);"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                     </div>
                 </div>
-                <div class="title-20" style="margin-bottom: 24px;">張寧寧</div>
+                <div id="profile-name-text" class="title-20" style="margin-bottom: 16px;">訪客 (請登入 LINE)</div>
                 
+                <!-- LINE LIFF 登入按鈕 -->
+                <div id="liff-login-container" style="width: 100%; margin-bottom: 16px; display: flex; flex-direction: column; align-items: center;">
+                    <button id="liff-login-btn" class="btn" style="background-color: #06C755; color: white; border: none; border-radius: 8px; padding: 12px 24px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(6, 199, 85, 0.25); width: 100%; max-width: 240px;" onclick="window.loginLINE()">
+                        <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: white;"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+                        LINE 登入
+                    </button>
+                    <div id="liff-status-badge" style="display: none; color: #06C755; font-weight: bold; font-size: 14px; margin-top: 4px;">✅ 已登入 LINE 帳號</div>
+                </div>
+
                 <div class="flex-row" style="width: 100%; gap: 12px;">
                     <div class="card flex-col center" style="flex: 1; margin: 0; padding: 16px 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; background-color: white;">
                         <div class="text-14" style="color: var(--dark-brown);">修改個人資料</div>
@@ -861,7 +871,7 @@
             </div>
             <!-- Logout Button -->
             <div class="flex-col center" style="margin-top: 16px; padding-bottom: 24px;">
-                <button class="btn" style="background-color: white; color: var(--text-gray); box-shadow: 0 2px 8px rgba(0,0,0,0.05); width: auto; padding: 8px 32px; border: none; border-radius: 8px; font-family: 'Chiron GoRound TC', sans-serif;" onclick="window.confirmLogout()">登出</button>
+                <button id="liff-logout-btn" class="btn" style="background-color: white; color: var(--text-gray); box-shadow: 0 2px 8px rgba(0,0,0,0.05); width: auto; padding: 8px 32px; border: none; border-radius: 8px; font-family: 'Chiron GoRound TC', sans-serif;" onclick="window.confirmLogout()">登出</button>
             </div>
         </div>
         <!-- PAGE 15: My Lost Items -->
@@ -1159,7 +1169,83 @@ const twLocations = {
             distSelect.innerHTML = options;
         };
 
-        // Initialize selects when DOM loads
+        // =========================================================================
+        // LINE LIFF Integration Logic
+        // =========================================================================
+        window.liffProfile = null;
+
+        window.initLIFF = async function() {
+            try {
+                console.log("正在初始化 LINE LIFF SDK...");
+                await liff.init({ liffId: "2009840543-oj99U5pA" });
+                console.log("✅ LIFF 初始化成功!");
+                await window.updateLiffUI();
+            } catch (error) {
+                console.error("❌ LIFF 初始化失敗:", error);
+            }
+        };
+
+        window.updateLiffUI = async function() {
+            const loginBtn = document.getElementById('liff-login-btn');
+            const statusBadge = document.getElementById('liff-status-badge');
+            const nameEl = document.getElementById('profile-name-text');
+            const avatarImg = document.getElementById('profile-avatar-img');
+            const avatarPlaceholder = document.getElementById('profile-avatar-placeholder');
+
+            if (typeof liff !== 'undefined' && liff.isLoggedIn()) {
+                console.log("使用者已登入 LIFF，正在抓取使用者顯示名稱與大頭貼...");
+                try {
+                    const profile = await liff.getProfile();
+                    window.liffProfile = profile;
+                    console.log("成功取得 LINE Profile:", profile);
+
+                    if (loginBtn) loginBtn.style.display = 'none';
+                    if (statusBadge) statusBadge.style.display = 'inline-block';
+                    if (nameEl) nameEl.textContent = profile.displayName || "LINE 使用者";
+                    
+                    if (avatarImg && profile.pictureUrl) {
+                        avatarImg.src = profile.pictureUrl;
+                        avatarImg.style.display = 'block';
+                        if (avatarPlaceholder) avatarPlaceholder.style.display = 'none';
+                    }
+
+                    // 如果使用者目前停留在起始頁 (page-01) 且已完成登入，自動為其跳轉進入主頁 (page-02)
+                    const page01 = document.getElementById('page-01');
+                    if (page01 && page01.classList.contains('active')) {
+                        console.log("偵測到用戶已完成 LINE 登入，自動進入首頁 (page-02)...");
+                        window.showPage('page-02', 'home');
+                    }
+                } catch (err) {
+                    console.error("取得 LINE 使用者 Profile 失敗:", err);
+                }
+            } else {
+                console.log("目前未登入 LINE LIFF");
+                window.liffProfile = null;
+                if (loginBtn) loginBtn.style.display = 'inline-flex';
+                if (statusBadge) statusBadge.style.display = 'none';
+                if (nameEl) nameEl.textContent = "訪客 (請先進行 LINE 登入)";
+                if (avatarImg) {
+                    avatarImg.src = "avatar.png";
+                    avatarImg.style.display = 'block';
+                }
+            }
+        };
+
+        window.loginLINE = function() {
+            if (typeof liff !== 'undefined') {
+                if (!liff.isLoggedIn()) {
+                    console.log("觸發 liff.login() 進行官方 LINE 登入...");
+                    liff.login();
+                } else {
+                    console.log("使用者目前已經是登入狀態，直接導向首頁...");
+                    window.showPage('page-02', 'home');
+                }
+            } else {
+                alert("LINE LIFF SDK 尚未完成初始化，請確認網路連線或在 LINE App 內開啟。");
+            }
+        };
+
+        // Initialize selects & LIFF when DOM loads
         document.addEventListener('DOMContentLoaded', () => {
             window.initCitySelects();
             // 預設將所有的 date input 設為當天
@@ -1167,6 +1253,7 @@ const twLocations = {
             document.querySelectorAll('input[type="date"]').forEach(input => {
                 input.value = today;
             });
+            window.initLIFF();
         });
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -2194,6 +2281,11 @@ const twLocations = {
         }
         window.executeLogout = function() {
             document.getElementById('logout-modal').style.display = 'none';
+            if (typeof liff !== 'undefined' && liff.isLoggedIn()) {
+                liff.logout();
+                console.log("已登出 LINE LIFF");
+                if (window.updateLiffUI) window.updateLiffUI();
+            }
             window.showPage('page-01');
         }
 
