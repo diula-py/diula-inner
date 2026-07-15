@@ -1508,29 +1508,29 @@ const twLocations = {
             const container = document.getElementById(targetTagContainerId);
             const originalHTML = container ? container.innerHTML : '';
 
-            // 1. 顯示 Loading 狀態與 UI 提示
+            // 1. 顯示 Loading 狀態與 UI 提示 (增加雲端冷啟動友善提示)
             if (container) {
                 container.innerHTML = `
                     <div id="ai-loading-indicator" style="display: flex; align-items: center; gap: 10px; padding: 12px 18px; background: linear-gradient(135deg, #E8F0FE 0%, #D2E3FC 100%); color: #1A73E8; border-radius: 12px; font-size: 14px; font-weight: 700; width: 100%; box-shadow: 0 2px 8px rgba(26,115,232,0.15); margin-bottom: 8px;">
                         <span style="display: inline-block; animation: pulse 1.2s infinite; font-size: 18px;">🤖</span>
                         <div>
                             <div>DiuLa! AI 智能辨識與顏色分類中...</div>
-                            <div style="font-size: 11px; font-weight: 400; color: #5F6368; margin-top: 2px;">正在發送至本地中繼後端 API 伺服器</div>
+                            <div style="font-size: 11px; font-weight: 400; color: #5F6368; margin-top: 2px;">正在發送至雲端安全後端 API (若初次連線可能需稍候幾秒喚醒)</div>
                         </div>
                     </div>
                 ` + originalHTML;
             }
 
             try {
-                console.log("🚀 正在發送圖片與文字至本地中繼後端 API 進行 AI 智能辨識...");
+                console.log("🚀 正在發送圖片與文字至 Render 雲端安全後端 API 進行 AI 智能辨識...");
                 
                 const requestBody = {
                     text: textContent || "",
                     base64Image: imageBase64 || null
                 };
 
-                // 2. 打向本地端 Express 後端伺服器 (若與後端同源也可支援相對路徑)
-                const backendUrl = 'http://localhost:3000/api/analyze-item';
+                // 2. 打向 Render 正式生產環境雲端 API 端點 (完全前後端分離，安全不露 Key)
+                const backendUrl = 'https://diula-backend-api.onrender.com/api/analyze-item';
                 const response = await fetch(backendUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1543,7 +1543,7 @@ const twLocations = {
                 }
 
                 const parsedResult = await response.json();
-                console.log("✅ 收到後端 AI 辨識成功結果：", parsedResult);
+                console.log("✅ 收到雲端後端 AI 辨識成功結果：", parsedResult);
 
                 // 3. 保持原本 UI 渲染與 selectedTags 自動加入邏輯不變
                 if (parsedResult && parsedResult.items && Array.isArray(parsedResult.items)) {
@@ -1566,16 +1566,16 @@ const twLocations = {
                 }
 
             } catch (error) {
-                console.error("❌ AI 辨識或連線本地後端發生錯誤:", error);
+                console.error("❌ AI 辨識或連線雲端後端發生錯誤:", error);
                 
-                // 4. 恢復原本標籤並顯示錯誤提示 UI
+                // 4. 恢復原本標籤並顯示錯誤提示 UI (包含冷啟動/網路異常的友善說明)
                 renderTags(targetTagContainerId);
                 if (container) {
                     const errDiv = document.createElement('div');
                     errDiv.style.cssText = "width: 100%; margin-top: 10px; padding: 12px 16px; background-color: #FDE8E8; color: #C81E1E; border-radius: 12px; font-size: 13px; font-weight: bold; border: 1px solid #F8B4B4; box-shadow: 0 2px 6px rgba(200,30,30,0.1);";
-                    errDiv.innerHTML = `❌ AI 辨識連線失敗或錯誤<br><span style="font-size: 12px; font-weight: normal; color: #777; display: block; margin-top: 4px;">原因：${error.message || '無法連接至本地伺服器 http://localhost:3000，請確認後端已啟動。'}</span><span style="font-size: 12px; font-weight: normal; color: #555; display: block; margin-top: 4px;">💡 提示：您隨時可手動點擊「新增」自行選擇標籤。</span>`;
+                    errDiv.innerHTML = `❌ AI 辨識連線失敗或錯誤<br><span style="font-size: 12px; font-weight: normal; color: #777; display: block; margin-top: 4px;">原因：${error.message || '無法連接至 Render 雲端後端伺服器。'} (若伺服器剛從休眠冷啟動，請稍等幾秒後再試一次)</span><span style="font-size: 12px; font-weight: normal; color: #555; display: block; margin-top: 4px;">💡 提示：您隨時可點擊「新增」自行選擇分類標籤。</span>`;
                     container.appendChild(errDiv);
-                    setTimeout(() => { if (errDiv && errDiv.parentNode) errDiv.remove(); }, 10000);
+                    setTimeout(() => { if (errDiv && errDiv.parentNode) errDiv.remove(); }, 12000);
                 }
             }
         };
