@@ -658,7 +658,7 @@
                 </div>
             </div>
             <div class="mt-auto" style="margin-bottom: 24px;">
-                <button class="btn" style="background-color: #D6E4F0; color: #D3430B; font-weight: 700;" onclick="window.handleSeekerSubmit()">確認並開始尋找</button>
+                <button class="btn" style="background-color: #D6E4F0; color: #D3430B; font-weight: 700;" onclick="window.handleSeekerSubmit(this)">確認並開始尋找</button>
             </div>
         </div>
         <!-- PAGE 06: Match Result (Finder) -->
@@ -769,7 +769,7 @@
                 </div>
             </div>
             <div class="mt-auto" style="margin-bottom: 24px;">
-                <button class="btn" style="background-color: #D6E4F0; color: #D3430B; font-weight: 700;" onclick="window.commitReportToFirestore()">確認並開始尋找</button>
+                <button class="btn" style="background-color: #D6E4F0; color: #D3430B; font-weight: 700;" onclick="window.commitReportToFirestore(this)">確認並開始尋找</button>
             </div>
         </div>
         <!-- PAGE 12: Register Found (ID) -->
@@ -1822,7 +1822,7 @@ const twLocations = {
             window.showPage('page-11');
         }
 
-        window.handleSeekerSubmit = async function() {
+        window.handleSeekerSubmit = async function(btnElement) {
             if (window.selectedTags.length === 0) {
                 alert('請至少選擇一個標籤！');
                 return;
@@ -1830,6 +1830,13 @@ const twLocations = {
             if (!window.validateTags(window.selectedTags)) {
                 alert('偵測到不合法標籤，已終止比對與寫入！');
                 return;
+            }
+
+            if (btnElement) {
+                btnElement.innerText = '正在尋找中...';
+                btnElement.disabled = true;
+                btnElement.style.opacity = '0.7';
+                btnElement.style.cursor = 'not-allowed';
             }
 
             try {
@@ -1849,7 +1856,7 @@ const twLocations = {
             window.showPage('page-06');
         }
 
-        window.commitReportToFirestore = async function() {
+        window.commitReportToFirestore = async function(btnElement) {
             if (window.selectedTags.length === 0) {
                 alert('請至少選擇一個標籤！');
                 return;
@@ -1857,6 +1864,13 @@ const twLocations = {
             if (!window.validateTags(window.selectedTags)) {
                 alert('偵測到不合法標籤，已終止寫入！');
                 return;
+            }
+
+            if (btnElement) {
+                btnElement.innerText = '正在尋找中...';
+                btnElement.disabled = true;
+                btnElement.style.opacity = '0.7';
+                btnElement.style.cursor = 'not-allowed';
             }
 
             try {
