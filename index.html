@@ -135,6 +135,7 @@
         .btn-text { background-color: transparent; color: var(--text-gray); text-decoration: underline; }
 
         input[type="text"], input[type="date"], textarea, select {
+            display: block;
             width: 100%;
             padding: 12px;
             border-radius: 8px;
@@ -146,6 +147,14 @@
             font-size: 14px;
             color: var(--dark-brown);
         }
+        
+        /* 針對 iOS Safari 上 type="date" 超出寬度的修正 */
+        input[type="date"] {
+            -webkit-appearance: none;
+            appearance: none;
+            min-height: 44px; /* 確保在 mobile 上有足夠點擊高度 */
+        }
+
         input::placeholder, textarea::placeholder {
             color: var(--text-gray);
         }
