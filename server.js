@@ -81,30 +81,8 @@ app.post('/api/analyze-item', async (req, res) => {
             });
         }
 
-        // 1. 動態查詢當前 API Key 支援的 ModelService 清單 (避免 404 模型找不到的問題)
-        let targetModels = ["gemini-1.5-flash-002", "gemini-2.0-flash", "gemini-1.5-flash"];
-        try {
-            const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
-            if (listRes.ok) {
-                const listData = await listRes.json();
-                if (listData.models && Array.isArray(listData.models)) {
-                    const availableNames = listData.models
-                        .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes("generateContent"))
-                        .map(m => m.name.replace("models/", ""));
-                    
-                    console.log("📋 當前 API Key 可用的模型列表：", availableNames);
-                    if (availableNames.length > 0) {
-                        targetModels = availableNames.sort((a, b) => {
-                            const scoreA = (a.includes("flash-002") ? 10 : 0) + (a.includes("2.0-flash") ? 9 : 0) + (a.includes("flash") ? 5 : 0) - (a.includes("8b") ? 2 : 0);
-                            const scoreB = (b.includes("flash-002") ? 10 : 0) + (b.includes("2.0-flash") ? 9 : 0) + (b.includes("flash") ? 5 : 0) - (b.includes("8b") ? 2 : 0);
-                            return scoreB - scoreA;
-                        });
-                    }
-                }
-            }
-        } catch (listErr) {
-            console.warn("⚠️ 查詢 API Key 模型清單失敗，將採用預設備選模型:", listErr.message);
-        }
+        // 1. 統一設定目標模型為最新版的 gemini-3.1-flash-lite
+        let targetModels = ["gemini-3.1-flash-lite"];
 
         // 2. 嘗試呼叫目標模型 (先試 @google/genai SDK，若發生 404/錯誤則自動降級嘗試 REST API)
         let responseText = null;
