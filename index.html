@@ -1157,38 +1157,6 @@
         </div>
     </div>
     <script type="module">
-// 負責切換網頁畫面的核心函數
-window.showPage = function(pageId, activeNavId) {
-    // 1. 隱藏所有的頁面
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-    });
-    
-    // 2. 顯示目標頁面
-    const targetPage = document.getElementById(pageId);
-    if (targetPage) {
-        targetPage.classList.add('active');
-    }
-    
-    // 3. 切換下方導覽列的狀態 (如果有傳入的話)
-    if (activeNavId) {
-        document.querySelectorAll('.nav-item').forEach(nav => {
-            nav.classList.remove('active');
-        });
-        const navItem = document.getElementById(activeNavId);
-        if (navItem) {
-            navItem.classList.add('active');
-        }
-    }
-    
-    // 切換頁面時，自動捲動到最上方
-    const appContainer = document.querySelector('.app-container');
-    if (appContainer) {
-        appContainer.scrollTo(0, 0);
-    } else {
-        window.scrollTo(0, 0);
-    }
-};
 const twLocations = {
             "臺北市": ["中正區", "大同區", "中山區", "松山區", "大安區", "萬華區", "信義區", "士林區", "北投區", "內湖區", "南港區", "文山區"],
             "新北市": ["萬里區", "金山區", "板橋區", "汐止區", "深坑區", "石碇區", "瑞芳區", "平溪區", "雙溪區", "貢寮區", "新店區", "坪林區", "烏來區", "永和區", "中和區", "土城區", "三峽區", "樹林區", "鶯歌區", "三重區", "新莊區", "泰山區", "林口區", "蘆洲區", "五股區", "八里區", "淡水區", "三芝區", "石門區"],
@@ -1496,7 +1464,7 @@ const twLocations = {
         // =========================================================================
         const bottomNav = document.getElementById('bottom-nav');
 
-        window.showPage = function(pageId, navTab = '') {
+                window.showPage = function(pageId, navTab = '') {
             // 已登入狀態：不允許使用者切換回登入頁（page-01），強制導向首頁
             if (pageId === 'page-01' && typeof liff !== 'undefined' && liff.isLoggedIn()) {
                 console.warn('使用者已登入，阻斷返回 page-01，強制跳轉至 page-02');
@@ -1505,12 +1473,15 @@ const twLocations = {
             }
 
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
             
             if (pageId === 'page-01' || pageId === 'page-07' || pageId === 'page-08' || pageId === 'page-13') {
-                bottomNav.style.display = 'none';
+                if (bottomNav) bottomNav.style.display = 'none';
             } else {
-                bottomNav.style.display = 'flex';
+                if (bottomNav) bottomNav.style.display = 'flex';
             }
 
             if (navTab) {
@@ -1519,10 +1490,19 @@ const twLocations = {
                 if (navEl) navEl.classList.add('active');
             }
 
-            if (pageId === 'page-06') window.loadMatchResults();
-            if (pageId === 'page-15') window.loadMyLostItems();
-            if (pageId === 'page-18') window.loadMyFoundItems();
-            if (pageId === 'page-17') window.loadThreadsPosts();
+            // Scroll to top
+            const appContainer = document.querySelector('.app-container');
+            if (appContainer) {
+                appContainer.scrollTo(0, 0);
+            }
+            window.scrollTo(0, 0);
+
+            if (pageId === 'page-06' && window.loadMatchResults) window.loadMatchResults();
+            if (pageId === 'page-15' && window.loadMyLostItems) window.loadMyLostItems();
+            if (pageId === 'page-18' && window.loadMyFoundItems) window.loadMyFoundItems();
+            if (pageId === 'page-17' && window.loadThreadsPosts) window.loadThreadsPosts();
+            
+            if (window.updateLiffUI) window.updateLiffUI();
         }
 
         window.compressImage = function(file) {
