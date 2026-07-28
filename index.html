@@ -565,40 +565,79 @@
             </div>
             
         </div>
-        <!-- PAGE 02: Home -->
-        <div id="page-02" class="page">
-            <div style="background-color: var(--primary-blue); border-radius: 20px; padding: 12px 20px; display: flex; justify-content: center; align-items: center; margin-bottom: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
-                <!-- 預設顯示使用者的 LOGO 圖片，若找不到圖檔則顯示純文字以防破圖 -->
-                <img src="DiuLa_logo_transparent.png" alt="DiuLa Logo" style="height: 90px; width: auto;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <h1 class="comfortaa" style="font-size: 48px; color: var(--dark-brown); margin: 0; display: none;">DiuLa!</h1>
+                <!-- PAGE 02: Home -->
+        <div id="page-02" class="page" style="max-width: 393px; margin: 0 auto; min-height: 100vh; background-color: #FFFFFF; display: flex; flex-direction: column; align-items: center; padding: 0; padding-bottom: 100px; box-sizing: border-box; width: 100%; position: relative;">
+            
+            <!-- Top Header Banner (Group 17) -->
+            <div style="width: 100%; height: 109px; background-color: #DFEAF5; border-radius: 0 0 20px 20px; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 24px; box-sizing: border-box; margin-bottom: 32px;">
+                <img src="DiuLa_logo_transparent.png" alt="DiuLa Logo" style="width: 106px; height: 35px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <h1 class="comfortaa" style="font-size: 24px; color: var(--dark-brown); margin: 0; display: none;">DiuLa!</h1>
             </div>
-            <div class="home-section">
-                <div class="home-section-title">尋找遺失物</div>
+
+            <div style="width: 100%; padding: 0 22px; display: flex; flex-direction: column; gap: 32px; box-sizing: border-box;">
                 
-                <div class="white-card" onclick="window.showPage('page-03')">
-                    <img class="white-card-icon" src="icon_search.png" style="object-fit: contain;" alt="Search" onerror="this.style.display='none'">
-                    <div style="font-size: 20px; font-weight: 700; color: var(--dark-brown);">比對尋找</div>
-                </div>
-                <div class="white-card" onclick="window.showPage('page-17')">
-                    <img class="white-card-icon" src="icon_search.png" style="object-fit: contain;" alt="Community Search" onerror="this.style.display='none'">
-                    <div style="font-size: 20px; font-weight: 700; color: var(--dark-brown);">社群協尋</div>
-                </div>
-            </div>
-            <div class="home-section">
-                <div class="home-section-title">登錄拾獲物</div>
-                
-                <div style="display: flex; gap: 16px;">
-                    <div class="white-card" style="flex: 1; flex-direction: column; padding: 32px 16px; margin-bottom: 0;" onclick="window.showPage('page-12')">
-                        <div style="font-size: 24px; font-weight: 700; color: var(--dark-brown); margin-bottom: 16px;">證件類</div>
-                        <div style="font-size: 11px; color: var(--dark-brown); text-align: center;">例如：身分證、健保卡等</div>
+                <!-- 尋找遺失物 Section -->
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <!-- Title (Frame 22) -->
+                    <div style="display: flex; align-items: center; gap: 10px; height: 50px;">
+                        <div style="width: 3px; height: 30px; background-color: #482B12;"></div>
+                        <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12;">尋找遺失物</div>
                     </div>
                     
-                    <div class="white-card" style="flex: 1; flex-direction: column; padding: 32px 16px; margin-bottom: 0;" onclick="window.showPage('page-10')">
-                        <div style="font-size: 24px; font-weight: 700; color: var(--dark-brown); margin-bottom: 16px;">非證件類</div>
-                        <div style="font-size: 11px; color: var(--dark-brown); text-align: center;">其他類型物品</div>
+                    <!-- Buttons -->
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <!-- Frame 18 -->
+                        <div onclick="window.showPage('page-03')" style="width: 100%; height: 100px; background: #F3F0E1; border: 1px solid #482B12; border-radius: 50px; display: flex; align-items: center; padding: 0 40px; gap: 40px; cursor: pointer; box-sizing: border-box;">
+                            <img src="magnifying-glass-solid.png" style="width: 40px; height: 40px; object-fit: contain;" onerror="this.src='icon_search.png'">
+                            <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12; text-align: center;">跨平台尋找遺失物</div>
+                        </div>
+                        
+                        <!-- Frame 26 -->
+                        <div onclick="window.showPage('page-17')" style="width: 100%; height: 100px; background: #F3F0E1; border: 1px solid #482B12; border-radius: 50px; display: flex; align-items: center; padding: 0 40px; gap: 40px; cursor: pointer; box-sizing: border-box;">
+                            <img src="threads-brands-solid.png" style="width: 40px; height: 40px; object-fit: contain;" onerror="this.src='icon_search.png'">
+                            <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12; text-align: center;">Threads尋找遺失物</div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- 登錄拾獲物 Section -->
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <!-- Title (Frame 23) -->
+                    <div style="display: flex; align-items: center; gap: 10px; height: 50px;">
+                        <div style="width: 3px; height: 30px; background-color: #482B12;"></div>
+                        <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12;">登錄拾獲物</div>
+                    </div>
+                    
+                    <!-- Buttons -->
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <!-- Frame 27 -->
+                        <div onclick="window.showPage('page-12')" style="width: 100%; height: 100px; background: #F3F0E1; border: 1px solid #482B12; border-radius: 50px; display: flex; align-items: center; padding: 0 40px; gap: 40px; cursor: pointer; box-sizing: border-box;">
+                            <img src="address-card-solid.png" style="width: 40px; height: 40px; object-fit: contain;" onerror="this.src='icon_home.png'">
+                            <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12; text-align: center;">證件類遺失物登錄</div>
+                        </div>
+                        
+                        <!-- Frame 28 -->
+                        <div onclick="window.showPage('page-10')" style="width: 100%; height: 100px; background: #F3F0E1; border: 1px solid #482B12; border-radius: 50px; display: flex; align-items: center; padding: 0 40px; gap: 40px; cursor: pointer; box-sizing: border-box;">
+                            <img src="clipboard-question-solid.png" style="width: 40px; height: 40px; object-fit: contain;" onerror="this.src='icon_profile.png'">
+                            <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12; text-align: center;">非證件類遺失物登錄</div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
+            <!-- Bottom Navigation Bar (Frame 6) -->
+            <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 340px; height: 65px; background: #DFEAF5; border-radius: 50px; display: flex; justify-content: center; align-items: center; padding: 10px; box-sizing: border-box; gap: 10px;">
+                <!-- Active Home Pill -->
+                <div onclick="window.showPage('page-02', 'home')" style="flex: 1; height: 46px; display: flex; justify-content: center; align-items: center; background: #FFFFFF; border-radius: 42px; cursor: pointer;">
+                    <img src="house-solid.png" style="width: 40px; height: 40px; object-fit: contain;" onerror="this.src='icon_home.png'">
+                </div>
+                <!-- Profile Pill -->
+                <div onclick="window.showPage('page-14', 'profile')" style="flex: 1; height: 46px; display: flex; justify-content: center; align-items: center; cursor: pointer;">
+                    <img src="user-solid.png" style="width: 40px; height: 40px; object-fit: contain;" onerror="this.src='icon_profile.png'">
+                </div>
+            </div>
+
         </div>
         <!-- PAGE 03: Find (Image tab) -->
         <div id="page-03" class="page">
