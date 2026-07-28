@@ -1462,6 +1462,13 @@ const twLocations = {
         const bottomNav = document.getElementById('bottom-nav');
 
         window.showPage = function(pageId, navTab = '') {
+            // 已登入狀態：不允許使用者切換回登入頁（page-01），強制導向首頁
+            if (pageId === 'page-01' && typeof liff !== 'undefined' && liff.isLoggedIn()) {
+                console.warn('使用者已登入，阻斷返回 page-01，強制跳轉至 page-02');
+                pageId = 'page-02';
+                navTab = 'home';
+            }
+
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             
