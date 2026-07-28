@@ -886,55 +886,61 @@
                 <button class="btn btn-white" onclick="window.showPage('page-02', 'home')">返回首頁</button>
             </div>
         </div>
-        <!-- PAGE 14: Profile -->
-        <div id="page-14" class="page" style="padding-top: 16px;">
+                <!-- PAGE 14: Profile -->
+        <div id="page-14" class="page" style="max-width: 393px; margin: 0 auto; min-height: 100vh; background-color: #FFFFFF; display: flex; flex-direction: column; align-items: center; padding: 0; box-sizing: border-box; width: 100%; position: relative;">
             
-            <!-- Top Logo Banner -->
-            <div style="background-color: var(--primary-blue); border-radius: 12px; height: 100px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-                <img src="DiuLa_logo_transparent.png" alt="DiuLa Logo" style="height: 90px; width: auto;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <h1 class="comfortaa" style="font-size: 32px; color: var(--dark-brown); display: none; margin: 0;">DiuLa!</h1>
+            <!-- Top Header Banner (Group 17) -->
+            <div style="width: 100%; height: 90px; background-color: #DFEAF5; border-radius: 0 0 20px 20px; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 16px; box-sizing: border-box; margin-bottom: 32px;">
+                <img src="DiuLa_logo_transparent.png" alt="DiuLa Logo" style="width: 90px; height: auto; object-fit: contain;">
+                <h1 class="comfortaa" style="font-size: 24px; color: var(--dark-brown); margin: 0; display: none;">DiuLa!</h1>
             </div>
-            <!-- Profile Info Card -->
-            <div class="card flex-col center" style="padding: 24px; margin-bottom: 16px; background-color: var(--card-bg); box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <div style="width: 80px; height: 80px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 4px solid white; overflow: hidden; margin-bottom: 16px;">
-                    <img id="profile-avatar-img" src="avatar.png" alt="大頭貼" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div id="profile-avatar-placeholder" style="width: 100%; height: 100%; display: none; align-items: center; justify-content: center; background-color: #f0f0f0;">
-                        <svg viewBox="0 0 24 24" style="width: 40px; height: 40px; fill: var(--text-gray);"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    </div>
-                </div>
-                <div id="profile-name-text" class="title-20" style="margin-bottom: 16px;">訪客 (請登入 LINE)</div>
+
+            <div style="width: 100%; padding: 0 16px; display: flex; flex-direction: column; gap: 24px; box-sizing: border-box; flex-grow: 1;">
                 
-                <!-- LINE LIFF 登入按鈕 -->
-                <div id="liff-login-container" style="width: 100%; margin-bottom: 16px; display: flex; flex-direction: column; align-items: center;">
-                    <button id="liff-login-btn" class="btn" style="background-color: #06C755; color: white; border: none; border-radius: 8px; padding: 12px 24px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(6, 199, 85, 0.25); width: 100%; max-width: 240px;" onclick="window.handleLineLogin()">
-                        <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: white;"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-                        LINE 登入
-                    </button>
-                    <div id="liff-status-badge" style="display: none; color: #06C755; font-weight: bold; font-size: 14px; margin-top: 4px;">✅ 已登入 LINE 帳號</div>
+                <!-- Profile Card (Rectangle 73) -->
+                <div style="width: 100%; background: rgba(243, 240, 225, 0.5); border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 0; gap: 24px;">
+                    
+                    <!-- Avatar & Name -->
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                        <div style="width: 70px; height: 70px; border: 1px solid #000000; border-radius: 50%; overflow: hidden; background: #FFFFFF; display: flex; justify-content: center; align-items: center;">
+                            <img id="profile-avatar-img" src="avatar.png" alt="大頭貼" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='icon_profile.png'">
+                        </div>
+                        <div id="profile-name-text" style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">訪客</div>
+                    </div>
+
+                    <!-- Actions (About & Logout) -->
+                    <div style="display: flex; flex-direction: row; gap: 32px;">
+                        <!-- About -->
+                        <div style="width: 120px; height: 85px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-sizing: border-box;">
+                            <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">關於</div>
+                            <img src="DiuLa_logo_transparent.png" style="height: 18px; object-fit: contain;">
+                        </div>
+                        <!-- Logout -->
+                        <div onclick="window.confirmLogout()" style="width: 120px; height: 85px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-sizing: border-box;">
+                            <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">登出</div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="flex-row" style="width: 100%; gap: 12px;">
-                    <div class="card flex-col center" style="flex: 1; margin: 0; padding: 16px 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; background-color: white;">
-                        <div class="text-14" style="color: var(--dark-brown);">修改個人資料</div>
+                <!-- Action Buttons -->
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <!-- Frame 27 (My Lost Items) -->
+                    <div onclick="window.showPage('page-15', 'profile')" style="width: 100%; height: 85px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; display: flex; align-items: center; justify-content: center; gap: 24px; cursor: pointer; box-sizing: border-box;">
+                        <img src="cubes-solid.png" style="width: 40px; height: 40px; object-fit: contain;">
+                        <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">我的遺失物</div>
                     </div>
-                    <div class="card flex-col center" style="flex: 1; margin: 0; padding: 16px 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; background-color: white;">
-                        <div class="text-14" style="color: var(--dark-brown);">關於 <span class="comfortaa" style="font-weight: 700;">DiuLa!</span></div>
+                    
+                    <!-- Frame 28 (My Found Items) -->
+                    <div onclick="window.showPage('page-18', 'profile')" style="width: 100%; height: 85px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; display: flex; align-items: center; justify-content: center; gap: 24px; cursor: pointer; box-sizing: border-box;">
+                        <img src="folder-closed-solid.png" style="width: 40px; height: 40px; object-fit: contain;">
+                        <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">我的拾獲物</div>
                     </div>
                 </div>
+
             </div>
-            <!-- Lost & Found Buttons Card -->
-            <div class="card flex-col center" style="padding: 24px; margin-bottom: 16px; gap: 16px; background-color: var(--card-bg); box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <div class="card center" style="width: 100%; margin: 0; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; background-color: white;" onclick="window.showPage('page-15', 'profile')">
-                    <div class="title-20" style="margin: 0;">我的遺失物</div>
-                </div>
-                <div class="card center" style="width: 100%; margin: 0; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; background-color: white;" onclick="window.showPage('page-18', 'profile')">
-                    <div class="title-20" style="margin: 0;">我的拾獲物</div>
-                </div>
-            </div>
-            <!-- Logout Button -->
-            <div class="flex-col center" style="margin-top: 16px; padding-bottom: 24px;">
-                <button id="liff-logout-btn" class="btn" style="background-color: white; color: var(--text-gray); box-shadow: 0 2px 8px rgba(0,0,0,0.05); width: auto; padding: 8px 32px; border: none; border-radius: 8px; font-family: 'Chiron GoRound TC', sans-serif;" onclick="window.confirmLogout()">登出</button>
-            </div>
+
+            <!-- Empty spacer for global nav bar -->
+            <div style="height: 100px; width: 100%;"></div>
         </div>
         <!-- PAGE 15: My Lost Items -->
         <div id="page-15" class="page">
