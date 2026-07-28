@@ -168,31 +168,32 @@
         .pill-nav {
             position: sticky;
             bottom: 20px;
-            left: 20px;
-            right: 20px;
-            margin: 0 20px 20px 20px; /* add margins instead of left/right for sticky */
-            background-color: var(--primary-blue);
-            border-radius: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 16px;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .pill-nav-item {
-            flex: 1;
+            width: 340px;
+            height: 65px;
+            margin: auto 20px 20px auto;
+            align-self: center; /* Center horizontally in app-container */
+            background-color: #DFEAF5;
+            border-radius: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 12px;
-            border-radius: 30px;
+            padding: 10px;
+            box-sizing: border-box;
+            gap: 10px;
+            z-index: 100;
+        }
+        .pill-nav-item {
+            flex: 1;
+            height: 46px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 42px;
             cursor: pointer;
-            color: var(--dark-brown);
             transition: background-color 0.3s;
         }
         .pill-nav-item.active {
-            background-color: white;
+            background-color: #FFFFFF;
         }
         .pill-nav-item svg {
             width: 28px;
@@ -565,79 +566,68 @@
             </div>
             
         </div>
-                <!-- PAGE 02: Home -->
-        <div id="page-02" class="page" style="max-width: 393px; margin: 0 auto; min-height: 100vh; background-color: #FFFFFF; display: flex; flex-direction: column; align-items: center; padding: 0; padding-bottom: 100px; box-sizing: border-box; width: 100%; position: relative;">
+                        <!-- PAGE 02: Home -->
+        <div id="page-02" class="page" style="max-width: 393px; margin: 0 auto; min-height: 100vh; background-color: #FFFFFF; display: flex; flex-direction: column; align-items: center; padding: 0; box-sizing: border-box; width: 100%; position: relative;">
             
             <!-- Top Header Banner (Group 17) -->
-            <div style="width: 100%; height: 109px; background-color: #DFEAF5; border-radius: 0 0 20px 20px; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 24px; box-sizing: border-box; margin-bottom: 32px;">
-                <img src="DiuLa_logo_transparent.png" alt="DiuLa Logo" style="width: 106px; height: 35px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div style="width: 100%; height: 90px; background-color: #DFEAF5; border-radius: 0 0 20px 20px; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 16px; box-sizing: border-box; margin-bottom: 16px;">
+                <img src="DiuLa_logo_transparent.png" alt="DiuLa Logo" style="width: 90px; height: auto; object-fit: contain;">
                 <h1 class="comfortaa" style="font-size: 24px; color: var(--dark-brown); margin: 0; display: none;">DiuLa!</h1>
             </div>
 
-            <div style="width: 100%; padding: 0 22px; display: flex; flex-direction: column; gap: 32px; box-sizing: border-box;">
+            <div style="width: 100%; padding: 0 22px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box; flex-grow: 1;">
                 
                 <!-- 尋找遺失物 Section -->
-                <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
                     <!-- Title (Frame 22) -->
-                    <div style="display: flex; align-items: center; gap: 10px; height: 50px;">
-                        <div style="width: 3px; height: 30px; background-color: #482B12;"></div>
+                    <div style="display: flex; align-items: center; gap: 10px; height: 32px;">
+                        <div style="width: 3px; height: 24px; background-color: #482B12;"></div>
                         <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12;">尋找遺失物</div>
                     </div>
                     
                     <!-- Buttons -->
-                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
                         <!-- Frame 18 -->
-                        <div onclick="window.showPage('page-03')" style="width: 100%; height: 100px; background: #F3F0E1; border: 1px solid #482B12; border-radius: 50px; display: flex; align-items: center; padding: 0 40px; gap: 40px; cursor: pointer; box-sizing: border-box;">
-                            <img src="magnifying-glass-solid.png" style="width: 40px; height: 40px; object-fit: contain;" onerror="this.src='icon_search.png'">
+                        <div onclick="window.showPage('page-03')" style="width: 100%; height: 75px; background: #F3F0E1; border: 1px solid #482B12; border-radius: 50px; display: flex; align-items: center; padding: 0 24px; gap: 24px; cursor: pointer; box-sizing: border-box;">
+                            <img src="magnifying-glass-solid.png" style="width: 32px; height: 32px; object-fit: contain;">
                             <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12; text-align: center;">跨平台尋找遺失物</div>
                         </div>
                         
                         <!-- Frame 26 -->
-                        <div onclick="window.showPage('page-17')" style="width: 100%; height: 100px; background: #F3F0E1; border: 1px solid #482B12; border-radius: 50px; display: flex; align-items: center; padding: 0 40px; gap: 40px; cursor: pointer; box-sizing: border-box;">
-                            <img src="threads-brands-solid.png" style="width: 40px; height: 40px; object-fit: contain;" onerror="this.src='icon_search.png'">
+                        <div onclick="window.showPage('page-17')" style="width: 100%; height: 75px; background: #F3F0E1; border: 1px solid #482B12; border-radius: 50px; display: flex; align-items: center; padding: 0 24px; gap: 24px; cursor: pointer; box-sizing: border-box;">
+                            <img src="threads-brands-solid.png" style="width: 32px; height: 32px; object-fit: contain;">
                             <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12; text-align: center;">Threads尋找遺失物</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- 登錄拾獲物 Section -->
-                <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
                     <!-- Title (Frame 23) -->
-                    <div style="display: flex; align-items: center; gap: 10px; height: 50px;">
-                        <div style="width: 3px; height: 30px; background-color: #482B12;"></div>
+                    <div style="display: flex; align-items: center; gap: 10px; height: 32px;">
+                        <div style="width: 3px; height: 24px; background-color: #482B12;"></div>
                         <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12;">登錄拾獲物</div>
                     </div>
                     
                     <!-- Buttons -->
-                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
                         <!-- Frame 27 -->
-                        <div onclick="window.showPage('page-12')" style="width: 100%; height: 100px; background: #F3F0E1; border: 1px solid #482B12; border-radius: 50px; display: flex; align-items: center; padding: 0 40px; gap: 40px; cursor: pointer; box-sizing: border-box;">
-                            <img src="address-card-solid.png" style="width: 40px; height: 40px; object-fit: contain;" onerror="this.src='icon_home.png'">
+                        <div onclick="window.showPage('page-12')" style="width: 100%; height: 75px; background: #F3F0E1; border: 1px solid #482B12; border-radius: 50px; display: flex; align-items: center; padding: 0 24px; gap: 24px; cursor: pointer; box-sizing: border-box;">
+                            <img src="address-card-solid.png" style="width: 32px; height: 32px; object-fit: contain;">
                             <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12; text-align: center;">證件類遺失物登錄</div>
                         </div>
                         
                         <!-- Frame 28 -->
-                        <div onclick="window.showPage('page-10')" style="width: 100%; height: 100px; background: #F3F0E1; border: 1px solid #482B12; border-radius: 50px; display: flex; align-items: center; padding: 0 40px; gap: 40px; cursor: pointer; box-sizing: border-box;">
-                            <img src="clipboard-question-solid.png" style="width: 40px; height: 40px; object-fit: contain;" onerror="this.src='icon_profile.png'">
+                        <div onclick="window.showPage('page-10')" style="width: 100%; height: 75px; background: #F3F0E1; border: 1px solid #482B12; border-radius: 50px; display: flex; align-items: center; padding: 0 24px; gap: 24px; cursor: pointer; box-sizing: border-box;">
+                            <img src="clipboard-question-solid.png" style="width: 32px; height: 32px; object-fit: contain;">
                             <div style="font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12; text-align: center;">非證件類遺失物登錄</div>
                         </div>
                     </div>
                 </div>
-
             </div>
 
-            <!-- Bottom Navigation Bar (Frame 6) -->
-            <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 340px; height: 65px; background: #DFEAF5; border-radius: 50px; display: flex; justify-content: center; align-items: center; padding: 10px; box-sizing: border-box; gap: 10px;">
-                <!-- Active Home Pill -->
-                <div onclick="window.showPage('page-02', 'home')" style="flex: 1; height: 46px; display: flex; justify-content: center; align-items: center; background: #FFFFFF; border-radius: 42px; cursor: pointer;">
-                    <img src="house-solid.png" style="width: 40px; height: 40px; object-fit: contain;" onerror="this.src='icon_home.png'">
-                </div>
-                <!-- Profile Pill -->
-                <div onclick="window.showPage('page-14', 'profile')" style="flex: 1; height: 46px; display: flex; justify-content: center; align-items: center; cursor: pointer;">
-                    <img src="user-solid.png" style="width: 40px; height: 40px; object-fit: contain;" onerror="this.src='icon_profile.png'">
-                </div>
-            </div>
-
+            <!-- Empty spacer for global nav bar -->
+            <div style="height: 100px; width: 100%;"></div>
         </div>
         <!-- PAGE 03: Find (Image tab) -->
         <div id="page-03" class="page">
@@ -1046,11 +1036,11 @@
         </div>
         <!-- Bottom Nav -->
         <div id="bottom-nav" class="pill-nav" style="display: none;">
-            <div id="nav-profile" class="pill-nav-item" onclick="window.showPage('page-14', 'profile')">
-                <img src="icon_profile.png" style="width: 32px; height: 32px; object-fit: contain;" alt="Profile" onerror="this.style.display='none'">
-            </div>
             <div id="nav-home" class="pill-nav-item" onclick="window.showPage('page-02', 'home')">
-                <img src="icon_home.png" style="width: 32px; height: 32px; object-fit: contain;" alt="Home" onerror="this.style.display='none'">
+                <img src="house-solid.png" style="width: 40px; height: 40px; object-fit: contain;" alt="Home">
+            </div>
+            <div id="nav-profile" class="pill-nav-item" onclick="window.showPage('page-14', 'profile')">
+                <img src="user-solid.png" style="width: 40px; height: 40px; object-fit: contain;" alt="Profile">
             </div>
         </div>
         <!-- 刪除確認彈窗 -->
