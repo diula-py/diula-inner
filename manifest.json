@@ -1,0 +1,22 @@
+{
+  "name": "DiuLa!",
+  "short_name": "DiuLa",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F3F0E1",
+  "theme_color": "#CDDCF0",
+  "icons": [
+    {
+      "src": "Logo2.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "Logo2.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
