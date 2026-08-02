@@ -544,26 +544,19 @@
 <body>
     <div class="app-container">
                 <!-- PAGE 01: Login -->
-        <div id="page-01" class="page active" style="max-width: 393px; margin: 0 auto; min-height: 100vh; background-color: #DFEAF5;  flex-direction: column; align-items: center; justify-content: space-between; padding: 32px 24px; box-sizing: border-box; width: 100%;">
+        <div id="page-01" class="page active" style="position: relative; width: 100%; max-width: 393px; height: 792px; min-height: 100vh; margin: 0 auto; background: #DFEAF5; box-sizing: border-box; overflow: hidden;">
             
-            <!-- 頂部與中央內容區 -->
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 24px; width: 100%; margin-top: 32px;">
-                <img src="DiuLa_logo_transparent.png" alt="DiuLa Logo" style="width: 80%; max-width: 300px; height: auto;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <h1 class="comfortaa" style="font-size: 48px; color: var(--dark-brown); margin: 0; display: none;">DiuLa!</h1>
-                <div style="font-size: 20px; font-weight: bold; color: #482B12; text-align: center; font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;">尋找你遺失物的好夥伴！</div>
-            </div>
+            <img src="DiuLa_logo_transparent.png" alt="DiuLa Logo" style="position: absolute; width: 393px; height: 128px; left: calc(50% - 393px/2); top: 189px; object-fit: contain; pointer-events: none;">
+            
+            <div style="position: absolute; width: 264px; height: 24px; left: calc(50% - 264px/2 + 0.5px); top: 372px; font-family: 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 24px; line-height: 24px; text-align: center; color: #482B12;">尋找你遺失物的好夥伴！</div>
 
-            <!-- 按鈕區塊 -->
-            <div style="display: flex; flex-direction: column; gap: 16px; width: 100%; max-width: 290px; margin-top: auto; margin-bottom: 32px;">
-                <button onclick="window.handleLineLogin()" style="width: 100%; padding: 16px 0; background-color: #6ADA19; border: 1px solid #000000; border-radius: 50px; color: #FFFFFF; font-weight: bold; font-size: 18px; font-family: 'Comfortaa', sans-serif; text-align: center; cursor: pointer; display: flex; justify-content: center; align-items: center;">LINE</button>
-                <button onclick="window.showPage('page-02', 'home')" style="width: 100%; padding: 16px 0; background-color: #FFFFFF; border: 1px solid #000000; border-radius: 50px; color: #000000; font-weight: bold; font-size: 18px; font-family: 'Comfortaa', sans-serif; text-align: center; cursor: pointer; display: flex; justify-content: center; align-items: center;">Google</button>
-            </div>
+            <button onclick="window.handleLineLogin()" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 110px; gap: 10px; position: absolute; width: 290px; height: 62px; left: calc(50% - 290px/2); top: 449px; background: #6ADA19; border: 1px solid #000000; border-radius: 50px; font-family: 'Comfortaa', sans-serif; font-weight: 500; font-size: 24px; line-height: 27px; color: #FFFFFF; cursor: pointer;">LINE</button>
 
-            <!-- 底部宣告區 -->
-            <div style="display: flex; flex-direction: column; gap: 8px; width: 100%; text-align: center; margin-bottom: 16px;">
-                <div style="font-size: 14px; opacity: 0.5; cursor: pointer; font-family: 'Comfortaa', sans-serif;" onclick="alert('請聯繫客服：support@diula.com')">遇到問題嗎？</div>
-                <div style="font-size: 12px; opacity: 0.5; font-family: 'Comfortaa', sans-serif;">登入即代表您同意本平台的服務條款與隱私權政策</div>
-            </div>
+            <button onclick="window.showPage('page-02', 'home')" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 100px; gap: 10px; position: absolute; width: 290px; height: 62px; left: calc(50% - 290px/2); top: 551px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; font-family: 'Comfortaa', sans-serif; font-weight: 700; font-size: 24px; line-height: 27px; color: #000000; cursor: pointer;">Google</button>
+
+            <a href="mailto:diula.112ics@gmail.com" style="position: absolute; width: 96px; height: 18px; left: calc(50% - 96px/2 + 0.5px); top: 683px; font-family: 'Comfortaa', sans-serif; font-weight: 400; font-size: 16px; line-height: 18px; text-align: center; color: #000000; opacity: 0.5; text-decoration: none;">遇到問題嗎？</a>
+
+            <div style="position: absolute; width: 264px; height: 13px; left: calc(50% - 264px/2 + 0.5px); top: 723px; font-family: 'Comfortaa', sans-serif; font-weight: 400; font-size: 12px; line-height: 13px; text-align: center; color: #000000; opacity: 0.5;">登入即代表您同意本平台的服務條款與隱私權政策</div>
             
         </div>
                         <!-- PAGE 02: Home -->
