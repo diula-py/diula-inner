@@ -1323,6 +1323,42 @@ const twLocations = {
             console.error("Firebase init failed: ", error);
         }
 
+        window.generateItemId = function(type, isIdCategory) {
+            const date = new Date();
+            const yy = String(date.getFullYear()).slice(-2);
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            const dd = String(date.getDate()).padStart(2, '0');
+            
+            let randomCode = '';
+            const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            for (let i = 0; i < 3; i++) {
+                randomCode += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            
+            const cat = isIdCategory ? 'I' : 'N';
+            return `DL-${type}${cat}-${yy}${mm}${dd}-${randomCode}`;
+        };
+
+        window.generateUserId = function(loginProvider, originalUid) {
+            const date = new Date();
+            const yy = String(date.getFullYear()).slice(-2);
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            
+            let hashStr = originalUid;
+            if (originalUid && originalUid.length > 4) {
+                let hash = 0;
+                for (let i = 0; i < originalUid.length; i++) {
+                    const char = originalUid.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash;
+                }
+                hashStr = Math.abs(hash).toString(36).toUpperCase().substring(0, 4);
+            }
+            hashStr = (hashStr || '').padStart(4, '0');
+            
+            return `${loginProvider}-${yy}${mm}-${hashStr}`;
+        };
+
         window.ensureAuth = async function() {
             if (window.currentUid) return window.currentUid;
             if (!auth) throw new Error("Auth not initialized");
