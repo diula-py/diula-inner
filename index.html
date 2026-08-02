@@ -1294,7 +1294,7 @@ const twLocations = {
         });
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy, where, limit, doc, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, setDoc, getDocs, serverTimestamp, query, orderBy, where, limit, doc, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js";
 
@@ -1897,13 +1897,19 @@ const twLocations = {
 
             try {
                 const uid = await window.ensureAuth();
+                const loginProvider = (typeof liff !== 'undefined' && liff.isLoggedIn()) ? 'L' : 'G';
+                window.currentUserId = window.generateUserId(loginProvider, uid);
+                // Check if any selected tag contains "證件"
+                const isIdCategory = window.selectedTags.some(t => t.includes('證件') || t.includes('卡'));
+                const customId = window.generateItemId('L', isIdCategory);
+                
                 if(db) {
-                    await addDoc(collection(db, "lost_items"), {
+                    await setDoc(doc(db, "lost_items", customId), {
                         ...window.currentLostData,
                         status: "尋找中",
                         tags: window.selectedTags,
                         timestamp: serverTimestamp(),
-                        user_id: uid
+                        user_id: window.currentUserId
                     });
                 }
             } catch (e) {
@@ -1931,18 +1937,23 @@ const twLocations = {
 
             try {
                 const uid = await window.ensureAuth();
+                const loginProvider = (typeof liff !== 'undefined' && liff.isLoggedIn()) ? 'L' : 'G';
+                window.currentUserId = window.generateUserId(loginProvider, uid);
+                const isIdCategory = window.selectedTags.some(t => t.includes('證件') || t.includes('卡'));
+                const customId = window.generateItemId('F', isIdCategory);
+
                 if(db) {
                     const docData = {
                         ...window.currentFoundData,
                         tags: window.selectedTags,
                         status: "保管中",
                         timestamp: serverTimestamp(),
-                        user_id: uid,
-                        picker_id: uid
+                        user_id: window.currentUserId,
+                        picker_id: window.currentUserId
                     };
-                    const docRef = await addDoc(collection(db, "found_items"), docData);
-                    console.log("Found item saved with ID: ", docRef.id);
-                    document.getElementById('success-id').innerText = "＃" + docRef.id.toUpperCase();
+                    await setDoc(doc(db, "found_items", customId), docData);
+                    console.log("Found item saved with ID: ", customId);
+                    document.getElementById('success-id').innerText = "＃" + customId.toUpperCase();
                 } else {
                     document.getElementById('success-id').innerText = "＃DL-TEST001";
                 }
@@ -2042,7 +2053,10 @@ const twLocations = {
             }
             container.innerHTML = '<div style="text-align: center; padding: 20px;">載入中...</div>';
             try {
-                const q = query(collection(db, "lost_items"), orderBy("timestamp", "desc"));
+                const uid = await window.ensureAuth();
+                const loginProvider = (typeof liff !== 'undefined' && liff.isLoggedIn()) ? 'L' : 'G';
+                window.currentUserId = window.generateUserId(loginProvider, uid);
+                const q = query(collection(db, "lost_items"), where("user_id", "==", window.currentUserId), orderBy("timestamp", "desc"));
                 const querySnapshot = await getDocs(q);
                 container.innerHTML = '';
                 if (querySnapshot.empty) {
@@ -2087,7 +2101,10 @@ const twLocations = {
             }
             container.innerHTML = '<div style="text-align: center; padding: 20px;">載入中...</div>';
             try {
-                const q = query(collection(db, "found_items"), orderBy("timestamp", "desc"));
+                const uid = await window.ensureAuth();
+                const loginProvider = (typeof liff !== 'undefined' && liff.isLoggedIn()) ? 'L' : 'G';
+                window.currentUserId = window.generateUserId(loginProvider, uid);
+                const q = query(collection(db, "found_items"), where("user_id", "==", window.currentUserId), orderBy("timestamp", "desc"));
                 const querySnapshot = await getDocs(q);
                 container.innerHTML = '';
                 if (querySnapshot.empty) {
