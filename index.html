@@ -1050,34 +1050,56 @@
                 <!-- Data populated here -->
             </div>
         </div>
-        <!-- PAGE 19: Found Item Details -->
-        <div id="page-19" class="page">
-            <div class="top-bar">
-                <div class="back-btn" onclick="window.showPage('page-18', 'profile')">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                <!-- PAGE 19: Found Item Details -->
+        <div id="page-19" class="page" style="position: relative; width: 100%; max-width: 393px; height: 817px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: hidden;">
+            <!-- Group 17 Header -->
+            <div style="position: absolute; width: 395px; height: 90px; left: calc(50% - 395px/2); top: 0px;">
+                <div style="position: absolute; width: 395px; height: 90px; left: 0px; top: 0px; background: #F3F0E1; border-radius: 0px 0px 20px 20px;"></div>
+                <div id="found-detail-main-tag" style="position: absolute; width: 100%; height: 20px; left: 0; top: 55px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 700; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">載入中...</div>
+                <div class="back-btn" onclick="window.showPage('page-18', 'profile')" style="position: absolute; width: 30px; height: 30px; left: 21px; top: 50px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
+            </div>
+
+            <!-- Image -->
+            <div id="found-detail-img" style="position: absolute; width: 340px; height: 200px; left: calc(50% - 340px/2); top: 110px; background-color: #F5F5F5; background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 10px;"></div>
+
+            <!-- Form Details Box -->
+            <div style="position: absolute; width: 340px; height: 175px; left: calc(50% - 340px/2); top: 330px; background: #F3F0E1; border-radius: 10px;"></div>
+
+            <div style="position: absolute; width: 55px; height: 55px; left: 41px; top: 342px;">
+                <div style="position: absolute; width: 35px; height: 35px; left: 10px; top: 10px; background: url('calendar-days-solid.png') no-repeat center center / contain;"></div>
+            </div>
+            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 111px; top: 349px; background: #FFFFFF; border-radius: 10px;">
+                <div id="found-detail-date" style="width: 195px; height: 13px; font-family: 'Comfortaa', sans-serif; font-weight: 400; font-size: 12px; line-height: 13px; color: #482B12;">2026/05/07</div>
+            </div>
+
+            <div style="position: absolute; width: 55px; height: 55px; left: 41px; top: 392px;">
+                <div style="position: absolute; width: 35px; height: 35px; left: 10px; top: 10px; background: url('location-dot-solid.png') no-repeat center center / contain;"></div>
+            </div>
+            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 111px; top: 399px; background: #FFFFFF; border-radius: 10px;">
+                <div id="found-detail-loc" style="width: 204px; height: 12px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; line-height: 12px; color: #482B12;">新北市永和區</div>
+            </div>
+
+            <div style="position: absolute; width: 32px; height: 16px; left: 53px; top: 459px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 16px; line-height: 16px; text-align: center; color: #482B12;">備註</div>
+            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 111px; top: 447px; background: #FFFFFF; border-radius: 10px;">
+                <div id="found-detail-notes" style="width: 204px; height: 12px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; line-height: 12px; color: #482B12; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">--</div>
+            </div>
+
+            <!-- AI Tags -->
+            <div style="position: absolute; width: 340px; height: 98px; left: calc(50% - 340px/2); top: 525px; background: #F3F0E1; border-radius: 10px;">
+                <div style="position: absolute; width: 93.33px; height: 18px; left: 20px; top: 20px; font-family: 'Comfortaa', 'GenSenRounded2 TW', sans-serif; font-weight: 600; font-size: 16px; line-height: 18px; color: #482B12;">AI 標籤</div>
+                <div id="found-detail-tags-container" style="position: absolute; top: 48px; left: 20px; display: flex; flex-direction: row; gap: 10px;">
+                    <!-- dynamic tags -->
                 </div>
-                <h1 class="title-20">拾獲物詳情</h1>
             </div>
-            <div id="found-detail-title" class="title-20 mb-4">載入中...</div>
-            
-            <div id="found-detail-img-container" style="width: 100%; height: 200px; background-color: var(--bg-color); border-radius: 12px; margin-bottom: 16px; background-size: contain; background-repeat: no-repeat; background-position: center; display: none;"></div>
-            <div class="text-14 mb-2"><strong>拾獲日期：</strong> <span id="found-detail-date">--</span></div>
-            <div class="text-14 mb-2"><strong>拾獲地點：</strong> <span id="found-detail-loc">--</span></div>
-            <div class="text-14 mb-4"><strong>送往地點：</strong> <span id="found-detail-drop">--</span></div>
-            <div class="text-14 mb-4"><strong>備註：</strong> <span id="found-detail-notes">--</span></div>
-            <div id="found-detail-tags" class="flex-row" style="flex-wrap: wrap; margin-bottom: 16px;">
-                <!-- Tags populated here -->
+
+            <!-- Submit Button (dynamically positioned at 643px) -->
+            <div id="found-detail-action-btn" onclick="window.confirmFound()" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 30px 40px; gap: 30px; position: absolute; width: 350px; height: 60px; left: calc(50% - 350px/2); top: 643px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+                <div style="width: 40px; height: 40px; background: url('circle-check-regular.png') no-repeat center center / contain; flex: none; order: 0;"></div>
+                <div style="width: 176px; height: 16px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1;">我找到了！立即更新狀態</div>
             </div>
-            <div class="card space-between" style="padding: 12px 16px;">
-                <span style="color: var(--red-accent); font-weight: 700; cursor: pointer; font-size: 14px;" onclick="window.confirmDeleteFound()">刪除紀錄</span>
-            </div>
-            <div class="text-14 mb-4" style="display: none;"><strong>狀態：</strong> <span id="found-detail-status" class="badge badge-yellow">載入中</span></div>
-            <div class="mt-auto">
-                <button class="btn btn-brown" onclick="window.showPage('page-18', 'profile')">返回列表</button>
-                <button class="btn btn-text" style="color: var(--red-accent);" onclick="window.confirmDeleteFound()">刪除此筆</button>
-            </div>
+
+            <div style="height: 100px; width: 100%; position: absolute; top: 720px;"></div>
         </div>
-                <!-- Bottom Nav -->
         <div id="bottom-nav" class="pill-nav" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 340px; height: 65px; background: #DFEAF5; border-radius: 50px; z-index: 100; padding: 0;">
             <div id="nav-home" class="pill-nav-item" onclick="window.showPage('page-02', 'home')" style="position: absolute; width: 145px; height: 46px; left: 11px; top: 10px; border-radius: 42px; transition: background-color 0.3s; display: flex; justify-content: center; align-items: center; cursor: pointer;">
                 <div style="width: 40px; height: 40px; background: url('house-solid.png') no-repeat center center / contain;"></div>
@@ -2207,7 +2229,7 @@ const twLocations = {
                         <div class="card result-card" onclick="window.viewLostDetail('${doc.id}')">
                             ${imgHtml}
                             <div class="flex-col" style="flex: 1; overflow: hidden;">
-                                <div class="caption-12" style="color: var(--dark-brown); font-weight: 700;">編號：＃${doc.id.substring(0,6).toUpperCase()}</div>
+                                <div class="caption-12" style="color: var(--dark-brown); font-weight: 700;">編號：＃${doc.id}</div>
                                 <div class="text-14" style="font-weight: 700; margin-bottom: 4px; color: var(--primary-blue);">${tagsText}</div>
                                 <div class="caption-12 mb-2">遺失時間：${data.date || '未知日期'}</div>
                                 <div><span class="badge ${badgeClass}">${status}</span></div>
@@ -2251,7 +2273,7 @@ const twLocations = {
                         <div class="card result-card" onclick="window.viewFoundDetail('${doc.id}')">
                             ${imgHtml}
                             <div class="flex-col" style="flex: 1; overflow: hidden;">
-                                <div class="caption-12" style="color: var(--dark-brown); font-weight: 700;">＃${doc.id.substring(0,6).toUpperCase()}</div>
+                                <div class="caption-12" style="color: var(--dark-brown); font-weight: 700;">＃${doc.id}</div>
                                 <div class="text-14" style="font-weight: 700;">${mainTag}</div>
                                 <div class="caption-12 mb-2">${data.location || '未知地點'} • ${data.date || '未知日期'}</div>
                                 <!-- <div><span class="badge ${badgeClass}">${status}</span></div> -->
@@ -2499,59 +2521,45 @@ const twLocations = {
         // =========================================================================
         window.currentViewingFoundId = null;
 
-        window.viewFoundDetail = async function(docId) {
+                window.viewFoundDetail = async function(docId) {
             window.currentViewingFoundId = docId;
             window.showPage('page-19', 'profile');
             
-            document.getElementById('found-detail-title').innerText = '載入中...';
-            document.getElementById('found-detail-img-container').style.display = 'none';
-            document.getElementById('found-detail-date').innerText = '--';
-            document.getElementById('found-detail-loc').innerText = '--';
-            document.getElementById('found-detail-drop').innerText = '--';
-            document.getElementById('found-detail-notes').innerText = '--';
-            document.getElementById('found-detail-tags').innerHTML = '';
-            document.getElementById('found-detail-status').innerText = '載入中';
-            document.getElementById('found-detail-status').className = 'badge badge-yellow';
-
+            document.getElementById('found-detail-main-tag').innerText = "載入中...";
+            document.getElementById('found-detail-img').style.backgroundImage = '';
+            document.getElementById('found-detail-date').innerText = "--";
+            document.getElementById('found-detail-loc').innerText = "--";
+            document.getElementById('found-detail-notes').innerText = "--";
+            document.getElementById('found-detail-tags-container').innerHTML = "";
+            
             try {
-                const docRef = doc(db, "found_items", docId);
-                const docSnap = await getDoc(docRef);
+                const docSnap = await getDoc(doc(db, "found_items", docId));
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     const mainTag = (data.tags && data.tags.length > 0) ? data.tags[0] : '拾獲物品';
-                    document.getElementById('found-detail-title').innerText = `＃${docId.substring(0,6).toUpperCase()} ${mainTag}`;
-
+                    document.getElementById('found-detail-main-tag').innerText = mainTag;
+                    
                     if (data.image_base64) {
-                        const imgContainer = document.getElementById('found-detail-img-container');
-                        imgContainer.style.backgroundImage = `url(${data.image_base64})`;
-                        imgContainer.style.display = 'block';
+                        document.getElementById('found-detail-img').style.backgroundImage = `url(${data.image_base64})`;
+                    } else {
+                        document.getElementById('found-detail-img').style.backgroundImage = `url('./Logo2.png')`;
                     }
-
-                    document.getElementById('found-detail-date').innerText = data.date || '--';
-                    document.getElementById('found-detail-loc').innerText = data.location || '--';
-                    document.getElementById('found-detail-drop').innerText = data.dropLocation || '--';
-                    document.getElementById('found-detail-notes').innerText = data.notes || '--';
-
-                    if (data.tags) {
-                        document.getElementById('found-detail-tags').innerHTML = data.tags.map(tag => `<div class="chip">#${tag}</div>`).join('');
-                    }
-
-                    const status = data.status || "保管中";
-                    const badgeClass = status === '已歸還' ? 'badge-blue' : 'badge-yellow';
-                    const statusEl = document.getElementById('found-detail-status');
-                    statusEl.innerText = status;
-                    statusEl.className = `badge ${badgeClass}`;
-
+                    
+                    document.getElementById('found-detail-date').innerText = data.date || "未知日期";
+                    document.getElementById('found-detail-loc').innerText = (data.city || "") + (data.district || "");
+                    document.getElementById('found-detail-notes').innerText = data.desc || "--";
+                    
+                    const tagsHtml = (data.tags || []).map(t => `<div style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 20px; gap: 10px; height: 30px; background: #FFFFFF; border-radius: 10px;"><div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12;">${t}</div></div>`).join('');
+                    document.getElementById('found-detail-tags-container').innerHTML = tagsHtml;
                 } else {
-                    alert('找不到資料');
-                    window.showPage('page-18', 'profile');
+                    alert("找不到該筆資料");
                 }
-            } catch(e) {
-                console.error("Error fetching doc:", e);
-                alert('讀取失敗');
-                window.showPage('page-18', 'profile');
+            } catch (e) {
+                console.error(e);
+                alert('載入失敗');
             }
         }
+
 
         window.confirmDeleteFound = function() {
             if (!window.currentViewingFoundId) {
