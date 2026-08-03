@@ -1329,7 +1329,7 @@ const twLocations = {
             }
             hashStr = (hashStr || '').padStart(4, '0');
             
-            return `${loginProvider}-${yy}${mm}-${hashStr}`;
+            return `${loginProvider}${yy}${mm}${hashStr}`;
         };
 
         window.ensureAuth = async function() {
