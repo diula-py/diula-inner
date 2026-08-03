@@ -1044,30 +1044,30 @@
             </div>
         </div>
         <!-- 登出確認彈窗 -->
-        <div id="logout-modal" style="
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
-            justify-content: center;
-            align-items: center;">
-            <div style="
-                background: var(--bg-color);
-                border-radius: 16px;
-                padding: 24px;
-                width: 80%;
-                max-width: 300px;
-                text-align: center;">
-                <div class="title-20" style="margin-bottom: 8px;">確定要登出？</div>
-                <div class="caption-12" style="margin-bottom: 24px;">
-                    登出後需重新登入才能使用各項功能
+                <div id="logout-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center;">
+            <div style="position: relative; width: 300px; height: 251px; background: #F3F0E1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                
+                <!-- Close Button (X) -->
+                <div onclick="window.cancelLogout()" style="position: absolute; width: 35px; height: 35px; left: 15px; top: 15px; cursor: pointer; display: flex; justify-content: center; align-items: center;">
+                    <div style="width: 17.5px; height: 17.5px; border: 4px solid #1E1E1E; border-radius: 2px;"></div>
                 </div>
-                <div style="display: flex; gap: 12px;">
-                    <button class="btn btn-white" style="margin: 0; flex: 1;"
-                        onclick="window.cancelLogout()">取消</button>
-                    <button class="btn btn-red" style="margin: 0; flex: 1;"
-                        onclick="window.executeLogout()">登出</button>
+
+                <!-- Title -->
+                <div style="width: 100%; text-align: center; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; color: #482B12; margin-top: 20px; margin-bottom: 40px;">
+                    是否確定要登出？
+                </div>
+
+                <!-- Buttons -->
+                <div style="display: flex; flex-direction: row; gap: 20px;">
+                    <!-- 否 -->
+                    <div id="logout-btn-no" onclick="window.handleLogoutClick(false)" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 35px; width: 90px; height: 60px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; transition: all 0.3s;">
+                        <div id="logout-text-no" style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12; opacity: 0.7;">否</div>
+                    </div>
+
+                    <!-- 是 -->
+                    <div id="logout-btn-yes" onclick="window.handleLogoutClick(true)" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 35px; width: 90px; height: 60px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; transition: all 0.3s;">
+                        <div id="logout-text-yes" style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">是</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1288,6 +1288,24 @@ const twLocations = {
         // Initialize selects & LIFF when DOM loads
         document.addEventListener('DOMContentLoaded', () => {
             window.initCitySelects();
+        // Auth State Listener
+        onAuthStateChanged(auth, (user) => {
+            const nameEl = document.getElementById('profile-name-text');
+            const idEl = document.getElementById('profile-id-text');
+            const avatarImg = document.getElementById('profile-avatar-img');
+            
+            if (user) {
+                if (user.providerData && user.providerData.some(p => p.providerId === 'google.com')) {
+                    if (nameEl) nameEl.textContent = user.displayName || "Google 使用者";
+                    if (idEl) idEl.textContent = "用戶編號：" + window.generateUserId('G', user.uid);
+                    if (avatarImg && user.photoURL) {
+                        avatarImg.src = user.photoURL;
+                        avatarImg.style.display = 'block';
+                    }
+                }
+            }
+        });
+
             // 預設將所有的 date input 設為當天
             const today = new Date().toLocaleDateString('en-CA'); // 'YYYY-MM-DD' local time
             document.querySelectorAll('input[type="date"]').forEach(input => {
@@ -1298,7 +1316,7 @@ const twLocations = {
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, setDoc, getDocs, serverTimestamp, query, orderBy, where, limit, doc, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js";
 
         // =========================================================================
@@ -2338,12 +2356,45 @@ const twLocations = {
         window.cancelLogout = function() {
             document.getElementById('logout-modal').style.display = 'none';
         }
+        
+        window.handleLogoutClick = function(isYes) {
+            // Reset styles first
+            document.getElementById('logout-btn-yes').style.background = '#FFFFFF';
+            document.getElementById('logout-text-yes').style.fontWeight = '500';
+            document.getElementById('logout-btn-no').style.background = '#FFFFFF';
+            document.getElementById('logout-text-no').style.fontWeight = '500';
+
+            // Apply selected style
+            const btnId = isYes ? 'logout-btn-yes' : 'logout-btn-no';
+            const textId = isYes ? 'logout-text-yes' : 'logout-text-no';
+            document.getElementById(btnId).style.background = '#DFEAF5';
+            document.getElementById(textId).style.fontWeight = '700';
+
+            // Execute action after delay
+            setTimeout(() => {
+                if (isYes) {
+                    window.executeLogout();
+                } else {
+                    window.cancelLogout();
+                }
+                
+                // Reset styles back to default after modal closes
+                setTimeout(() => {
+                    document.getElementById(btnId).style.background = '#FFFFFF';
+                    document.getElementById(textId).style.fontWeight = '500';
+                }, 100);
+            }, 300);
+        }
+
         window.executeLogout = function() {
             document.getElementById('logout-modal').style.display = 'none';
             if (typeof liff !== 'undefined' && liff.isLoggedIn()) {
                 liff.logout();
                 console.log("已登出 LINE LIFF");
                 if (window.updateLiffUI) window.updateLiffUI();
+            }
+            if (auth) {
+                auth.signOut().then(() => console.log("已登出 Firebase")).catch(e => console.error(e));
             }
             window.showPage('page-01');
         }
