@@ -948,24 +948,95 @@
                 <button class="btn btn-text" style="color: var(--red-accent);" onclick="window.confirmDeleteLost()">刪除此筆</button>
             </div>
         </div>
-        <!-- PAGE 17: Community -->
-        <div id="page-17" class="page">
-            <div class="top-bar">
-                <div class="back-btn" onclick="window.showPage('page-02', 'home')">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                <!-- PAGE 17: Threads 跨平台尋找遺失物 (圖片) -->
+        <div id="page-17" class="page" style="position: relative; width: 100%; max-width: 393px; height: 792px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: hidden;">
+            
+            <!-- Group 17 (Header) -->
+            <div style="position: absolute; width: 395px; height: 80px; left: calc(50% - 395px/2); top: 0px;">
+                <div style="position: absolute; width: 395px; height: 80px; left: 0px; top: 0px; background: #F3F0E1; border-radius: 0px 0px 20px 20px;"></div>
+                <div style="position: absolute; width: 160px; height: 20px; left: calc(50% - 160px/2); top: 43px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">跨平台尋找遺失物</div>
+                <div onclick="window.showPage('page-02', 'home')" style="position: absolute; width: 30px; height: 30px; left: 22px; top: 40px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
+            </div>
+
+            <!-- Frame 48 (文字 / 圖片 Tab) -->
+            <div style="position: absolute; width: 168px; height: 46px; left: calc(50% - 168px/2 - 3.5px); top: 105px; background: #F3F0E1; border-radius: 50px;">
+                <!-- Active background for 圖片 -->
+                <div style="box-sizing: border-box; position: absolute; width: 74px; height: 38px; left: 6px; top: 4px; background: #F5F5F5; border: 1px solid #000000; border-radius: 42px;"></div>
+                <div style="position: absolute; width: 40px; height: 20px; left: 23px; top: 13px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">圖片</div>
+                <div onclick="window.showPage('page-04')" style="position: absolute; width: 40px; height: 20px; left: 105px; top: 13px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 20px; line-height: 20px; text-align: center; color: #482B12; cursor: pointer;">文字</div>
+            </div>
+
+            <!-- Rectangle 13 & Camera (Upload Box) -->
+            <label for="upload-p17" style="box-sizing: border-box; position: absolute; width: 340px; height: 200px; left: calc(50% - 340px/2); top: 176px; background: #F5F5F5; border: 1px solid #000000; border-radius: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center; overflow: hidden;">
+                <div id="upload-icon-p17" style="width: 40px; height: 40px; border: 4px solid #1E1E1E; box-sizing: border-box;"></div>
+                <img id="preview-p17" src="" style="display: none; width: 100%; height: 100%; object-fit: contain;">
+            </label>
+            <input type="file" id="upload-p17" style="display: none;" accept="image/*" onchange="window.previewImage(this, 'preview-p17', 'upload-icon-p17')">
+
+            <!-- Rectangle 17 (Form background) -->
+            <div style="position: absolute; width: 340px; height: 175px; left: calc(50% - 340px/2); top: 401px; background: #F3F0E1; border-radius: 10px;"></div>
+
+            <!-- Form fields -->
+            <!-- Date -->
+            <div style="position: absolute; width: 55px; height: 55px; left: 40px; top: 413px;">
+                <div style="position: absolute; width: 35px; height: 35px; left: 10px; top: 10px; background: url('calendar-days-solid.png') no-repeat center center / contain;"></div>
+            </div>
+            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 110px; top: 420px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
+                <input type="date" id="lost-date-17" style="width: 160px; height: 12px; font-family: 'Comfortaa'; font-weight: 400; font-size: 12px; line-height: 13px; color: #482B12; border: none; background: transparent; outline: none; flex: none; order: 0; flex-grow: 0;">
+                <div style="width: 30px; height: 30px; transform: rotate(-180deg); flex: none; order: 1; flex-grow: 0; display: flex; justify-content: center; align-items: center;">
+                    <div style="width: 15px; height: 10px; background: #1E3050; clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"></div>
                 </div>
-                <h1 class="title-20">社群協尋</h1>
             </div>
-            <div class="flex-row mb-4" style="gap: 8px;">
-                <input type="date"  style="margin: 0; width: auto; flex: 1;">
-                <div class="search-bar" style="margin: 0; flex: 2;">
-                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                    <input type="text" placeholder="關鍵字">
+
+            <!-- Location -->
+            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px; gap: 10px; position: absolute; width: 55px; height: 55px; left: 40px; top: 463px;">
+                <div style="width: 35px; height: 35px; background: url('location-dot-solid.png') no-repeat center center / contain; flex: none; order: 0; flex-grow: 0;"></div>
+            </div>
+            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 110px; top: 470px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
+                <input type="text" id="lost-loc-17" placeholder="新北市永和區" style="width: 160px; height: 12px; font-family: 'Comfortaa', 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; line-height: 12px; color: #482B12; border: none; background: transparent; outline: none; flex: none; order: 0; flex-grow: 0;">
+            </div>
+
+            <!-- Notes -->
+            <div style="position: absolute; width: 32px; height: 16px; left: 52px; top: 530px; font-family: 'Comfortaa', 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 16px; line-height: 16px; text-align: center; color: #482B12;">備註</div>
+            <div style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 110px; top: 518px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
+                <input type="text" id="lost-notes-17" placeholder="供Threads發文時提供詳細資訊" style="width: 200px; height: 13px; font-family: 'Comfortaa', 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; line-height: 12px; color: #482B12; opacity: 0.71; border: none; background: transparent; outline: none; flex: none; order: 0; flex-grow: 0;">
+            </div>
+
+            <!-- Frame 28 (Submit Button) -->
+            <div onclick="window.prepareLostFlow('image', document.getElementById('upload-p17'))" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 30px 40px; gap: 30px; position: absolute; width: 350px; height: 60px; left: calc(50% - 350px/2); top: 611px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+                <div style="width: 40px; height: 40px; background: url('circle-check-regular.png') no-repeat center center / contain; flex: none; order: 0; flex-grow: 0;"></div>
+                <div style="width: 211px; height: 16px; font-family: 'Comfortaa', 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1; flex-grow: 0;">填寫完成，讓AI 辨識產生標籤</div>
+            </div>
+
+
+            <!-- Frame 42 (AI Tags Box) -->
+            <div id="ai-tags-17" style="display: none; position: absolute; width: 340px; height: 98px; left: calc(50% - 340px/2); top: 572px; background: #F3F0E1; border-radius: 10px;">
+                <div style="position: absolute; width: 93.33px; height: 18px; left: 20px; top: 20px; font-family: 'Comfortaa', 'GenSenRounded2 TW', sans-serif; font-weight: 600; font-size: 16px; line-height: 18px; color: #482B12;">AI 標籤</div>
+                <!-- Tags -->
+                <div style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 20px; gap: 10px; position: absolute; width: 93.33px; height: 30px; left: 20px; top: 48px; background: #FFFFFF; border-radius: 10px;">
+                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12;">杯套</div>
+                </div>
+                <div style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 20px; gap: 10px; position: absolute; width: 93.33px; height: 30px; left: 123.33px; top: 48px; background: #FFFFFF; border-radius: 10px;">
+                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12;">水杯</div>
+                </div>
+                <div style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 20px; gap: 10px; position: absolute; width: 93.33px; height: 30px; left: 226.67px; top: 48px; background: #FFFFFF; border-radius: 10px;">
+                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12;">黃色</div>
                 </div>
             </div>
-            <div id="community-list">
-                <!-- Data populated here -->
+
+            <!-- Frame 43 (Threads Link Box) -->
+            <div id="threads-link-17" style="display: none; box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px; gap: 10px; position: absolute; width: 340px; height: 60px; left: calc(50% - 340px/2); top: 690px; background: #F3F0E1; border-radius: 10px;">
+                <div style="width: 40px; height: 40px; background: url('image.png') no-repeat center center / contain; flex: none; order: 0; flex-grow: 0;"></div>
+                <div style="width: 190px; height: 40px; background: #FFFFFF; border-radius: 10px; flex: none; order: 1; flex-grow: 0; display: flex; align-items: center; justify-content: center;">
+                    <div style="font-family: 'Comfortaa', sans-serif; font-weight: 400; font-size: 12px; text-decoration-line: underline; color: #000000;">https://threads/diula.py/lml</div>
+                </div>
+                <div style="box-sizing: border-box; width: 65px; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; flex: none; order: 2; flex-grow: 0; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', sans-serif; font-weight: 700; font-size: 16px; color: #C72F02;">刪除</div>
+                </div>
             </div>
+
+            <!-- Spacer for bottom nav -->
+            <div style="height: 100px; width: 100%; position: absolute; top: 700px;"></div>
         </div>
         <!-- PAGE 18: My Found Items -->
         <div id="page-18" class="page">
