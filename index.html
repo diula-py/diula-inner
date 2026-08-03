@@ -864,58 +864,48 @@
                 <button class="btn btn-white" onclick="window.showPage('page-02', 'home')">返回首頁</button>
             </div>
         </div>
-                <!-- PAGE 14: Profile -->
-        <div id="page-14" class="page" style="max-width: 393px; margin: 0 auto; min-height: 100vh; background-color: #FFFFFF;  flex-direction: column; align-items: center; padding: 0; box-sizing: border-box; width: 100%; position: relative;">
+                        <!-- PAGE 14: Profile -->
+        <div id="page-14" class="page" style="position: relative; width: 100%; max-width: 393px; height: 792px; min-height: 100vh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow: hidden;">
             
-            <!-- Top Header Banner (Group 17) -->
-            <div style="width: 100%; height: 90px; background-color: #DFEAF5; border-radius: 0 0 20px 20px; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 16px; box-sizing: border-box; margin-bottom: 32px;">
-                <img src="DiuLa_logo_transparent.png" alt="DiuLa Logo" style="width: 90px; height: auto; object-fit: contain;">
-                <h1 class="comfortaa" style="font-size: 24px; color: var(--dark-brown); margin: 0; display: none;">DiuLa!</h1>
+            <!-- Group 17 (Header) -->
+            <div style="position: absolute; width: 395px; height: 109px; left: calc(50% - 395px/2); top: 0px; pointer-events: none;">
+                <div style="position: absolute; width: 395px; height: 109px; left: 0px; top: 0px; background: #DFEAF5; border-radius: 0px 0px 20px 20px;"></div>
+                <div style="position: absolute; width: 106px; height: 35px; left: calc(50% - 106px/2); top: 64px; background: url('DiuLa_logo_transparent.png') no-repeat center center / 100% auto;"></div>
             </div>
 
-            <div style="width: 100%; padding: 0 16px; display: flex; flex-direction: column; gap: 24px; box-sizing: border-box; flex-grow: 1;">
-                
-                <!-- Profile Card (Rectangle 73) -->
-                <div style="width: 100%; background: rgba(243, 240, 225, 0.5); border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 0; gap: 24px;">
-                    
-                    <!-- Avatar & Name -->
-                    <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
-                        <div style="width: 70px; height: 70px; border: 1px solid #000000; border-radius: 50%; overflow: hidden; background: #FFFFFF; display: flex; justify-content: center; align-items: center;">
-                            <img id="profile-avatar-img" src="avatar.png" alt="大頭貼" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='icon_profile.png'">
-                        </div>
-                        <div id="profile-name-text" style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">訪客</div>
-                    </div>
+            <!-- Rectangle 73 (Avatar BG) -->
+            <div style="position: absolute; width: 360px; height: 202px; left: calc(50% - 360px/2); top: 129px; background: rgba(243, 240, 225, 0.5); border-radius: 20px;"></div>
 
-                    <!-- Actions (About & Logout) -->
-                    <div style="display: flex; flex-direction: row; gap: 32px;">
-                        <!-- About -->
-                        <div style="width: 120px; height: 85px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-sizing: border-box;">
-                            <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">關於</div>
-                            <img src="DiuLa_logo_transparent.png" style="height: 18px; object-fit: contain;">
-                        </div>
-                        <!-- Logout -->
-                        <div onclick="window.confirmLogout()" style="width: 120px; height: 85px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-sizing: border-box;">
-                            <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">登出</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div style="display: flex; flex-direction: column; gap: 16px;">
-                    <!-- Frame 27 (My Lost Items) -->
-                    <div onclick="window.showPage('page-15', 'profile')" style="width: 100%; height: 85px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; display: flex; align-items: center; justify-content: center; gap: 24px; cursor: pointer; box-sizing: border-box;">
-                        <img src="cubes-solid.png" style="width: 40px; height: 40px; object-fit: contain;">
-                        <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">我的遺失物</div>
-                    </div>
-                    
-                    <!-- Frame 28 (My Found Items) -->
-                    <div onclick="window.showPage('page-18', 'profile')" style="width: 100%; height: 85px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; display: flex; align-items: center; justify-content: center; gap: 24px; cursor: pointer; box-sizing: border-box;">
-                        <img src="folder-closed-solid.png" style="width: 40px; height: 40px; object-fit: contain;">
-                        <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">我的拾獲物</div>
-                    </div>
-                </div>
-
+            <!-- Group 22 (Avatar Image) -->
+            <div style="position: absolute; width: 70px; height: 70px; left: calc(50% - 70px/2); top: 159px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50%; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                <img id="profile-avatar-img" src="avatar.png" alt="大頭貼" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='icon_profile.png'">
             </div>
+
+            <!-- User Name -->
+            <div id="profile-name-text" style="position: absolute; width: 100%; height: 16px; left: 0px; top: 249px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12;">訪客</div>
+
+            <!-- User ID -->
+            <div id="profile-id-text" style="position: absolute; width: 100%; height: 18px; left: 0px; top: 285px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 18px; text-align: center; color: #482B12;"></div>
+
+            <!-- Frame 27 (我的遺失物) -->
+            <div onclick="window.showPage('page-15', 'profile')" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 30px 40px; gap: 40px; position: absolute; width: 350px; height: 100px; left: calc(50% - 350px/2); top: 351px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+                <div style="width: 40px; height: 40px; background: url('cubes-solid.png') no-repeat center center / contain; flex: none; order: 0; flex-grow: 0;"></div>
+                <div style="width: 80px; height: 16px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1; flex-grow: 0;">我的遺失物</div>
+            </div>
+
+            <!-- Frame 28 (我的拾獲物) -->
+            <div onclick="window.showPage('page-18', 'profile')" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 30px 40px; gap: 40px; position: absolute; width: 350px; height: 100px; left: calc(50% - 350px/2); top: 471px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+                <div style="width: 40px; height: 40px; background: url('folder-closed-solid.png') no-repeat center center / contain; flex: none; order: 0; flex-grow: 0;"></div>
+                <div style="width: 80px; height: 16px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1; flex-grow: 0;">我的拾獲物</div>
+            </div>
+
+            <!-- Frame 29 (登出) -->
+            <div onclick="window.confirmLogout()" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 40px; gap: 40px; position: absolute; width: 150px; height: 60px; left: calc(50% - 150px/2 + 1.5px); top: 601px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+                <div style="width: 32px; height: 16px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 0; flex-grow: 0;">登出</div>
+            </div>
+
+            <!-- 關於DiuLa! -->
+            <div style="position: absolute; width: 100px; height: 13px; left: calc(50% - 100px/2 + 1.5px); top: 681px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 12px; line-height: 12px; text-align: center; text-decoration-line: underline; color: #000000; cursor: pointer;">關於DiuLa!</div>
 
             <!-- Empty spacer for global nav bar -->
             <div style="height: 100px; width: 100%;"></div>
@@ -1217,6 +1207,11 @@ const twLocations = {
                     if (statusBadge) statusBadge.style.display = 'inline-block';
                     if (nameEl) nameEl.textContent = profile.displayName || "LINE 使用者";
                     
+                    const idEl = document.getElementById('profile-id-text');
+                    if (idEl) {
+                        idEl.textContent = "用戶編號：" + window.generateUserId('L', profile.userId);
+                    }
+
                     if (avatarImg && profile.pictureUrl) {
                         avatarImg.src = profile.pictureUrl;
                         avatarImg.style.display = 'block';
