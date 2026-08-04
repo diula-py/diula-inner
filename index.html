@@ -1364,10 +1364,14 @@ const twLocations = {
                 window.liffProfile = null;
                 if (loginBtn) loginBtn.style.display = 'inline-flex';
                 if (statusBadge) statusBadge.style.display = 'none';
-                if (nameEl) nameEl.textContent = "訪客 (請先進行 LINE 登入)";
-                if (avatarImg) {
-                    avatarImg.src = "avatar.png";
-                    avatarImg.style.display = 'block';
+                
+                // 只有當 Firebase (Google) 也未登入時，才將畫面重置為訪客
+                if (!auth || !auth.currentUser) {
+                    if (nameEl) nameEl.textContent = "訪客 (請先進行登入)";
+                    if (avatarImg) {
+                        avatarImg.src = "avatar.png";
+                        avatarImg.style.display = 'block';
+                    }
                 }
             }
         };
