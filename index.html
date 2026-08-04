@@ -1408,8 +1408,8 @@ const twLocations = {
                     
                     if (nameEl) nameEl.textContent = user.displayName || "Google 使用者";
                     if (idEl) idEl.textContent = "用戶編號：" + window.generateUserId('G', user.uid);
-                    if (avatarImg && user.photoURL) {
-                        avatarImg.src = user.photoURL;
+                    if (avatarImg) {
+                        avatarImg.src = user.photoURL || 'icon_profile.png';
                         avatarImg.style.display = 'block';
                     }
                 })
@@ -1431,7 +1431,7 @@ const twLocations = {
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, setDoc, getDocs, serverTimestamp, query, orderBy, where, limit, doc, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js";
 
         // =========================================================================
@@ -2530,7 +2530,7 @@ const twLocations = {
                 if (window.updateLiffUI) window.updateLiffUI();
             }
             if (auth) {
-                auth.signOut().then(() => console.log("已登出 Firebase")).catch(e => console.error(e));
+                signOut(auth).then(() => console.log("已登出 Firebase")).catch(e => console.error(e));
             }
             window.showPage('page-01');
         }
