@@ -1455,28 +1455,30 @@ const twLocations = {
             db = getFirestore(app);
             auth = getAuth(app);
             functions = getFunctions(app, "asia-east1");
+        } catch (error) {
+            console.error("Firebase init failed: ", error);
         }
 
         // Auth State Listener
-        onAuthStateChanged(auth, (user) => {
-            const nameEl = document.getElementById('profile-name-text');
-            const idEl = document.getElementById('profile-id-text');
-            const avatarImg = document.getElementById('profile-avatar-img');
-            
-            if (user) {
-                if (user.providerData && user.providerData.some(p => p.providerId === 'google.com')) {
-                    if (nameEl) nameEl.textContent = user.displayName || "Google 使用者";
-                    if (idEl) idEl.textContent = "用戶編號：" + window.generateUserId('G', user.uid);
-                    if (avatarImg && user.photoURL) {
-                        avatarImg.src = user.photoURL;
-                        avatarImg.style.display = 'block';
+        if (auth) {
+            onAuthStateChanged(auth, (user) => {
+                const nameEl = document.getElementById('profile-name-text');
+                const idEl = document.getElementById('profile-id-text');
+                const avatarImg = document.getElementById('profile-avatar-img');
+                
+                if (user) {
+                    if (user.providerData && user.providerData.some(p => p.providerId === 'google.com')) {
+                        if (nameEl) nameEl.textContent = user.displayName || "Google 使用者";
+                        if (idEl) idEl.textContent = "用戶編號：" + window.generateUserId('G', user.uid);
+                        if (avatarImg && user.photoURL) {
+                            avatarImg.src = user.photoURL;
+                            avatarImg.style.display = 'block';
+                        }
                     }
                 }
-            }
-        });
- catch (error) {
-            console.error("Firebase init failed: ", error);
+            });
         }
+
 
         window.generateItemId = function(type, isIdCategory) {
             const date = new Date();
