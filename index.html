@@ -601,8 +601,8 @@
                 <div style="width: 144px; height: 16px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1; flex-grow: 0;">非證件類遺失物登錄</div>
             </div>
 
-            <!-- Empty spacer for global nav bar -->
-            <div style="height: 100px; width: 100%;"></div>
+            <!-- Scroll spacer -->
+            <div style="height: 850px; width: 100%;"></div>
         </div>
         <!-- PAGE 03: Find (Image tab) -->
         <div id="page-03" class="page">
@@ -904,8 +904,8 @@
             <!-- 關於DiuLa! -->
             <div style="position: absolute; width: 100px; height: 13px; left: calc(50% - 100px/2 + 1.5px); top: 681px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 12px; line-height: 12px; text-align: center; text-decoration-line: underline; color: #000000; cursor: pointer;">關於DiuLa!</div>
 
-            <!-- Empty spacer for global nav bar -->
-            <div style="height: 100px; width: 100%;"></div>
+            <!-- Scroll spacer -->
+            <div style="height: 850px; width: 100%;"></div>
         </div>
         <!-- PAGE 15: My Lost Items -->
         <div id="page-15" class="page">
@@ -987,7 +987,7 @@
                 <div style="width: 176px; height: 16px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1;">我找到了！立即更新狀態</div>
             </div>
             
-            <div style="height: 100px; width: 100%; position: absolute; top: 850px;"></div>
+            <div style="height: 1050px; width: 100%; padding-bottom: 100px;"></div>
         </div>
         <!-- PAGE 17: Threads 跨平台尋找遺失物 (圖片) -->
         <div id="page-17" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: hidden;">
@@ -1139,7 +1139,7 @@
                 <div style="width: 176px; height: 16px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1;">我找到了！立即更新狀態</div>
             </div>
 
-            <div style="height: 100px; width: 100%; position: absolute; top: 720px;"></div>
+            <div style="height: 900px; width: 100%; padding-bottom: 100px;"></div>
         </div>
         <div id="bottom-nav" class="pill-nav" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 340px; height: 65px; background: #DFEAF5; border-radius: 50px; z-index: 100; padding: 0;">
             <div id="nav-home" class="pill-nav-item" onclick="window.showPage('page-02', 'home')" style="position: absolute; width: 145px; height: 46px; left: 11px; top: 10px; border-radius: 42px; transition: background-color 0.3s; display: flex; justify-content: center; align-items: center; cursor: pointer;">
@@ -1419,26 +1419,8 @@ const twLocations = {
                 });
         };
 
-        // Initialize selects & LIFF when DOM loads
-        document.addEventListener('DOMContentLoaded', () => {
-            window.initCitySelects();
-        // Auth State Listener
-        onAuthStateChanged(auth, (user) => {
-            const nameEl = document.getElementById('profile-name-text');
-            const idEl = document.getElementById('profile-id-text');
-            const avatarImg = document.getElementById('profile-avatar-img');
-            
-            if (user) {
-                if (user.providerData && user.providerData.some(p => p.providerId === 'google.com')) {
-                    if (nameEl) nameEl.textContent = user.displayName || "Google 使用者";
-                    if (idEl) idEl.textContent = "用戶編號：" + window.generateUserId('G', user.uid);
-                    if (avatarImg && user.photoURL) {
-                        avatarImg.src = user.photoURL;
-                        avatarImg.style.display = 'block';
-                    }
-                }
-            }
-        });
+        // Initialize selects & LIFF immediately (module executes after DOM parse)
+        window.initCitySelects();
 
             // 預設將所有的 date input 設為當天
             const today = new Date().toLocaleDateString('en-CA'); // 'YYYY-MM-DD' local time
@@ -1446,7 +1428,6 @@ const twLocations = {
                 input.value = today;
             });
             window.initLIFF();
-        });
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, setDoc, getDocs, serverTimestamp, query, orderBy, where, limit, doc, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -1474,7 +1455,26 @@ const twLocations = {
             db = getFirestore(app);
             auth = getAuth(app);
             functions = getFunctions(app, "asia-east1");
-        } catch (error) {
+        }
+
+        // Auth State Listener
+        onAuthStateChanged(auth, (user) => {
+            const nameEl = document.getElementById('profile-name-text');
+            const idEl = document.getElementById('profile-id-text');
+            const avatarImg = document.getElementById('profile-avatar-img');
+            
+            if (user) {
+                if (user.providerData && user.providerData.some(p => p.providerId === 'google.com')) {
+                    if (nameEl) nameEl.textContent = user.displayName || "Google 使用者";
+                    if (idEl) idEl.textContent = "用戶編號：" + window.generateUserId('G', user.uid);
+                    if (avatarImg && user.photoURL) {
+                        avatarImg.src = user.photoURL;
+                        avatarImg.style.display = 'block';
+                    }
+                }
+            }
+        });
+ catch (error) {
             console.error("Firebase init failed: ", error);
         }
 
