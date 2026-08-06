@@ -883,21 +883,21 @@
             </div>
 
             <!-- Frame 27 (我的遺失物) -->
-            <div onclick="window.showPage('page-15', 'profile')" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 30px 40px; gap: 40px; position: absolute; width: 350px; height: 100px; left: 22px; top: 351px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
-                <div style="width: 40px; height: 40px; background: url('cubes-solid.png') no-repeat center center / contain; flex: none; order: 0; flex-grow: 0;"></div>
-                <div style="width: 80px; height: 16px; font-family: 'GenSenRounded2 TW', sans-serif; font-style: normal; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1; flex-grow: 0;">我的遺失物</div>
+            <div onclick="window.showPage('page-15', 'profile')" style="z-index: 10; box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 30px 40px; gap: 40px; position: absolute; width: 350px; height: 100px; left: 22px; top: 351px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+                <div style="width: 40px; height: 40px; background: url('cubes-solid.png') no-repeat center center / contain; flex: none; order: 0; flex-grow: 0; pointer-events: none;"></div>
+                <div style="width: 80px; height: 16px; font-family: 'GenSenRounded2 TW', sans-serif; font-style: normal; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1; flex-grow: 0; pointer-events: none;">我的遺失物</div>
             </div>
 
             <!-- Frame 28 (我的拾獲物) -->
-            <div onclick="window.showPage('page-18', 'profile')" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 30px 40px; gap: 40px; position: absolute; width: 350px; height: 100px; left: 22px; top: 471px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
-                <div style="width: 40px; height: 40px; background: url('folder-closed-solid.png') no-repeat center center / contain; flex: none; order: 0; flex-grow: 0;"></div>
-                <div style="width: 80px; height: 16px; font-family: 'GenSenRounded2 TW', sans-serif; font-style: normal; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1; flex-grow: 0;">我的拾獲物</div>
+            <div onclick="window.showPage('page-18', 'profile')" style="z-index: 10; box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 30px 40px; gap: 40px; position: absolute; width: 350px; height: 100px; left: 22px; top: 471px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+                <div style="width: 40px; height: 40px; background: url('folder-closed-solid.png') no-repeat center center / contain; flex: none; order: 0; flex-grow: 0; pointer-events: none;"></div>
+                <div style="width: 80px; height: 16px; font-family: 'GenSenRounded2 TW', sans-serif; font-style: normal; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1; flex-grow: 0; pointer-events: none;">我的拾獲物</div>
             </div>
 
             <!-- Frame 29 (登出) -->
-            <div onclick="window.confirmLogout()" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 40px; gap: 40px; position: absolute; width: 110px; height: 40px; left: calc(50% - 110px/2 + 0.5px); top: 601px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
-                <div style="width: 32px; height: 16px; font-family: 'GenSenRounded2 TW', sans-serif; font-style: normal; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 0; flex-grow: 0;">登出</div>
-            </div>
+            <button onclick="window.confirmLogout()" style="z-index: 10; appearance: none; box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 40px; gap: 40px; position: absolute; width: 110px; height: 40px; left: calc(50% - 110px/2 + 0.5px); top: 601px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+                <div style="width: 32px; height: 16px; font-family: 'GenSenRounded2 TW', sans-serif; font-style: normal; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 0; flex-grow: 0; pointer-events: none;">登出</div>
+            </button>
 
             <!-- 關於DiuLa! -->
             <div style="position: absolute; width: 64px; height: 13px; left: calc(50% - 64px/2 + 1.5px); top: 671px; font-family: 'GenSenRounded2 TW', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; line-height: 12px; text-align: center; text-decoration-line: underline; color: #000000; cursor: pointer;">關於DiuLa!</div>
@@ -2488,6 +2488,7 @@ const twLocations = {
         }
 
         window.confirmLogout = function() {
+            alert("正在嘗試開啟登出視窗...");
             document.getElementById('logout-modal').style.display = 'flex';
         }
         window.cancelLogout = function() {
