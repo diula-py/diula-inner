@@ -1178,30 +1178,29 @@
             </div>
         </div>
         <!-- 登出確認彈窗 -->
-                <div id="logout-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center;">
-            <div style="position: relative; width: 300px; height: 251px; background: #F3F0E1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <div id="logout-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center;">
+            <div style="position: relative; width: 300px; height: 251px;">
+                <!-- Rectangle 38 -->
+                <div style="position: absolute; width: 300px; height: 251px; left: 0px; top: 0px; background: #F3F0E1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 10px;"></div>
                 
-                <!-- Close Button (X) -->
-                <div onclick="window.cancelLogout()" style="position: absolute; width: 35px; height: 35px; left: 15px; top: 15px; cursor: pointer; display: flex; justify-content: center; align-items: center;">
-                    <div style="width: 17.5px; height: 17.5px; border: 4px solid #1E1E1E; border-radius: 2px;"></div>
+                <!-- X Close Button -->
+                <div onclick="window.cancelLogout()" style="position: absolute; width: 35px; height: 35px; left: 11px; top: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center;">
+                    <div style="width: 17.5px; height: 17.5px; border: 4px solid #1E1E1E; border-radius: 2px; box-sizing: border-box;"></div>
                 </div>
 
-                <!-- Title -->
-                <div style="width: 100%; text-align: center; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; color: #482B12; margin-top: 20px; margin-bottom: 40px;">
-                    是否確定要登出？
+                <!-- Text -->
+                <div style="position: absolute; width: 168px; height: 20px; left: 66px; top: 99px; font-family: 'GenSenRounded2 TW', sans-serif; font-style: normal; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">
+                    是否要登出呢？：(
                 </div>
 
-                <!-- Buttons -->
-                <div style="display: flex; flex-direction: row; gap: 20px;">
-                    <!-- 否 -->
-                    <div id="logout-btn-no" onclick="window.handleLogoutClick(false)" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 35px; width: 90px; height: 60px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; transition: all 0.3s;">
-                        <div id="logout-text-no" style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12; opacity: 0.7;">否</div>
-                    </div>
+                <!-- 是 (Yes) Button Frame 45 -->
+                <div id="logout-btn-yes" onclick="window.handleLogoutClick(true)" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 35px; gap: 10px; position: absolute; width: 90px; height: 60px; left: 41px; top: 146px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; transition: all 0.3s;">
+                    <div id="logout-text-yes" style="font-family: 'GenSenRounded2 TW', sans-serif; font-style: normal; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12; opacity: 1;">是</div>
+                </div>
 
-                    <!-- 是 -->
-                    <div id="logout-btn-yes" onclick="window.handleLogoutClick(true)" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 35px; width: 90px; height: 60px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; transition: all 0.3s;">
-                        <div id="logout-text-yes" style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">是</div>
-                    </div>
+                <!-- 否 (No) Button Frame 44 -->
+                <div id="logout-btn-no" onclick="window.handleLogoutClick(false)" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 35px; gap: 10px; position: absolute; width: 90px; height: 60px; left: 170px; top: 146px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; transition: all 0.3s;">
+                    <div id="logout-text-no" style="font-family: 'GenSenRounded2 TW', sans-serif; font-style: normal; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12; opacity: 1;">否</div>
                 </div>
             </div>
         </div>
