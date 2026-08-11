@@ -1302,6 +1302,14 @@ const twLocations = {
         // =========================================================================
         window.liffProfile = null;
 
+        window.isLiffSafeLoggedIn = function() {
+            try {
+                return typeof liff !== 'undefined' && typeof liff.isLoggedIn === 'function' && liff.isLoggedIn();
+            } catch (e) {
+                return false;
+            }
+        };
+
         window.initLIFF = async function() {
             try {
                 console.log("正在初始化 LINE LIFF SDK...");
@@ -1323,7 +1331,7 @@ const twLocations = {
             const avatarImg = document.getElementById('profile-avatar-img');
             const avatarPlaceholder = document.getElementById('profile-avatar-placeholder');
 
-            if (typeof liff !== 'undefined' && liff.isLoggedIn()) {
+            if (window.isLiffSafeLoggedIn()) {
                 console.log("使用者已登入 LIFF，正在抓取使用者顯示名稱與大頭貼...");
                 try {
                     const profile = await liff.getProfile();
@@ -1357,6 +1365,8 @@ const twLocations = {
             } else {
                 console.log("目前未登入 LINE LIFF");
                 window.liffProfile = null;
+
+
                 if (loginBtn) loginBtn.style.display = 'inline-flex';
                 if (statusBadge) statusBadge.style.display = 'none';
                 
@@ -1378,7 +1388,7 @@ const twLocations = {
                 window.location.href = 'https://liff.line.me/2009840543-oj99U5pA';
             } else {
                 // 電腦端：若是未登入狀態，呼叫 LIFF SDK 的 liff.login() 進行網頁登入
-                if (typeof liff !== 'undefined' && liff.isLoggedIn && !liff.isLoggedIn()) {
+                if (!window.isLiffSafeLoggedIn()) {
                     liff.login();
                 } else {
                     window.location.href = 'https://liff.line.me/2009840543-oj99U5pA';
@@ -1670,7 +1680,7 @@ const twLocations = {
 
                 window.showPage = function(pageId, navTab = '') {
             // 已登入狀態：不允許使用者切換回登入頁（page-01），強制導向首頁
-            if (pageId === 'page-01' && typeof liff !== 'undefined' && liff.isLoggedIn()) {
+            if (pageId === 'page-01' && window.isLiffSafeLoggedIn()) {
                 console.warn('使用者已登入，阻斷返回 page-01，強制跳轉至 page-02');
                 pageId = 'page-02';
                 navTab = 'home';
@@ -2101,7 +2111,7 @@ const twLocations = {
 
             try {
                 const uid = await window.ensureAuth();
-                const loginProvider = (typeof liff !== 'undefined' && liff.isLoggedIn()) ? 'L' : 'G';
+                const loginProvider = (window.isLiffSafeLoggedIn()) ? 'L' : 'G';
                 window.currentUserId = window.generateUserId(loginProvider, uid);
                 // Check if any selected tag contains "證件"
                 const isIdCategory = window.selectedTags.some(t => t.includes('證件') || t.includes('卡'));
@@ -2141,7 +2151,7 @@ const twLocations = {
 
             try {
                 const uid = await window.ensureAuth();
-                const loginProvider = (typeof liff !== 'undefined' && liff.isLoggedIn()) ? 'L' : 'G';
+                const loginProvider = (window.isLiffSafeLoggedIn()) ? 'L' : 'G';
                 window.currentUserId = window.generateUserId(loginProvider, uid);
                 const isIdCategory = window.selectedTags.some(t => t.includes('證件') || t.includes('卡'));
                 const customId = window.generateItemId('F', isIdCategory);
@@ -2258,7 +2268,7 @@ const twLocations = {
             container.innerHTML = '<div style="text-align: center; padding: 20px;">載入中...</div>';
             try {
                 const uid = await window.ensureAuth();
-                const loginProvider = (typeof liff !== 'undefined' && liff.isLoggedIn()) ? 'L' : 'G';
+                const loginProvider = (window.isLiffSafeLoggedIn()) ? 'L' : 'G';
                 window.currentUserId = window.generateUserId(loginProvider, uid);
                 const q = query(collection(db, "lost_items"), where("user_id", "==", window.currentUserId));
                 const querySnapshot = await getDocs(q);
@@ -2309,7 +2319,7 @@ const twLocations = {
             container.innerHTML = '<div style="text-align: center; padding: 20px;">載入中...</div>';
             try {
                 const uid = await window.ensureAuth();
-                const loginProvider = (typeof liff !== 'undefined' && liff.isLoggedIn()) ? 'L' : 'G';
+                const loginProvider = (window.isLiffSafeLoggedIn()) ? 'L' : 'G';
                 window.currentUserId = window.generateUserId(loginProvider, uid);
                 const q = query(collection(db, "found_items"), where("user_id", "==", window.currentUserId));
                 const querySnapshot = await getDocs(q);
@@ -2537,7 +2547,7 @@ const twLocations = {
 
         window.executeLogout = function() {
             document.getElementById('logout-modal').style.display = 'none';
-            if (typeof liff !== 'undefined' && liff.isLoggedIn()) {
+            if (window.isLiffSafeLoggedIn()) {
                 liff.logout();
                 console.log("已登出 LINE LIFF");
                 if (window.updateLiffUI) window.updateLiffUI();
