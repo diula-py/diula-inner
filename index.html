@@ -1316,6 +1316,9 @@ const twLocations = {
                 await window.updateLiffUI();
             } catch (error) {
                 console.error("❌ LIFF 初始化失敗:", error);
+                if (error.message && (error.message.includes('localStorage') || error.message.includes('sessionStorage') || error.message.includes('storage') || error.message.includes('inaccessible'))) {
+                    setTimeout(() => window.location.reload(), 300);
+                }
             }
         };
 
@@ -1433,7 +1436,7 @@ const twLocations = {
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, setDoc, getDocs, serverTimestamp, query, orderBy, where, limit, doc, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js";
 
         // =========================================================================
@@ -1456,9 +1459,21 @@ const twLocations = {
             app = initializeApp(firebaseConfig);
             db = getFirestore(app);
             auth = getAuth(app);
+            
+            // 強制設定為 browserLocalPersistence 並捕捉 PWA storage 限制
+            setPersistence(auth, browserLocalPersistence).catch((error) => {
+                console.warn("Firebase Persistence Error:", error);
+                if (error.message && (error.message.toLowerCase().includes('storage') || error.message.toLowerCase().includes('indexeddb') || error.message.toLowerCase().includes('inaccessible'))) {
+                    setTimeout(() => window.location.reload(), 300);
+                }
+            });
+            
             functions = getFunctions(app, "asia-east1");
         } catch (error) {
             console.error("Firebase init failed: ", error);
+            if (error.message && (error.message.toLowerCase().includes('storage') || error.message.toLowerCase().includes('indexeddb') || error.message.toLowerCase().includes('inaccessible'))) {
+                setTimeout(() => window.location.reload(), 300);
+            }
         }
 
         // Auth State Listener
