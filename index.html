@@ -895,12 +895,12 @@
             </div>
 
             <!-- Frame 29 (登出) -->
-            <button onclick="window.confirmLogout()" style="z-index: 101; appearance: none; box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 40px; gap: 40px; position: absolute; width: 110px; height: 40px; left: calc(50% - 110px/2 + 0.5px); top: 601px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
-                <div style="width: 32px; height: 16px; font-family: inherit; font-style: normal; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 0; flex-grow: 0; pointer-events: none;">登出</div>
+            <button onclick="window.confirmLogout()" style="z-index: 10; appearance: none; box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 40px; gap: 40px; position: absolute; width: 110px; height: 40px; left: calc(50% - 110px/2 + 0.5px); top: 601px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+                <div style="width: 32px; height: 16px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-style: normal; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 0; flex-grow: 0; pointer-events: none;">登出</div>
             </button>
 
             <!-- 關於DiuLa! -->
-            <div style="z-index: 101; position: absolute; width: 64px; height: 13px; left: calc(50% - 64px/2 + 1.5px); top: 671px; font-family: inherit; font-style: normal; font-weight: 500; font-size: 12px; line-height: 12px; text-align: center; text-decoration-line: underline; color: #000000; cursor: pointer;">關於DiuLa!</div>
+            <div style="position: absolute; width: 64px; height: 13px; left: calc(50% - 64px/2 + 1.5px); top: 671px; font-family: inherit; font-style: normal; font-weight: 500; font-size: 12px; line-height: 12px; text-align: center; text-decoration-line: underline; color: #000000; cursor: pointer;">關於DiuLa!</div>
 
             <!-- Scroll spacer -->
             <div style="height: 850px; width: 100%;"></div>
@@ -1147,7 +1147,8 @@
                 <div style="width: 40px; height: 40px; background: url('icon_profile.png') no-repeat center center / contain;"></div>
             </div>
         </div>
-        <!-- 刪除確認彈窗 -->
+        </div>
+<!-- 刪除確認彈窗 -->
         <div id="delete-modal" style="
             display: none;
             position: fixed;
@@ -1252,8 +1253,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <script type="module">
+    
+<script type="module">
 const twLocations = {
             "臺北市": ["中正區", "大同區", "中山區", "松山區", "大安區", "萬華區", "信義區", "士林區", "北投區", "內湖區", "南港區", "文山區"],
             "新北市": ["萬里區", "金山區", "板橋區", "汐止區", "深坑區", "石碇區", "瑞芳區", "平溪區", "雙溪區", "貢寮區", "新店區", "坪林區", "烏來區", "永和區", "中和區", "土城區", "三峽區", "樹林區", "鶯歌區", "三重區", "新莊區", "泰山區", "林口區", "蘆洲區", "五股區", "八里區", "淡水區", "三芝區", "石門區"],
