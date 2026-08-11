@@ -895,9 +895,9 @@
             </div>
 
             <!-- Frame 29 (登出) -->
-            <button onclick="window.confirmLogout()" style="z-index: 10; appearance: none; box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 40px; gap: 40px; position: absolute; width: 110px; height: 40px; left: calc(50% - 110px/2 + 0.5px); top: 601px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+            <div onclick="window.confirmLogout()" style="z-index: 10; box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 40px; gap: 40px; position: absolute; width: 110px; height: 40px; left: calc(50% - 110px/2 + 0.5px); top: 601px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
                 <div style="width: 32px; height: 16px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-style: normal; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 0; flex-grow: 0; pointer-events: none;">登出</div>
-            </button>
+            </div>
 
             <!-- 關於DiuLa! -->
             <div style="position: absolute; width: 64px; height: 13px; left: calc(50% - 64px/2 + 1.5px); top: 671px; font-family: inherit; font-style: normal; font-weight: 500; font-size: 12px; line-height: 12px; text-align: center; text-decoration-line: underline; color: #000000; cursor: pointer;">關於DiuLa!</div>
@@ -2504,7 +2504,13 @@ const twLocations = {
         }
 
         window.confirmLogout = function() {
-            document.getElementById('logout-modal').style.display = 'flex';
+            console.log("登出按鈕已點擊！");
+            const modal = document.getElementById('logout-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+            } else {
+                console.error("找不到 logout-modal 元素！");
+            }
         }
         window.cancelLogout = function() {
             document.getElementById('logout-modal').style.display = 'none';
