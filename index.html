@@ -2545,15 +2545,20 @@ const twLocations = {
             }, 300);
         }
 
-        window.executeLogout = function() {
+        window.executeLogout = async function() {
             document.getElementById('logout-modal').style.display = 'none';
             if (window.isLiffSafeLoggedIn()) {
                 liff.logout();
                 console.log("已登出 LINE LIFF");
                 if (window.updateLiffUI) window.updateLiffUI();
             }
-            if (auth) {
-                signOut(auth).then(() => console.log("已登出 Firebase")).catch(e => console.error(e));
+            if (auth && auth.currentUser) {
+                try {
+                    await signOut(auth);
+                    console.log("已登出 Firebase");
+                } catch (e) {
+                    console.error(e);
+                }
             }
             window.showPage('page-01');
         }
