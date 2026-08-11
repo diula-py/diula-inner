@@ -879,7 +879,7 @@
                 <!-- Name -->
                 <div id="profile-name-text" style="font-family: inherit; font-style: normal; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1; flex-grow: 0;">訪客</div>
                 <!-- ID -->
-                <div id="profile-id-text" style="font-family: inherit; font-style: normal; font-weight: 500; font-size: 12px; line-height: 12px; text-align: center; color: #482B12; flex: none; order: 2; flex-grow: 0;"></div>
+                <div id="profile-id-text" style="font-family: inherit; font-style: normal; font-weight: 500; font-size: 12px; line-height: 12px; text-align: center; color: #482B12; flex: none; order: 2; flex-grow: 0; white-space: nowrap;"></div>
             </div>
 
             <!-- Frame 27 (我的遺失物) -->
@@ -1336,7 +1336,7 @@ const twLocations = {
                     
                     const idEl = document.getElementById('profile-id-text');
                     if (idEl) {
-                        idEl.textContent = "用戶編號：" + window.generateUserId('L', profile.userId);
+                        idEl.textContent = "User ID：" + window.generateUserId('L', profile.userId);
                     }
 
                     if (avatarImg && profile.pictureUrl) {
@@ -1406,7 +1406,7 @@ const twLocations = {
                     const avatarImg = document.getElementById('profile-avatar-img');
                     
                     if (nameEl) nameEl.textContent = user.displayName || "Google 使用者";
-                    if (idEl) idEl.textContent = "用戶編號：" + window.generateUserId('G', user.uid);
+                    if (idEl) idEl.textContent = "User ID：" + window.generateUserId('G', user.uid);
                     if (avatarImg) {
                         avatarImg.src = user.photoURL || 'icon_profile.png';
                         avatarImg.style.display = 'block';
@@ -1480,7 +1480,7 @@ const twLocations = {
                 if (user) {
                     if (user.providerData && user.providerData.some(p => p.providerId === 'google.com')) {
                         if (nameEl) nameEl.textContent = user.displayName || "Google 使用者";
-                        if (idEl) idEl.textContent = "用戶編號：" + window.generateUserId('G', user.uid);
+                        if (idEl) idEl.textContent = "User ID：" + window.generateUserId('G', user.uid);
                         if (avatarImg && user.photoURL) {
                             avatarImg.src = user.photoURL;
                             avatarImg.style.display = 'block';
