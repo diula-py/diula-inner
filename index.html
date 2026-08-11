@@ -895,7 +895,7 @@
             </div>
 
             <!-- Frame 29 (登出) -->
-            <div onclick="window.confirmLogout()" style="z-index: 10; box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 40px; gap: 40px; position: absolute; width: 110px; height: 40px; left: calc(50% - 110px/2 + 0.5px); top: 601px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+            <div id="logout-button-trigger" style="z-index: 10; box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 40px; gap: 40px; position: absolute; width: 110px; height: 40px; left: calc(50% - 110px/2 + 0.5px); top: 601px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
                 <div style="width: 32px; height: 16px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-style: normal; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 0; flex-grow: 0; pointer-events: none;">登出</div>
             </div>
 
@@ -2511,6 +2511,12 @@ const twLocations = {
             } else {
                 console.error("找不到 logout-modal 元素！");
             }
+        };
+        
+        // 由於 module script 在 DOM 解析後才執行，此時 DOM 已經存在，直接綁定即可！
+        const logoutBtnTrigger = document.getElementById('logout-button-trigger');
+        if (logoutBtnTrigger) {
+            logoutBtnTrigger.addEventListener('click', window.confirmLogout);
         }
         window.cancelLogout = function() {
             document.getElementById('logout-modal').style.display = 'none';
