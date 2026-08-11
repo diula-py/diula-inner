@@ -2504,7 +2504,7 @@ const twLocations = {
         }
 
         window.confirmLogout = function() {
-            console.log("登出按鈕已點擊！");
+            console.log("登出按鈕已透過事件監聽器點擊！");
             const modal = document.getElementById('logout-modal');
             if (modal) {
                 modal.style.display = 'flex';
@@ -2513,10 +2513,21 @@ const twLocations = {
             }
         };
         
-        // 由於 module script 在 DOM 解析後才執行，此時 DOM 已經存在，直接綁定即可！
-        const logoutBtnTrigger = document.getElementById('logout-button-trigger');
-        if (logoutBtnTrigger) {
-            logoutBtnTrigger.addEventListener('click', window.confirmLogout);
+        // 使用最嚴謹的綁定方式，確保無論腳本何時載入都能成功綁定
+        const attachLogoutEvent = function() {
+            const logoutBtnTrigger = document.getElementById('logout-button-trigger');
+            if (logoutBtnTrigger) {
+                logoutBtnTrigger.addEventListener('click', window.confirmLogout);
+                console.log("登出按鈕綁定成功！");
+            } else {
+                console.error("找不到登出按鈕 (logout-button-trigger)，綁定失敗！");
+            }
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', attachLogoutEvent);
+        } else {
+            attachLogoutEvent();
         }
         window.cancelLogout = function() {
             document.getElementById('logout-modal').style.display = 'none';
