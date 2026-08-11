@@ -895,8 +895,8 @@
             </div>
 
             <!-- Frame 29 (登出) -->
-            <div id="logout-button-trigger" style="z-index: 10; box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 40px; gap: 40px; position: absolute; width: 110px; height: 40px; left: calc(50% - 110px/2 + 0.5px); top: 601px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
-                <div style="width: 32px; height: 16px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-style: normal; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 0; flex-grow: 0; pointer-events: none;">登出</div>
+            <div onclick="document.getElementById('logout-modal').style.display='flex';" style="z-index: 101; box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 40px; gap: 40px; position: absolute; width: 110px; height: 40px; left: calc(50% - 110px/2 + 0.5px); top: 601px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+                <div style="width: 32px; height: 16px; font-family: inherit; font-style: normal; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 0; flex-grow: 0; pointer-events: none;">登出</div>
             </div>
 
             <!-- 關於DiuLa! -->
@@ -2503,32 +2503,6 @@ const twLocations = {
             document.getElementById('delete-modal').style.display = 'none';
         }
 
-        window.confirmLogout = function() {
-            console.log("登出按鈕已透過事件監聽器點擊！");
-            const modal = document.getElementById('logout-modal');
-            if (modal) {
-                modal.style.display = 'flex';
-            } else {
-                console.error("找不到 logout-modal 元素！");
-            }
-        };
-        
-        // 使用最嚴謹的綁定方式，確保無論腳本何時載入都能成功綁定
-        const attachLogoutEvent = function() {
-            const logoutBtnTrigger = document.getElementById('logout-button-trigger');
-            if (logoutBtnTrigger) {
-                logoutBtnTrigger.addEventListener('click', window.confirmLogout);
-                console.log("登出按鈕綁定成功！");
-            } else {
-                console.error("找不到登出按鈕 (logout-button-trigger)，綁定失敗！");
-            }
-        };
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', attachLogoutEvent);
-        } else {
-            attachLogoutEvent();
-        }
         window.cancelLogout = function() {
             document.getElementById('logout-modal').style.display = 'none';
         }
