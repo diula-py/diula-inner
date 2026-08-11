@@ -2260,15 +2260,18 @@ const twLocations = {
                 const uid = await window.ensureAuth();
                 const loginProvider = (typeof liff !== 'undefined' && liff.isLoggedIn()) ? 'L' : 'G';
                 window.currentUserId = window.generateUserId(loginProvider, uid);
-                const q = query(collection(db, "lost_items"), where("user_id", "==", window.currentUserId), orderBy("timestamp", "desc"));
+                const q = query(collection(db, "lost_items"), where("user_id", "==", window.currentUserId));
                 const querySnapshot = await getDocs(q);
+                let items = [];
+                querySnapshot.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
+                // Sort in memory by timestamp descending
+                items.sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
                 container.innerHTML = '';
-                if (querySnapshot.empty) {
+                if (items.length === 0) {
                     container.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-gray);">尚無遺失物資料</div>';
                     return;
                 }
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
+                items.forEach((data) => {
                     const status = data.status || "尋找中";
                     let badgeClass = 'badge-blue';
                     if (status === '已找到') badgeClass = 'badge-found';
@@ -2280,10 +2283,10 @@ const twLocations = {
                     const imgHtml = `<img class="thumb" src="${imgSrc}" style="${data.image_base64 ? '' : 'object-fit: contain; background-color: var(--bg-color);'}" />`;
 
                     container.innerHTML += `
-                        <div class="card result-card" onclick="window.viewLostDetail('${doc.id}')">
+                        <div class="card result-card" onclick="window.viewLostDetail('${data.id}')">
                             ${imgHtml}
                             <div class="flex-col" style="flex: 1; overflow: hidden;">
-                                <div class="caption-12" style="color: var(--dark-brown); font-weight: 700;">編號：＃${doc.id}</div>
+                                <div class="caption-12" style="color: var(--dark-brown); font-weight: 700;">編號：＃${data.id}</div>
                                 <div class="text-14" style="font-weight: 700; margin-bottom: 4px; color: var(--primary-blue);">${tagsText}</div>
                                 <div class="caption-12 mb-2">遺失時間：${data.date || '未知日期'}</div>
                                 <div><span class="badge ${badgeClass}">${status}</span></div>
@@ -2308,15 +2311,18 @@ const twLocations = {
                 const uid = await window.ensureAuth();
                 const loginProvider = (typeof liff !== 'undefined' && liff.isLoggedIn()) ? 'L' : 'G';
                 window.currentUserId = window.generateUserId(loginProvider, uid);
-                const q = query(collection(db, "found_items"), where("user_id", "==", window.currentUserId), orderBy("timestamp", "desc"));
+                const q = query(collection(db, "found_items"), where("user_id", "==", window.currentUserId));
                 const querySnapshot = await getDocs(q);
+                let items = [];
+                querySnapshot.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
+                // Sort in memory by timestamp descending
+                items.sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
                 container.innerHTML = '';
-                if (querySnapshot.empty) {
+                if (items.length === 0) {
                     container.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-gray);">尚無拾獲物資料</div>';
                     return;
                 }
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
+                items.forEach((data) => {
                     const status = data.status || "保管中";
                     const badgeClass = status === '已歸還' ? 'badge-blue' : 'badge-yellow';
                     const mainTag = (data.tags && data.tags.length > 0) ? data.tags[0] : '拾獲物品';
@@ -2324,10 +2330,10 @@ const twLocations = {
                     const imgHtml = imgSrc ? `<img class="thumb" src="${imgSrc}" />` : `<div class="thumb"></div>`;
 
                     container.innerHTML += `
-                        <div class="card result-card" onclick="window.viewFoundDetail('${doc.id}')">
+                        <div class="card result-card" onclick="window.viewFoundDetail('${data.id}')">
                             ${imgHtml}
                             <div class="flex-col" style="flex: 1; overflow: hidden;">
-                                <div class="caption-12" style="color: var(--dark-brown); font-weight: 700;">＃${doc.id}</div>
+                                <div class="caption-12" style="color: var(--dark-brown); font-weight: 700;">＃${data.id}</div>
                                 <div class="text-14" style="font-weight: 700;">${mainTag}</div>
                                 <div class="caption-12 mb-2">${data.location || '未知地點'} • ${data.date || '未知日期'}</div>
                                 <!-- <div><span class="badge ${badgeClass}">${status}</span></div> -->
