@@ -604,65 +604,136 @@
             <!-- Scroll spacer -->
             <div style="height: 850px; width: 100%;"></div>
         </div>
-        <!-- PAGE 03: Find (Image tab) -->
-        <div id="page-03" class="page">
-            <div class="top-bar">
-                <div class="back-btn" onclick="window.showPage('page-02', 'home')">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                <!-- PAGE 03: Find (Image tab) -->
+        <div id="page-03" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                
+                <!-- Group 17 (Header) -->
+                <div style="position: relative; width: 100%; max-width: 395px; height: 80px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px; display: flex; justify-content: center; align-items: center;">
+                    <div style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 700; font-size: 20px; color: #482B12;">跨平台尋找遺失物</div>
+                    <div onclick="window.showPage('page-02', 'home')" style="position: absolute; width: 30px; height: 30px; left: 22px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
                 </div>
-                <h1 class="title-20">尋找遺失物</h1>
-            </div>
-            <div class="tabs">
-                <div class="tab active">圖片</div>
-                <div class="tab" onclick="window.showPage('page-04')">文字</div>
-            </div>
-            <label class="upload-area" for="upload-p03">
-                <div id="upload-text-p03">
-                    <svg class="icon mb-2" style="width: 32px; height: 32px; color: var(--text-gray);" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                    <div class="caption-12">點擊上傳圖片 *（必填）</div>
+
+                <!-- Tabs (Frame 48) -->
+                <div style="display: flex; flex-direction: row; align-items: center; background: #F3F0E1; border-radius: 50px; width: 168px; height: 46px; margin-top: 25px; position: relative; flex-shrink: 0;">
+                    <!-- Active background pill -->
+                    <div style="position: absolute; width: 74px; height: 38px; left: 6px; background: #F5F5F5; border: 1px solid #000000; border-radius: 42px; transition: 0.3s;"></div>
+                    <div style="flex: 1; text-align: center; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 20px; color: #482B12; cursor: default; z-index: 1;">圖片</div>
+                    <div onclick="window.showPage('page-04')" style="flex: 1; text-align: center; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 20px; color: #482B12; cursor: pointer; z-index: 1;">文字</div>
                 </div>
-                <img id="preview-p03" class="preview" src="" alt="預覽">
-            </label>
-            <input type="file" id="upload-p03" style="display:none;" accept="image/*" onchange="window.previewImage(this, 'preview-p03', 'upload-text-p03')">
-            <div class="flex-row gap-2" style="margin-bottom: 8px;">
-                <select id="city-03" class="city-select" onchange="window.updateDistricts('city-03', 'dist-03')" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;">
-                    <option value="" disabled selected>選擇縣市 *</option>
-                </select>
-                <select id="dist-03" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;">
-                    <option value="" disabled selected>選擇地區 *</option>
-                </select>
-            </div>
-            <input id="lost-date-03" type="date" required>
-            <textarea id="lost-notes-03" placeholder="其他說明...（非必填）"></textarea>
-            <div style="margin-top: 16px; margin-bottom: 24px;">
-                <button class="btn btn-brown" onclick="window.prepareLostFlow('image', this)">開始 AI 辨識產生標籤</button>
+
+                <!-- Rectangle 13 (Upload Box) -->
+                <label for="upload-p03" style="box-sizing: border-box; width: 100%; max-width: 340px; height: 200px; background: #F5F5F5; border: 1px solid #000000; border-radius: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; margin-top: 25px; flex-shrink: 0;">
+                    <div id="upload-icon-p03" style="width: 40px; height: 40px; background: url('camera-regular.png') no-repeat center center / contain;"></div>
+                    <img id="preview-p03" src="" style="display: none; width: 100%; height: 100%; object-fit: contain;">
+                </label>
+                <input type="file" id="upload-p03" style="display: none;" accept="image/*" onchange="window.previewImage(this, 'preview-p03', 'upload-icon-p03')">
+
+                <!-- Rectangle 17 (Form background) -->
+                <div style="width: 100%; max-width: 340px; background: #F3F0E1; border-radius: 10px; padding: 15px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; margin-top: 25px; flex-shrink: 0;">
+                    
+                    <!-- Date -->
+                    <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                        <div style="width: 35px; height: 35px; background: url('calendar-days-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
+                        <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 0 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
+                            <input type="date" id="lost-date-03" style="width: 100%; height: 20px; font-family: 'Comfortaa', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                        </div>
+                    </div>
+
+                    <!-- 遺失地點 (Dropdowns) -->
+                    <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                        <div style="width: 35px; height: 35px; background: url('location-dot-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
+                        <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 0 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; gap: 10px;">
+                            <select id="city-03" onchange="window.updateDistricts('city-03', 'dist-03')" style="width: 50%; height: 20px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                                <option value="" disabled selected>遺失縣市</option>
+                            </select>
+                            <select id="dist-03" style="width: 50%; height: 20px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                                <option value="" disabled selected>遺失地區</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 備註 -->
+                    <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                        <div style="width: 35px; text-align: center; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 16px; color: #482B12; flex-shrink: 0; margin-left: 10px;">備註</div>
+                        <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 0 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
+                            <input type="text" id="lost-notes-03" placeholder="供Threads發文時提供詳細資訊" style="width: 100%; height: 20px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="flex-grow: 1;"></div>
+
+                <!-- Frame 28 (Submit Button) -->
+                <div onclick="window.prepareLostFlow('image', this)" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 30px; gap: 15px; width: 100%; max-width: 350px; height: 60px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; flex-shrink: 0; margin-top: 35px; margin-bottom: 20px;">
+                    <div style="width: 40px; height: 40px; background: url('circle-check-regular.png') no-repeat center center / contain; flex: none;"></div>
+                    <div style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 16px; text-align: center; color: #482B12; flex: none;">填寫完成，讓AI 辨識產生標籤</div>
+                </div>
             </div>
         </div>
-        <!-- PAGE 04: Find (Text tab) -->
-        <div id="page-04" class="page">
-            <div class="top-bar">
-                <div class="back-btn" onclick="window.showPage('page-02', 'home')">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                <!-- PAGE 04: Find (Text tab) -->
+        <div id="page-04" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                
+                <!-- Group 17 (Header) -->
+                <div style="position: relative; width: 100%; max-width: 395px; height: 80px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px; display: flex; justify-content: center; align-items: center;">
+                    <div style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 700; font-size: 20px; color: #482B12;">跨平台尋找遺失物</div>
+                    <div onclick="window.showPage('page-02', 'home')" style="position: absolute; width: 30px; height: 30px; left: 22px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
                 </div>
-                <h1 class="title-20">尋找遺失物</h1>
-            </div>
-            <div class="tabs">
-                <div class="tab" onclick="window.showPage('page-03')">圖片</div>
-                <div class="tab active">文字</div>
-            </div>
-            <textarea id="lost-desc-04" placeholder="描述你的遺失物 *（必填，例：黑色 Sony 耳機，耳機殼有貼紙）" style="min-height: 120px;"></textarea>
-            <div class="flex-row gap-2" style="margin-bottom: 8px;">
-                <select id="city-04" class="city-select" onchange="window.updateDistricts('city-04', 'dist-04')" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;">
-                    <option value="" disabled selected>選擇縣市 *</option>
-                </select>
-                <select id="dist-04" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;">
-                    <option value="" disabled selected>選擇地區 *</option>
-                </select>
-            </div>
-            <input id="lost-date-04" type="date" required>
-            <textarea id="lost-notes-04" placeholder="其他說明...（非必填）"></textarea>
-            <div style="margin-top: 16px; margin-bottom: 24px;">
-                <button class="btn btn-brown" onclick="window.prepareLostFlow('text', this)">開始 AI 辨識產生標籤</button>
+
+                <!-- Tabs (Frame 48) -->
+                <div style="display: flex; flex-direction: row; align-items: center; background: #F3F0E1; border-radius: 50px; width: 168px; height: 46px; margin-top: 25px; position: relative; flex-shrink: 0;">
+                    <!-- Active background pill -->
+                    <div style="position: absolute; width: 74px; height: 38px; left: 88px; background: #F5F5F5; border: 1px solid #000000; border-radius: 42px; transition: 0.3s;"></div>
+                    <div onclick="window.showPage('page-03')" style="flex: 1; text-align: center; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 20px; color: #482B12; cursor: pointer; z-index: 1;">圖片</div>
+                    <div style="flex: 1; text-align: center; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 20px; color: #482B12; cursor: default; z-index: 1;">文字</div>
+                </div>
+
+                <!-- Rectangle 13 (Text Box) -->
+                <div style="box-sizing: border-box; width: 100%; max-width: 340px; height: 200px; background: #F5F5F5; border: 1px solid #000000; border-radius: 10px; margin-top: 25px; flex-shrink: 0; padding: 20px; display: flex;">
+                    <textarea id="lost-desc-04" placeholder="請在此處描述您遺失的物品" style="width: 100%; height: 100%; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 16px; color: #000000; border: none; background: transparent; outline: none; resize: none;"></textarea>
+                </div>
+
+                <!-- Rectangle 17 (Form background) -->
+                <div style="width: 100%; max-width: 340px; background: #F3F0E1; border-radius: 10px; padding: 15px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; margin-top: 25px; flex-shrink: 0;">
+                    
+                    <!-- Date -->
+                    <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                        <div style="width: 35px; height: 35px; background: url('calendar-days-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
+                        <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 0 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
+                            <input type="date" id="lost-date-04" style="width: 100%; height: 20px; font-family: 'Comfortaa', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                        </div>
+                    </div>
+
+                    <!-- 遺失地點 (Dropdowns) -->
+                    <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                        <div style="width: 35px; height: 35px; background: url('location-dot-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
+                        <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 0 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; gap: 10px;">
+                            <select id="city-04" onchange="window.updateDistricts('city-04', 'dist-04')" style="width: 50%; height: 20px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                                <option value="" disabled selected>遺失縣市</option>
+                            </select>
+                            <select id="dist-04" style="width: 50%; height: 20px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                                <option value="" disabled selected>遺失地區</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 備註 -->
+                    <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                        <div style="width: 35px; text-align: center; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 16px; color: #482B12; flex-shrink: 0; margin-left: 10px;">備註</div>
+                        <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 0 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
+                            <input type="text" id="lost-notes-04" placeholder="供Threads發文時提供詳細資訊" style="width: 100%; height: 20px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="flex-grow: 1;"></div>
+
+                <!-- Frame 28 (Submit Button) -->
+                <div onclick="window.prepareLostFlow('text', this)" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 30px; gap: 15px; width: 100%; max-width: 350px; height: 60px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; flex-shrink: 0; margin-top: 35px; margin-bottom: 20px;">
+                    <div style="width: 40px; height: 40px; background: url('circle-check-regular.png') no-repeat center center / contain; flex: none;"></div>
+                    <div style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 16px; text-align: center; color: #482B12; flex: none;">填寫完成，讓AI 辨識產生標籤</div>
+                </div>
             </div>
         </div>
         <!-- PAGE 05: AI Tags Confirm (Finder) -->
