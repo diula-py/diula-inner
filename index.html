@@ -746,35 +746,69 @@
                 <button class="btn btn-white" onclick="window.showPage('page-02', 'home')">返回首頁</button>
             </div>
         </div>
-        <!-- PAGE 10: Register Found (Non-ID) -->
-        <div id="page-10" class="page">
-            <div class="top-bar">
-                <div class="back-btn" onclick="window.showPage('page-02', 'home')">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                </div>
-                <h1 class="title-20">登錄拾獲</h1>
+                <!-- PAGE 10: Register Found (Non-ID) -->
+        <div id="page-10" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
+            
+            <!-- Group 17 (Header) -->
+            <div style="position: relative; width: 100%; max-width: 395px; height: 80px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px; display: flex; justify-content: center; align-items: center;">
+                <div style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 700; font-size: 20px; color: #482B12;">非證件類遺失物登錄</div>
+                <div onclick="window.showPage('page-02', 'home')" style="position: absolute; width: 30px; height: 30px; left: 22px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
             </div>
-            <label class="upload-area" for="upload-p10">
-                <div id="upload-text-p10">
-                    <svg class="icon mb-2" style="width: 32px; height: 32px; color: var(--text-gray);" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                    <div class="caption-12">點擊上傳圖片 *（必填）</div>
-                </div>
-                <img id="preview-p10" class="preview" src="" alt="預覽">
+
+            <!-- Frame 62 (Upload Box) -->
+            <label for="upload-p10" style="box-sizing: border-box; width: 100%; max-width: 340px; height: 200px; background: #F5F5F5; border: 1px solid #000000; border-radius: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; margin-top: 40px; flex-shrink: 0;">
+                <div id="upload-icon-p10" style="width: 40px; height: 40px; background: url('camera-regular.png') no-repeat center center / contain;"></div>
+                <img id="preview-p10" src="" style="display: none; width: 100%; height: 100%; object-fit: contain;">
             </label>
-            <input type="file" id="upload-p10" style="display:none;" accept="image/*" onchange="window.previewImage(this, 'preview-p10', 'upload-text-p10')">
-            <input id="found-date-10" type="date" required>
-            <div class="flex-row gap-2" style="margin-bottom: 8px;">
-                <select id="city-10" class="city-select" onchange="window.updateDistricts('city-10', 'dist-10')" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;">
-                    <option value="" disabled selected>選擇縣市 *</option>
-                </select>
-                <select id="dist-10" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;">
-                    <option value="" disabled selected>選擇地區 *</option>
-                </select>
+            <input type="file" id="upload-p10" style="display: none;" accept="image/*" onchange="window.previewImage(this, 'preview-p10', 'upload-icon-p10')">
+
+            <!-- Rectangle 17 (Form background) -->
+            <div style="width: 100%; max-width: 340px; background: #F3F0E1; border-radius: 10px; padding: 15px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; margin-top: 40px; flex-shrink: 0;">
+                
+                <!-- Date -->
+                <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                    <div style="width: 35px; height: 35px; background: url('calendar-days-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
+                    <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 0 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
+                        <input type="date" id="found-date-10" style="width: 100%; height: 20px; font-family: 'Comfortaa', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                    </div>
+                </div>
+
+                <!-- 拾獲的地點 -->
+                <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                    <div style="width: 35px; height: 35px; background: url('location-dot-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
+                    <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 0 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; gap: 10px;">
+                        <select id="city-10" onchange="window.updateDistricts('city-10', 'dist-10')" style="width: 50%; height: 20px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                            <option value="" disabled selected>拾獲縣市</option>
+                        </select>
+                        <select id="dist-10" style="width: 50%; height: 20px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                            <option value="" disabled selected>拾獲地區</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 送往的地點 -->
+                <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                    <div style="width: 35px; height: 35px; background: url('location-dot-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
+                    <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 0 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
+                        <input type="text" id="found-drop-10" placeholder="送往的地點" style="width: 100%; height: 20px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                    </div>
+                </div>
+
+                <!-- 備註 -->
+                <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                    <div style="width: 35px; text-align: center; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 16px; color: #482B12; flex-shrink: 0; margin-left: 10px;">備註</div>
+                    <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 0 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
+                        <input type="text" id="found-notes-10" placeholder="供Threads發文時提供詳細資訊" style="width: 100%; height: 20px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                    </div>
+                </div>
             </div>
-            <input id="found-drop-10" type="text" placeholder="送往的地點 *（必填，例：捷運服務台、警局）">
-            <textarea id="found-notes-10" placeholder="備註說明...（非必填）"></textarea>
-            <div style="margin-top: 16px; margin-bottom: 24px;">
-                <button class="btn btn-brown" onclick="window.prepareFoundFlow('non-id', this)">開始 AI 辨識產生標籤</button>
+
+            <div style="flex-grow: 1;"></div>
+
+            <!-- Frame 28 (Submit Button) -->
+            <div onclick="window.prepareFoundFlow('non-id', this)" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 30px; gap: 15px; width: 100%; max-width: 350px; height: 60px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; flex-shrink: 0; margin-top: 35px; margin-bottom: 20px;">
+                <div style="width: 40px; height: 40px; background: url('circle-check-regular.png') no-repeat center center / contain; flex: none;"></div>
+                <div style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 16px; text-align: center; color: #482B12; flex: none;">填寫完成，讓AI 辨識產生標籤</div>
             </div>
         </div>
         <!-- PAGE 11: AI Tags Confirm (Founder) -->
@@ -809,41 +843,89 @@
                 <button class="btn" style="background-color: #D6E4F0; color: #D3430B; font-weight: 700;" onclick="window.commitReportToFirestore(this)">確認並開始尋找</button>
             </div>
         </div>
-        <!-- PAGE 12: Register Found (ID) -->
-        <div id="page-12" class="page">
-            <div class="top-bar">
-                <div class="back-btn" onclick="window.showPage('page-02', 'home')">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                </div>
-                <h1 class="title-20">登錄拾獲證件</h1>
+                <!-- PAGE 12: Register Found (ID) -->
+        <div id="page-12" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
+            
+            <!-- Header -->
+            <div style="position: relative; width: 100%; max-width: 395px; height: 80px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px; display: flex; justify-content: center; align-items: center;">
+                <div style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 700; font-size: 20px; color: #492C13;">證件類遺失物登錄</div>
+                <div onclick="window.showPage('page-02', 'home')" style="position: absolute; width: 30px; height: 30px; left: 22px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px;">
-                <label class="card" style="margin-bottom:0; justify-content:flex-start; padding: 12px;"><input type="radio" name="id-type" value="身分證" checked style="margin-right: 8px;"> 身分證</label>
-                <label class="card" style="margin-bottom:0; justify-content:flex-start; padding: 12px;"><input type="radio" name="id-type" value="健保卡" style="margin-right: 8px;"> 健保卡</label>
-                <label class="card" style="margin-bottom:0; justify-content:flex-start; padding: 12px;"><input type="radio" name="id-type" value="臺灣護照" style="margin-right: 8px;"> 臺灣護照</label>
-                <label class="card" style="margin-bottom:0; justify-content:flex-start; padding: 12px;"><input type="radio" name="id-type" value="其他證件" style="margin-right: 8px;"> 其他證件</label>
+
+            <!-- ID Type Selection (Group 36-39) -->
+            <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 10px; margin-top: 20px; width: 100%; padding: 0 20px; box-sizing: border-box; overflow-x: auto;">
+                <label style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 8px 14px; background: #F3F0E1; border: 1.5px solid #000000; border-radius: 50px; cursor: pointer; min-width: 80px; height: 45px;" onclick="window.selectIdType(this)">
+                    <input type="radio" name="id-type" value="身分證" checked style="display: none;">
+                    <div style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">身份證</div>
+                </label>
+                <label style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; min-width: 80px; height: 45px;" onclick="window.selectIdType(this)">
+                    <input type="radio" name="id-type" value="健保卡" style="display: none;">
+                    <div style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 16px; color: #482B12;">健保卡</div>
+                </label>
+                <label style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; min-width: 80px; height: 45px;" onclick="window.selectIdType(this)">
+                    <input type="radio" name="id-type" value="學生證" style="display: none;">
+                    <div style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 16px; color: #482B12;">學生證</div>
+                </label>
+                <label style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; min-width: 80px; height: 45px;" onclick="window.selectIdType(this)">
+                    <input type="radio" name="id-type" value="其他" style="display: none;">
+                    <div style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 16px; color: #482B12;">其他</div>
+                </label>
             </div>
-            <label class="upload-area" for="upload-p12">
-                <div id="upload-text-p12">
-                    <svg class="icon mb-2" style="width: 32px; height: 32px; color: var(--text-gray);" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                    <div class="caption-12">點擊拍攝/上傳照片 *（必填）</div>
-                </div>
-                <img id="preview-p12" class="preview" src="" alt="預覽">
+
+            <!-- Upload Box -->
+            <label for="upload-p12" style="box-sizing: border-box; width: 100%; max-width: 340px; height: 200px; background: #F5F5F5; border: 1px solid #000000; border-radius: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; margin-top: 20px; flex-shrink: 0;">
+                <div id="upload-icon-p12" style="width: 40px; height: 40px; background: url('camera-regular.png') no-repeat center center / contain;"></div>
+                <img id="preview-p12" src="" style="display: none; width: 100%; height: 100%; object-fit: contain;">
             </label>
-            <input type="file" id="upload-p12" style="display:none;" accept="image/*" onchange="window.previewImage(this, 'preview-p12', 'upload-text-p12')">
-            <input id="found-date-12" type="date" required>
-            <div class="flex-row gap-2" style="margin-bottom: 8px;">
-                <select id="city-12" class="city-select" onchange="window.updateDistricts('city-12', 'dist-12')" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;">
-                    <option value="" disabled selected>選擇縣市 *</option>
-                </select>
-                <select id="dist-12" style="margin-bottom: 0; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;">
-                    <option value="" disabled selected>選擇地區 *</option>
-                </select>
+            <input type="file" id="upload-p12" style="display: none;" accept="image/*" onchange="window.previewImage(this, 'preview-p12', 'upload-icon-p12')">
+
+            <!-- Form background -->
+            <div style="width: 100%; max-width: 340px; background: #F3F0E1; border-radius: 10px; padding: 15px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; margin-top: 20px; flex-shrink: 0;">
+                
+                <!-- Date -->
+                <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                    <div style="width: 35px; height: 35px; background: url('calendar-days-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
+                    <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 0 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
+                        <input type="date" id="found-date-12" style="width: 100%; height: 20px; font-family: 'Comfortaa', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                    </div>
+                </div>
+
+                <!-- 拾獲的地點 -->
+                <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                    <div style="width: 35px; height: 35px; background: url('location-dot-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
+                    <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 0 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; gap: 10px;">
+                        <select id="city-12" onchange="window.updateDistricts('city-12', 'dist-12')" style="width: 50%; height: 20px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                            <option value="" disabled selected>拾獲縣市</option>
+                        </select>
+                        <select id="dist-12" style="width: 50%; height: 20px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                            <option value="" disabled selected>拾獲地區</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 送往的地點 -->
+                <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                    <div style="width: 35px; height: 35px; background: url('location-dot-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
+                    <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 0 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
+                        <input type="text" id="found-drop-12" placeholder="送往的地點" style="width: 100%; height: 20px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                    </div>
+                </div>
+
+                <!-- 備註 -->
+                <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                    <div style="width: 35px; text-align: center; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 16px; color: #482B12; flex-shrink: 0; margin-left: 10px;">備註</div>
+                    <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 0 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
+                        <input type="text" id="found-notes-12" placeholder="供Threads發文時提供詳細資訊" style="width: 100%; height: 20px; font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                    </div>
+                </div>
             </div>
-            <input id="found-drop-12" type="text" placeholder="送往的地點 *（必填，例：警局、管理室）">
-            <textarea id="found-notes-12" placeholder="備註說明...（非必填）"></textarea>
-            <div style="margin-top: 16px; margin-bottom: 24px;">
-                <button class="btn btn-brown" onclick="window.prepareFoundFlow('id', this)">開始 AI 辨識產生標籤</button>
+
+            <div style="flex-grow: 1;"></div>
+
+            <!-- Frame 28 (Submit Button) -->
+            <div onclick="window.prepareFoundFlow('id', this)" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 30px; gap: 15px; width: 100%; max-width: 350px; height: 60px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; flex-shrink: 0; margin-top: 35px; margin-bottom: 20px;">
+                <div style="width: 40px; height: 40px; background: url('circle-check-regular.png') no-repeat center center / contain; flex: none;"></div>
+                <div style="font-family: 'GenSenRounded2 TW', sans-serif; font-weight: 500; font-size: 16px; text-align: center; color: #482B12; flex: none;">填寫完成，為該筆資料新增標籤</div>
             </div>
         </div>
         <!-- PAGE 13: Publish Success -->
@@ -1964,6 +2046,20 @@ const twLocations = {
 
             if(btnElement) btnElement.innerText = '開始 AI 辨識產生標籤';
             window.showPage('page-05');
+        }
+        window.selectIdType = function(labelEl) {
+            // 找到所有 ID type 的 labels
+            const labels = labelEl.parentElement.querySelectorAll('label');
+            labels.forEach(l => {
+                // reset styling
+                l.style.background = '#F5F5F5';
+                l.style.border = '1px solid #000000';
+                l.querySelector('div').style.fontWeight = '400';
+            });
+            // highlight the selected one
+            labelEl.style.background = '#F3F0E1';
+            labelEl.style.border = '1.5px solid #000000';
+            labelEl.querySelector('div').style.fontWeight = '500';
         }
 
         window.prepareFoundFlow = async function(flowType, btnElement) {
