@@ -1605,6 +1605,7 @@ const twLocations = {
         window.initCitySelects = function() {
             const citySelects = document.querySelectorAll('.city-select, select[id^="city-"], select[id^="info-city-"]');
             citySelects.forEach(select => {
+                if (select.options.length > 1) return; // already initialized
                 let options = '<option value="" disabled selected>選擇縣市</option>';
                 for (let city in twLocations) {
                     options += `<option value="${city}">${city}</option>`;
@@ -2007,6 +2008,7 @@ const twLocations = {
         const bottomNav = document.getElementById('bottom-nav');
 
                 window.showPage = function(pageId, navTab = '') {
+            if (window.initCitySelects) window.initCitySelects();
             // 已登入狀態：不允許使用者切換回登入頁（page-01），強制導向首頁
             if (pageId === 'page-01' && window.isLiffSafeLoggedIn()) {
                 console.warn('使用者已登入，阻斷返回 page-01，強制跳轉至 page-02');
