@@ -812,7 +812,7 @@
                         <!-- AI Tags will be populated here -->
                     </div>
                     <!-- Add Tag Button -->
-                    <div onclick="window.showAddTagModal('05')" style="display: inline-flex; flex-direction: row; justify-content: center; align-items: center; padding: 8px 16px; gap: 8px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; margin-top: 10px;">
+                    <div onclick="window.openTagModal('tags-container-05')" style="display: inline-flex; flex-direction: row; justify-content: center; align-items: center; padding: 8px 16px; gap: 8px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; margin-top: 10px;">
                         <div style="width: 15px; height: 15px; background: url('plus-solid.png') no-repeat center center / contain;"></div>
                         <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12;">新增</div>
                     </div>
@@ -826,86 +826,91 @@
                     <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; text-align: center; color: #482B12; flex: none;">確認！開始比對尋找</div>
                 </div>
 
-                <!-- Add Tag Modal -->
-                <div id="add-tag-modal-05" class="modal-overlay">
-                    <div class="modal-content">
-                        <!-- Top part: Selected Tags -->
-                        <div style="width: 100%; height: 130px; background: #F3F0E1; border-radius: 10px 10px 0px 0px; position: relative;">
-                            <div onclick="window.closeAddTagModal('05')" style="position: absolute; width: 35px; height: 35px; left: 11px; top: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center;">
-                                <div style="width: 25px; height: 25px; border: 3px solid #1E1E1E; display: flex; justify-content: center; align-items: center; position: relative;"><div style="width: 15px; height: 3px; background: #1E1E1E; transform: rotate(45deg); position: absolute;"></div><div style="width: 15px; height: 3px; background: #1E1E1E; transform: rotate(-45deg); position: absolute;"></div></div>
-                            </div>
-                            <div onclick="window.confirmAddTags('05')" style="position: absolute; width: 35px; height: 35px; right: -5px; top: 10px; background: url('check-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
-                            <div style="position: absolute; left: 17px; top: 57px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">已選標籤</div>
-                            <div id="modal-selected-tags-05" style="position: absolute; left: 17px; top: 85px; width: 260px; display: flex; flex-wrap: wrap; gap: 8px;">
-                                <!-- Selected tags here -->
-                            </div>
-                        </div>
-                        
-                        <!-- Scroll bar separator -->
-                        <div style="position: absolute; width: 4px; height: 260px; right: 15px; top: 135px; background: #FFFFFF; border-radius: 10px;">
-                            <div style="width: 4px; height: 25px; background: #C4C4C4; border-radius: 10px;"></div>
-                        </div>
+            </div>
+        </div>
+                <!-- PAGE 06: 比對結果（跨平台尋找遺失物） -->
+        <div id="page-06" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; padding-bottom: calc(120px + env(safe-area-inset-bottom));">
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%; position: relative;">
 
-                        <!-- Available Tags -->
-                        <div style="padding: 15px; height: 270px; overflow-y: auto; box-sizing: border-box;">
-                            <div style="display: flex; flex-direction: column; gap: 10px;">
-                                <!-- Example tags, to be dynamically populated -->
-                                <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #000000; cursor: pointer;" onclick="window.toggleTagSelection('05', '雨具')">雨具</div>
-                                <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12; cursor: pointer;" onclick="window.toggleTagSelection('05', '鑰匙')">鑰匙</div>
-                                <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12; cursor: pointer;" onclick="window.toggleTagSelection('05', '電子產品')">電子產品</div>
-                            </div>
-                        </div>
+                <!-- Header -->
+                <div style="position: relative; width: 100%; max-width: 395px; height: 80px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px; display: flex; justify-content: center; align-items: center; z-index: 10;">
+                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12;">比對結果</div>
+                    <div onclick="window.showPage('page-05')" style="position: absolute; width: 30px; height: 30px; left: 22px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
+                </div>
+
+                <!-- Platform Tabs -->
+                <div id="match-tabs" style="display: flex; flex-direction: row; gap: 10px; margin-top: 20px; flex-shrink: 0;">
+                    <div class="match-tab" data-tab="police" onclick="window.switchMatchTab('police')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">警政署</div>
+                    <div class="match-tab" data-tab="mrt" onclick="window.switchMatchTab('mrt')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">北捷</div>
+                    <div class="match-tab" data-tab="thsr" onclick="window.switchMatchTab('thsr')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">高鐵</div>
+                    <div class="match-tab active" data-tab="diula" onclick="window.switchMatchTab('diula')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F3F0E1; border: 1.5px solid #000000; border-radius: 50px; cursor: pointer;">
+                        <div style="width: 60px; height: 19px; background: url('DiuLa_logo_transparent.png') no-repeat center center / contain;"></div>
                     </div>
                 </div>
 
-            </div>
-        </div>
-        <!-- PAGE 06: Match Result (Finder) -->
-        <div id="page-06" class="page">
-            <div class="top-bar">
-                <div class="back-btn" onclick="window.showPage('page-05')">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                <!-- 丟啦！(DiuLa!) 站內即時比對 -->
+                <div id="match-diula-content" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                    <div id="match-results-list" style="width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 20px; margin-top: 25px; box-sizing: border-box;">
+                        <!-- Data populated from found_items matching algorithm -->
+                    </div>
                 </div>
-                <h1 class="title-20">比對結果</h1>
+
+                <!-- 外部平台（警政署／北捷／高鐵）：目前尚無自動比對，導引至官方查詢頁 -->
+                <div id="match-info-content" style="display: none; width: 100%; flex-direction: column; align-items: center;">
+                    <div style="width: 100%; max-width: 340px; background: #F5F5F5; border: 1px solid #000000; border-radius: 10px; margin-top: 25px; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; gap: 15px;">
+                        <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 16px; color: #482B12;">您提交的遺失物資訊</div>
+                        <div id="match-info-desc" style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 14px; color: #482B12; line-height: 150%;"></div>
+                        <a id="match-info-link" href="#" target="_blank" rel="noopener" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 12px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; text-decoration: underline; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 14px; color: #482B12;">前往官方網站查詢</a>
+                    </div>
+                    <div style="width: 100%; max-width: 340px; margin-top: 15px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; opacity: 0.7; text-align: center; line-height: 150%;">
+                        此平台尚未提供自動比對串接，請點擊上方連結至官方網站查詢，或切換至「DiuLa!」分頁查看站內比對結果。
+                    </div>
+                </div>
+
+                <div style="height: 20px; width: 100%;"></div>
             </div>
-            <div class="scroll-tabs">
-                <div class="scroll-tab active">DiuLa!</div>
-                <div class="scroll-tab" onclick="alert('謝旻負責串接中...')">警政署</div>
-                <div class="scroll-tab" onclick="alert('謝旻負責串接中...')">北捷</div>
-                <div class="scroll-tab" onclick="alert('謝旻負責串接中...')">高鐵</div>
+
+            <!-- 都沒有我的物品：浮動按鈕 -->
+            <div onclick="document.getElementById('notfound-modal').style.display='flex'" style="position: fixed; right: 22px; bottom: calc(95px + env(safe-area-inset-bottom)); width: 80px; height: 80px; background: #DFEAF5; border: 1px solid #000000; border-radius: 40px; display: flex; justify-content: center; align-items: center; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; color: #482B12; cursor: pointer; z-index: 60;">都沒有<br>我的物品</div>
+
+            <!-- 沒有我的東西：選項彈窗 -->
+            <div id="notfound-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center;">
+                <div style="position: relative; width: 300px; background: #F3F0E1; border-radius: 10px; padding: 30px 20px; box-sizing: border-box;">
+                    <div onclick="document.getElementById('notfound-modal').style.display='none'" style="position: absolute; width: 30px; height: 30px; left: 11px; top: 10px; background: url('xmark-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
+                    <div style="text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12; margin: 25px 0 20px;">都沒有我的東西！</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div onclick="window.handleAutoPush()" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 15px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">開啟自動尋找並推播</div>
+                        <div onclick="window.handleThreadsPost()" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 15px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">幫你發Threads的協尋文</div>
+                        <div onclick="document.getElementById('notfound-modal').style.display='none'; document.getElementById('notfound-home-confirm').style.display='flex';" style="text-align: center; margin-top: 5px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 14px; color: #482B12; text-decoration: underline; cursor: pointer;">返回首頁</div>
+                    </div>
+                </div>
             </div>
-            <!-- Results -->
-            <div id="match-results-list">
-                <!-- Data populated from found_items matching algorithm -->
+
+            <!-- 確認是否回首頁 -->
+            <div id="notfound-home-confirm" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center;">
+                <div style="position: relative; width: 300px; height: 251px; background: #F3F0E1; border-radius: 10px;">
+                    <div onclick="document.getElementById('notfound-home-confirm').style.display='none'" style="position: absolute; width: 35px; height: 35px; left: 11px; top: 10px; background: url('xmark-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
+                    <div style="position: absolute; width: 228px; left: calc(50% - 114px); top: 99px; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 130%; color: #482B12;">是否確認要返回首頁？</div>
+                    <div style="position: absolute; width: 228px; left: calc(50% - 114px); top: 150px; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; opacity: 0.7;">提醒：返回首頁後此次比對結果將無法返回</div>
+                    <div onclick="window.showPage('page-02', 'home')" style="position: absolute; left: 41px; top: 175px; width: 90px; height: 60px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; color: #482B12;">是</div>
+                    <div onclick="document.getElementById('notfound-home-confirm').style.display='none'" style="position: absolute; left: 170px; top: 175px; width: 90px; height: 60px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; color: #482B12;">否</div>
+                </div>
             </div>
-            <div class="mt-auto">
-                <button class="btn btn-text" onclick="window.showPage('page-07')">都沒有我的物品</button>
+
+            <!-- 開啟推播 成功 -->
+            <div id="notfound-push-success" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center;">
+                <div style="width: 300px; background: #F3F0E1; border-radius: 10px; padding: 35px 20px; box-sizing: border-box; text-align: center;">
+                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12; margin-bottom: 25px;">自動尋找與推播已開啟！</div>
+                    <div onclick="document.getElementById('notfound-push-success').style.display='none'; window.showPage('page-15', 'profile');" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 15px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">返回我的遺失物</div>
+                </div>
             </div>
-        </div>
-        <!-- PAGE 07: Not Found (Missing) -->
-        <div id="page-07" class="page page-center">
-            <svg class="illu-svg" viewBox="0 0 24 24" style="fill: var(--text-gray);">
-                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                <text x="10.5" y="12" font-size="8" font-family="Arial" font-weight="bold" fill="var(--bg-color)">?</text>
-            </svg>
-            <h1 class="title-20" style="margin-bottom: 32px;">都沒有我的東西</h1>
-            <div class="w-100">
-                <button class="btn btn-brown" onclick="window.showPage('page-08')">開啟自動尋找與推播</button>
-                <button class="btn btn-gray" onclick="alert('開啟 Threads app...')">於官方 Threads 帳號發佈協尋文</button>
-            </div>
-            <div class="mt-auto">
-                <button class="btn btn-text" onclick="window.showPage('page-02', 'home')">返回首頁</button>
-            </div>
-        </div>
-        <!-- PAGE 08: Auto Push Enabled -->
-        <div id="page-08" class="page page-center">
-            <svg class="illu-svg" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" fill="#06C755"/>
-                <path d="M10 15.17L7.83 13l-1.42 1.41L10 18l8-8-1.41-1.41z" fill="white"/>
-            </svg>
-            <h1 class="title-20" style="margin-bottom: 32px;">自動尋找與推播已開啟！</h1>
-            <div class="mt-auto w-100">
-                <button class="btn btn-white" onclick="window.showPage('page-02', 'home')">返回首頁</button>
+
+            <!-- 發脆文 成功 -->
+            <div id="notfound-thread-success" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center;">
+                <div style="width: 300px; background: #F3F0E1; border-radius: 10px; padding: 35px 20px; box-sizing: border-box; text-align: center;">
+                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12; margin-bottom: 25px;">Threads串文已排定發佈！</div>
+                    <div onclick="document.getElementById('notfound-thread-success').style.display='none'; window.showPage('page-15', 'profile');" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 15px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">返回我的遺失物</div>
+                </div>
             </div>
         </div>
                 <!-- PAGE 10: Register Found (Non-ID) -->
@@ -1039,7 +1044,7 @@
                         <!-- AI Tags will be populated here -->
                     </div>
                     <!-- Add Tag Button -->
-                    <div onclick="window.showAddTagModal('11')" style="display: inline-flex; flex-direction: row; justify-content: center; align-items: center; padding: 8px 16px; gap: 8px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; margin-top: 10px;">
+                    <div onclick="window.openTagModal('tags-container-11')" style="display: inline-flex; flex-direction: row; justify-content: center; align-items: center; padding: 8px 16px; gap: 8px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; margin-top: 10px;">
                         <div style="width: 15px; height: 15px; background: url('plus-solid.png') no-repeat center center / contain;"></div>
                         <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12;">新增</div>
                     </div>
@@ -1051,38 +1056,6 @@
                 <div onclick="window.commitReportToFirestore(this)" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 30px; gap: 15px; width: 100%; max-width: 350px; height: 60px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; cursor: pointer; flex-shrink: 0; margin-top: 35px; margin-bottom: 20px;">
                     <div style="width: 40px; height: 40px; background: url('circle-check-regular.png') no-repeat center center / contain; flex: none;"></div>
                     <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; text-align: center; color: #482B12; flex: none;">確認標籤，完成登錄</div>
-                </div>
-
-                <!-- Add Tag Modal -->
-                <div id="add-tag-modal-11" class="modal-overlay">
-                    <div class="modal-content">
-                        <!-- Top part: Selected Tags -->
-                        <div style="width: 100%; height: 130px; background: #F3F0E1; border-radius: 10px 10px 0px 0px; position: relative;">
-                            <div onclick="window.closeAddTagModal('11')" style="position: absolute; width: 35px; height: 35px; left: 11px; top: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center;">
-                                <div style="width: 25px; height: 25px; border: 3px solid #1E1E1E; display: flex; justify-content: center; align-items: center; position: relative;"><div style="width: 15px; height: 3px; background: #1E1E1E; transform: rotate(45deg); position: absolute;"></div><div style="width: 15px; height: 3px; background: #1E1E1E; transform: rotate(-45deg); position: absolute;"></div></div>
-                            </div>
-                            <div onclick="window.confirmAddTags('11')" style="position: absolute; width: 35px; height: 35px; right: -5px; top: 10px; background: url('check-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
-                            <div style="position: absolute; left: 17px; top: 57px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">已選標籤</div>
-                            <div id="modal-selected-tags-11" style="position: absolute; left: 17px; top: 85px; width: 260px; display: flex; flex-wrap: wrap; gap: 8px;">
-                                <!-- Selected tags here -->
-                            </div>
-                        </div>
-                        
-                        <!-- Scroll bar separator -->
-                        <div style="position: absolute; width: 4px; height: 260px; right: 15px; top: 135px; background: #FFFFFF; border-radius: 10px;">
-                            <div style="width: 4px; height: 25px; background: #C4C4C4; border-radius: 10px;"></div>
-                        </div>
-
-                        <!-- Available Tags -->
-                        <div style="padding: 15px; height: 270px; overflow-y: auto; box-sizing: border-box;">
-                            <div style="display: flex; flex-direction: column; gap: 10px;">
-                                <!-- Example tags, to be dynamically populated -->
-                                <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #000000; cursor: pointer;" onclick="window.toggleTagSelection('11', '雨具')">雨具</div>
-                                <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12; cursor: pointer;" onclick="window.toggleTagSelection('11', '鑰匙')">鑰匙</div>
-                                <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12; cursor: pointer;" onclick="window.toggleTagSelection('11', '電子產品')">電子產品</div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -1317,93 +1290,26 @@
         </div>
         <!-- PAGE 17: Threads 跨平台尋找遺失物 (圖片) -->
         <div id="page-17" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: hidden;">
-            
-            <!-- Group 17 (Header) -->
-            <div style="position: absolute; width: 395px; height: 80px; left: calc(50% - 395px/2); top: 0px;">
-                <div style="position: absolute; width: 395px; height: 80px; left: 0px; top: 0px; background: #F3F0E1; border-radius: 0px 0px 20px 20px;"></div>
-                <div style="position: absolute; width: 160px; height: 20px; left: calc(50% - 160px/2); top: 43px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">跨平台尋找遺失物</div>
-                <div onclick="window.showPage('page-02', 'home')" style="position: absolute; width: 30px; height: 30px; left: 22px; top: 40px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
+
+            <!-- Header -->
+            <div style="position: relative; width: 100%; max-width: 395px; height: 80px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px; display: flex; justify-content: center; align-items: center;">
+                <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12;">Threads尋找遺失物</div>
+                <div onclick="window.showPage('page-02', 'home')" style="position: absolute; width: 30px; height: 30px; left: 22px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
             </div>
 
-            <!-- Frame 48 (文字 / 圖片 Tab) -->
-            <div style="position: absolute; width: 168px; height: 46px; left: calc(50% - 168px/2 - 3.5px); top: 105px; background: #F3F0E1; border-radius: 50px;">
-                <!-- Active background for 圖片 -->
-                <div style="box-sizing: border-box; position: absolute; width: 74px; height: 38px; left: 6px; top: 4px; background: #F5F5F5; border: 1px solid #000000; border-radius: 42px;"></div>
-                <div style="position: absolute; width: 40px; height: 20px; left: 23px; top: 13px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">圖片</div>
-                <div onclick="window.showPage('page-04')" style="position: absolute; width: 40px; height: 20px; left: 105px; top: 13px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 20px; line-height: 20px; text-align: center; color: #482B12; cursor: pointer;">文字</div>
+            <!-- Search bar -->
+            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 20px; gap: 10px; width: calc(100% - 44px); max-width: 340px; height: 46px; margin: 20px auto 0; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;">
+                <div style="width: 20px; height: 20px; background: url('magnifying-glass-solid.png') no-repeat center center / contain; flex-shrink: 0;"></div>
+                <input id="threads-search-17" type="text" placeholder="搜尋 Threads 協尋文" oninput="window.filterThreadsPosts && window.filterThreadsPosts(this.value)" style="flex: 1; border: none; background: transparent; outline: none; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 14px; color: #482B12;">
             </div>
 
-            <!-- Rectangle 13 & Camera (Upload Box) -->
-            <label for="upload-p17" style="box-sizing: border-box; position: absolute; width: 340px; height: 200px; left: calc(50% - 340px/2); top: 176px; background: #F5F5F5; border: 1px solid #000000; border-radius: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center; overflow: hidden;">
-                <div id="upload-icon-p17" style="width: 40px; height: 40px; border: 4px solid #1E1E1E; box-sizing: border-box;"></div>
-                <img id="preview-p17" src="" style="display: none; width: 100%; height: 100%; object-fit: contain;">
-            </label>
-            <input type="file" id="upload-p17" style="display: none;" accept="image/*" onchange="window.previewImage(this, 'preview-p17', 'upload-icon-p17')">
-
-            <!-- Rectangle 17 (Form background) -->
-            <div style="position: absolute; width: 340px; height: 175px; left: calc(50% - 340px/2); top: 401px; background: #F3F0E1; border-radius: 10px;"></div>
-
-            <!-- Form fields -->
-            <!-- Date -->
-            <div style="position: absolute; width: 55px; height: 55px; left: 40px; top: 413px;">
-                <div style="position: absolute; width: 35px; height: 35px; left: 10px; top: 10px; background: url('calendar-days-solid.png') no-repeat center center / contain;"></div>
-            </div>
-            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 110px; top: 420px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
-                <input type="date" id="lost-date-17" style="width: 160px; height: 12px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; line-height: 13px; color: #482B12; border: none; background: transparent; outline: none; flex: none; order: 0; flex-grow: 0;">
-                <div style="width: 30px; height: 30px; transform: rotate(-180deg); flex: none; order: 1; flex-grow: 0; display: flex; justify-content: center; align-items: center;">
-                    <div style="width: 15px; height: 10px; background: #1E3050; clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"></div>
-                </div>
-            </div>
-
-            <!-- Location -->
-            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px; gap: 10px; position: absolute; width: 55px; height: 55px; left: 40px; top: 463px;">
-                <div style="width: 35px; height: 35px; background: url('location-dot-solid.png') no-repeat center center / contain; flex: none; order: 0; flex-grow: 0;"></div>
-            </div>
-            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 110px; top: 470px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
-                <input type="text" id="lost-loc-17" placeholder="新北市永和區" style="width: 160px; height: 12px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; line-height: 12px; color: #482B12; border: none; background: transparent; outline: none; flex: none; order: 0; flex-grow: 0;">
-            </div>
-
-            <!-- Notes -->
-            <div style="position: absolute; width: 32px; height: 16px; left: 52px; top: 530px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; line-height: 16px; text-align: center; color: #482B12;">備註</div>
-            <div style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 110px; top: 518px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
-                <input type="text" id="lost-notes-17" placeholder="供Threads發文時提供詳細資訊" style="width: 200px; height: 13px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; line-height: 12px; color: #482B12; opacity: 0.71; border: none; background: transparent; outline: none; flex: none; order: 0; flex-grow: 0;">
-            </div>
-
-            <!-- Frame 28 (Submit Button) -->
-            <div onclick="window.prepareLostFlow('image', document.getElementById('upload-p17'))" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 30px 40px; gap: 30px; position: absolute; width: 350px; height: 60px; left: calc(50% - 350px/2); top: 611px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
-                <div style="width: 40px; height: 40px; background: url('circle-check-regular.png') no-repeat center center / contain; flex: none; order: 0; flex-grow: 0;"></div>
-                <div style="width: 211px; height: 16px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1; flex-grow: 0;">填寫完成，讓AI 辨識產生標籤</div>
-            </div>
-
-
-            <!-- Frame 42 (AI Tags Box) -->
-            <div id="ai-tags-17" style="display: none; position: absolute; width: 340px; height: 98px; left: calc(50% - 340px/2); top: 572px; background: #F3F0E1; border-radius: 10px;">
-                <div style="position: absolute; width: 93.33px; height: 18px; left: 20px; top: 20px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 600; font-size: 16px; line-height: 18px; color: #482B12;">AI 標籤</div>
-                <!-- Tags -->
-                <div style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 20px; gap: 10px; position: absolute; width: 93.33px; height: 30px; left: 20px; top: 48px; background: #FFFFFF; border-radius: 10px;">
-                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12;">杯套</div>
-                </div>
-                <div style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 20px; gap: 10px; position: absolute; width: 93.33px; height: 30px; left: 123.33px; top: 48px; background: #FFFFFF; border-radius: 10px;">
-                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12;">水杯</div>
-                </div>
-                <div style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 20px; gap: 10px; position: absolute; width: 93.33px; height: 30px; left: 226.67px; top: 48px; background: #FFFFFF; border-radius: 10px;">
-                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12;">黃色</div>
-                </div>
-            </div>
-
-            <!-- Frame 43 (Threads Link Box) -->
-            <div id="threads-link-17" style="display: none; box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px; gap: 10px; position: absolute; width: 340px; height: 60px; left: calc(50% - 340px/2); top: 690px; background: #F3F0E1; border-radius: 10px;">
-                <div style="width: 40px; height: 40px; background: url('image.png') no-repeat center center / contain; flex: none; order: 0; flex-grow: 0;"></div>
-                <div style="width: 190px; height: 40px; background: #FFFFFF; border-radius: 10px; flex: none; order: 1; flex-grow: 0; display: flex; align-items: center; justify-content: center;">
-                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; text-decoration-line: underline; color: #000000;">https://threads/diula.py/lml</div>
-                </div>
-                <div style="box-sizing: border-box; width: 65px; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; flex: none; order: 2; flex-grow: 0; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 16px; color: #C72F02;">刪除</div>
-                </div>
+            <!-- Posts list (rendered by window.loadThreadsPosts) -->
+            <div id="community-list" style="width: 100%; max-width: 340px; margin: 20px auto 0; display: flex; flex-direction: column; gap: 15px; box-sizing: border-box;">
+                <div style="text-align: center; padding: 20px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; color: #482B12; opacity: 0.6;">載入中...</div>
             </div>
 
             <!-- Spacer for bottom nav -->
-            <div style="height: 100px; width: 100%; position: absolute; top: 700px;"></div>
+            <div style="height: 120px; width: 100%;"></div>
         </div>
         <!-- PAGE 18: My Found Items -->
         <div id="page-18" class="page">
@@ -2080,7 +1986,7 @@ const twLocations = {
                 targetPage.classList.add('active');
             }
             
-            if (pageId === 'page-01' || pageId === 'page-07' || pageId === 'page-08' || pageId === 'page-13') {
+            if (pageId === 'page-01' || pageId === 'page-13') {
                 if (bottomNav) bottomNav.style.display = 'none';
             } else {
                 if (bottomNav) bottomNav.style.display = 'flex';
@@ -2099,7 +2005,10 @@ const twLocations = {
             }
             window.scrollTo(0, 0);
 
-            if (pageId === 'page-06' && window.loadMatchResults) window.loadMatchResults();
+            if (pageId === 'page-06') {
+                if (window.switchMatchTab) window.switchMatchTab('diula');
+                if (window.loadMatchResults) window.loadMatchResults();
+            }
             if (pageId === 'page-15' && window.loadMyLostItems) window.loadMyLostItems();
             if (pageId === 'page-18' && window.loadMyFoundItems) window.loadMyFoundItems();
             if (pageId === 'page-17' && window.loadThreadsPosts) window.loadThreadsPosts();
@@ -2603,6 +2512,8 @@ const twLocations = {
                         user_id: window.currentUserId
                     });
                 }
+                // 記住這筆遺失物的文件 ID，供「開啟自動推播／發脆文」等後續操作更新狀態
+                window.currentLostData.id = customId;
             } catch (e) {
                 console.error("Error adding lost item: ", e);
             }
@@ -2701,10 +2612,14 @@ const twLocations = {
                 });
 
                 if (matches.length === 0) {
-                    window.showPage('page-07');
+                    container.innerHTML = `
+                        <div style="width: 100%; box-sizing: border-box; background: #F5F5F5; border: 1px solid #000000; border-radius: 10px; padding: 30px 20px; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 14px; color: #482B12; opacity: 0.7;">
+                            目前站內尚無符合標籤的拾獲物，DiuLa! 會持續為您比對。<br>您也可以點擊右下角「都沒有我的物品」開啟自動推播或發佈協尋文。
+                        </div>
+                    `;
                     return;
                 }
-                
+
                 // Sort descending by matchCount
                 matches.sort((a, b) => b.matchCount - a.matchCount);
 
@@ -2714,26 +2629,26 @@ const twLocations = {
                     let tagsHtml = '';
                     if (data.tags && data.tags.length > 0) {
                         data.tags.forEach(t => {
-                            tagsHtml += `<div class="caption-12" style="background: #e0e0e0; padding: 2px 6px; border-radius: 4px; margin-right: 4px; margin-bottom: 4px;">#${t}</div>`;
+                            tagsHtml += `<div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-size: 12px; color: #482B12; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; padding: 3px 10px; margin-right: 6px; margin-bottom: 6px;">#${t}</div>`;
                         });
                     }
-                    
-                    const title = data.idType ? `${data.idType}` : (data.tags && data.tags.length > 0 ? data.tags[0] : '無名物品');
+
+                    const title = data.idType ? `${data.idType}` : (data.tags && data.tags.length > 0 ? data.tags[0] : '未命名物品');
                     const imgSrc = data.image_base64 || '';
-                    const imgHtml = imgSrc ? `<img class="thumb" src="${imgSrc}" />` : `<div class="thumb"></div>`;
+                    const imgHtml = imgSrc
+                        ? `<img src="${imgSrc}" style="width: 100px; height: 100px; border-radius: 10px; object-fit: cover; flex-shrink: 0;" />`
+                        : `<div style="width: 100px; height: 100px; border-radius: 10px; background: #F3F0E1; flex-shrink: 0;"></div>`;
 
                     container.innerHTML += `
-                        <div class="card result-card">
+                        <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 20px; gap: 15px; width: 100%; background: #F5F5F5; border: 1px solid #000000; border-radius: 10px;">
                             ${imgHtml}
-                            <div class="flex-col" style="flex: 1; overflow: hidden;">
-                                <div class="flex-row space-between" style="width: 100%;">
-                                    <div class="text-14" style="font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%;">${title}</div>
-                                    <div class="badge badge-yellow">相符度: ${item.matchCount}</div>
+                            <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+                                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 16px; color: #482B12; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${title}</div>
+                                    <div style="flex-shrink: 0; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 12px; color: #482B12; background: #DFEAF5; border-radius: 10px; padding: 3px 10px;">相符 ${item.matchCount}</div>
                                 </div>
-                                <div class="caption-12 mb-2">${data.location || '未知地點'} • ${data.date || '未知日期'}</div>
-                                <div class="flex-row" style="flex-wrap: wrap;">
-                                    ${tagsHtml}
-                                </div>
+                                <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; opacity: 0.7;">${data.location || '未知地點'} • ${data.date || '未知日期'}</div>
+                                <div style="display: flex; flex-wrap: wrap;">${tagsHtml}</div>
                             </div>
                         </div>
                     `;
@@ -2742,6 +2657,92 @@ const twLocations = {
                 console.error(e);
                 container.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--red-accent);">載入失敗（若您尚未填入 firebaseConfig 或需要建立複合索引）</div>';
             }
+        }
+
+        // =========================================================================
+        // 比對結果：跨平台分頁（警政署／北捷／高鐵）目前尚無自動比對串接，
+        // 顯示使用者本次提交的遺失物資訊，並導引至官方查詢網站
+        // =========================================================================
+        const MATCH_PLATFORM_INFO = {
+            police: {
+                name: '警政署拾得遺失物管理系統',
+                url: 'https://op2.npa.gov.tw/'
+            },
+            mrt: {
+                name: '台北捷運智慧客服（遺失物查詢）',
+                url: 'https://web.metro.taipei/losequery2019/metrostation'
+            },
+            thsr: {
+                name: '台灣高鐵遺失物查詢',
+                url: 'https://www.thsrc.com.tw/ArticleContent/83cbc68f-d82a-4b6e-9540-82a885f8e512'
+            }
+        };
+
+        window.switchMatchTab = function(tab) {
+            document.querySelectorAll('.match-tab').forEach(el => {
+                const isActive = el.getAttribute('data-tab') === tab;
+                el.classList.toggle('active', isActive);
+                el.style.background = isActive ? '#F3F0E1' : '#F5F5F5';
+                el.style.border = isActive ? '1.5px solid #000000' : '1px solid #000000';
+                if (el.getAttribute('data-tab') !== 'diula') {
+                    el.style.fontWeight = isActive ? '500' : '400';
+                }
+            });
+
+            const diulaContent = document.getElementById('match-diula-content');
+            const infoContent = document.getElementById('match-info-content');
+
+            if (tab === 'diula') {
+                if (diulaContent) diulaContent.style.display = 'flex';
+                if (infoContent) infoContent.style.display = 'none';
+                return;
+            }
+
+            if (diulaContent) diulaContent.style.display = 'none';
+            if (infoContent) infoContent.style.display = 'flex';
+
+            const info = MATCH_PLATFORM_INFO[tab];
+            const descEl = document.getElementById('match-info-desc');
+            const linkEl = document.getElementById('match-info-link');
+            if (descEl) {
+                const data = window.currentLostData || {};
+                const tags = (data.tags && data.tags.length) ? data.tags.join('、') : (window.selectedTags && window.selectedTags.length ? window.selectedTags.join('、') : '（未填寫標籤）');
+                const loc = data.location || '（未填寫地點）';
+                const date = data.date || '（未填寫日期）';
+                descEl.innerHTML = `標籤：${tags}<br>遺失地點：${loc}<br>遺失日期：${date}`;
+            }
+            if (linkEl && info) {
+                linkEl.href = info.url;
+                linkEl.innerText = `前往「${info.name}」查詢`;
+            }
+        }
+
+        window.handleAutoPush = async function() {
+            document.getElementById('notfound-modal').style.display = 'none';
+            const data = window.currentLostData;
+            if (db && data && data.id) {
+                try {
+                    await updateDoc(doc(db, "lost_items", data.id), { status: "自動推播中" });
+                    data.status = "自動推播中";
+                } catch (e) {
+                    console.error("Error updating lost item status: ", e);
+                }
+            }
+            document.getElementById('notfound-push-success').style.display = 'flex';
+        }
+
+        window.handleThreadsPost = async function() {
+            document.getElementById('notfound-modal').style.display = 'none';
+            const data = window.currentLostData;
+            if (db && data && data.id) {
+                try {
+                    await updateDoc(doc(db, "lost_items", data.id), { status: "已排定發文", threadsPostScheduled: true });
+                    data.status = "已排定發文";
+                } catch (e) {
+                    console.error("Error scheduling threads post: ", e);
+                }
+            }
+            document.getElementById('notfound-thread-success').style.display = 'flex';
         }
 
         window.loadMyLostItems = async function() {
@@ -2771,7 +2772,7 @@ const twLocations = {
                     let badgeClass = 'badge-blue';
                     if (status === '已找到') badgeClass = 'badge-found';
                     else if (status === '尋找中') badgeClass = 'badge-seeking';
-                    else if (status === '自動推播中') badgeClass = 'badge-yellow';
+                    else if (status === '自動推播中' || status === '已排定發文') badgeClass = 'badge-yellow';
                     const mainTag = (data.tags && data.tags.length > 0) ? data.tags[0] : '遺失物品';
                     const tagsText = (data.tags && data.tags.length > 0) ? data.tags.map(t => `#${t}`).join(' ') : `#${mainTag}`;
                     const imgSrc = data.image_base64 || './Logo2.png';
@@ -2850,36 +2851,23 @@ const twLocations = {
             container.innerHTML = '<div style="text-align: center; padding: 20px;">載入中...</div>';
             try {
                 const q = query(collection(db, "threads_posts"), orderBy("timestamp", "desc"));
-                let querySnapshot = await getDocs(q);
-                
-                // If empty, auto-populate fake data
+                const querySnapshot = await getDocs(q);
+
                 if (querySnapshot.empty) {
-                    console.log("threads_posts is empty. Populating fake data...");
-                    await addDoc(collection(db, "threads_posts"), {
-                        content: "協尋！在世新撿到鑰匙",
-                        timestamp: serverTimestamp(),
-                        postUrl: "#"
-                    });
-                    await addDoc(collection(db, "threads_posts"), {
-                        content: "協尋！在世新發現一頂安全帽。",
-                        timestamp: serverTimestamp(),
-                        postUrl: "#"
-                    });
-                    // Re-fetch
-                    querySnapshot = await getDocs(q);
+                    container.innerHTML = '<div style="text-align: center; padding: 20px; font-family: \'Comfortaa\', \'GenSenRounded2 TW\', \'Chiron GoRound TC\', sans-serif; color: #482B12; opacity: 0.6;">目前尚無 Threads 協尋文</div>';
+                    return;
                 }
 
                 container.innerHTML = '';
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const imgHtml = data.image_base64
+                        ? `<img src="${data.image_base64}" style="width: 100px; height: 100px; border-radius: 10px; object-fit: cover; flex-shrink: 0;" />`
+                        : `<div style="width: 100px; height: 100px; border-radius: 10px; background: #F3F0E1; flex-shrink: 0;"></div>`;
                     container.innerHTML += `
-                        <div class="card community-card">
-                            <div class="thumb"></div>
-                            <div class="flex-col" style="flex: 1;">
-                                <div class="caption-12 mb-2">稍早</div>
-                                <div class="text-14 mb-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${data.content}</div>
-                                <a href="${data.postUrl || '#'}" class="caption-12" style="color: var(--primary-blue);">查看原文</a>
-                            </div>
+                        <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 20px; gap: 15px; width: 100%; background: #F5F5F5; border: 1px solid #000000; border-radius: 10px; cursor: ${data.postUrl ? 'pointer' : 'default'};" ${data.postUrl ? `onclick="window.open('${data.postUrl}', '_blank')"` : ''}>
+                            ${imgHtml}
+                            <div style="flex: 1; min-width: 0; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12; line-height: 150%; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${data.content || ''}</div>
                         </div>
                     `;
                 });
@@ -2959,7 +2947,7 @@ const twLocations = {
                     let badgeClass = 'badge-blue';
                     if (status === '已找到') badgeClass = 'badge-found';
                     else if (status === '尋找中') badgeClass = 'badge-seeking';
-                    else if (status === '自動推播中') badgeClass = 'badge-yellow';
+                    else if (status === '自動推播中' || status === '已排定發文') badgeClass = 'badge-yellow';
                     const statusEl = document.getElementById('lost-detail-status');
                     statusEl.innerText = status;
                     statusEl.className = `badge ${badgeClass}`;
