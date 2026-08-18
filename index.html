@@ -1219,25 +1219,29 @@
             <div style="height: 850px; width: 100%;"></div>
         </div>
         <!-- PAGE 15: My Lost Items -->
-        <div id="page-15" class="page">
-            <div class="top-bar">
-                <div class="back-btn" onclick="window.showPage('page-14', 'profile')">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                </div>
-                <h1 class="title-20">我的遺失物</h1>
+        <div id="page-15" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: hidden;">
+            <!-- Group 17 (Header) -->
+            <div style="position: relative; width: 100%; max-width: 395px; height: 109px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px;">
+                <div style="position: absolute; width: 100%; height: 20px; left: 0; top: 74px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">我的遺失物</div>
+                <div class="back-btn" onclick="window.showPage('page-14', 'profile')" style="position: absolute; width: 30px; height: 30px; left: 21px; top: 69px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
             </div>
-            <!-- 搜尋列：日期／關鍵字擇一（或兩者一起）篩選 -->
-            <div style="display: flex; flex-direction: row; gap: 10px; margin-bottom: 16px;">
-                <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; gap: 8px; flex: 1; padding: 10px 15px; height: 40px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;">
-                    <div style="width: 18px; height: 18px; background: url('calendar-days-solid.png') no-repeat center center / contain; flex-shrink: 0;"></div>
-                    <input id="lost-filter-date" type="date" oninput="window.filterMyLostItems()" style="width: 100%; border: none; background: transparent; outline: none; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-size: 12px; color: #482B12;">
+
+            <!-- Group 36：搜尋列（日期／關鍵字擇一或兩者一起皆可篩選） -->
+            <div style="display: flex; flex-direction: row; gap: 10px; width: 100%; max-width: 340px; margin: 20px auto 0; box-sizing: border-box;">
+                <!-- Frame 46：日期篩選（純圖示按鈕） -->
+                <div style="position: relative; width: 95px; height: 45px; flex-shrink: 0; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 20px; height: 20px; background: url('calendar-days-solid.png') no-repeat center center / contain; pointer-events: none;"></div>
+                    <div id="lost-filter-date-dot" style="display: none; position: absolute; top: 8px; right: 14px; width: 8px; height: 8px; background: #C72F02; border-radius: 50%; pointer-events: none;"></div>
+                    <input id="lost-filter-date" type="date" oninput="window.filterMyLostItems(); window.toggleDateDot('lost-filter-date','lost-filter-date-dot');" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; border: none; cursor: pointer;">
                 </div>
-                <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; gap: 8px; flex: 1; padding: 10px 15px; height: 40px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;">
+                <!-- Frame 47：關鍵字搜尋 -->
+                <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; gap: 8px; flex: 1; padding: 10px 15px; height: 45px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;">
                     <div style="width: 16px; height: 16px; background: url('magnifying-glass-solid.png') no-repeat center center / contain; flex-shrink: 0;"></div>
-                    <input id="lost-filter-keyword" type="text" placeholder="關鍵字搜尋" oninput="window.filterMyLostItems()" style="width: 100%; border: none; background: transparent; outline: none; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-size: 12px; color: #482B12;">
+                    <input id="lost-filter-keyword" type="text" placeholder="搜尋" oninput="window.filterMyLostItems()" style="width: 100%; border: none; background: transparent; outline: none; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-size: 14px; color: #482B12;">
                 </div>
             </div>
-            <div id="my-lost-items-list">
+
+            <div id="my-lost-items-list" style="width: 100%; max-width: 340px; margin: 20px auto 0; display: flex; flex-direction: column; gap: 15px; box-sizing: border-box; padding-bottom: 120px;">
                 <!-- Data populated here -->
             </div>
         </div>
@@ -1335,25 +1339,29 @@
             <div style="height: 120px; width: 100%;"></div>
         </div>
         <!-- PAGE 18: My Found Items -->
-        <div id="page-18" class="page">
-            <div class="top-bar">
-                <div class="back-btn" onclick="window.showPage('page-14', 'profile')">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                </div>
-                <h1 class="title-20">我的拾獲物</h1>
+        <div id="page-18" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: hidden;">
+            <!-- Group 17 (Header) -->
+            <div style="position: relative; width: 100%; max-width: 395px; height: 109px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px;">
+                <div style="position: absolute; width: 100%; height: 20px; left: 0; top: 74px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">我的拾獲物</div>
+                <div class="back-btn" onclick="window.showPage('page-14', 'profile')" style="position: absolute; width: 30px; height: 30px; left: 21px; top: 69px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
             </div>
-            <!-- 搜尋列：日期／關鍵字擇一（或兩者一起）篩選 -->
-            <div style="display: flex; flex-direction: row; gap: 10px; margin-bottom: 16px;">
-                <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; gap: 8px; flex: 1; padding: 10px 15px; height: 40px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;">
-                    <div style="width: 18px; height: 18px; background: url('calendar-days-solid.png') no-repeat center center / contain; flex-shrink: 0;"></div>
-                    <input id="found-filter-date" type="date" oninput="window.filterMyFoundItems()" style="width: 100%; border: none; background: transparent; outline: none; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-size: 12px; color: #482B12;">
+
+            <!-- Group 36：搜尋列（日期／關鍵字擇一或兩者一起皆可篩選） -->
+            <div style="display: flex; flex-direction: row; gap: 10px; width: 100%; max-width: 340px; margin: 20px auto 0; box-sizing: border-box;">
+                <!-- Frame 46：日期篩選（純圖示按鈕） -->
+                <div style="position: relative; width: 95px; height: 45px; flex-shrink: 0; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 20px; height: 20px; background: url('calendar-days-solid.png') no-repeat center center / contain; pointer-events: none;"></div>
+                    <div id="found-filter-date-dot" style="display: none; position: absolute; top: 8px; right: 14px; width: 8px; height: 8px; background: #C72F02; border-radius: 50%; pointer-events: none;"></div>
+                    <input id="found-filter-date" type="date" oninput="window.filterMyFoundItems(); window.toggleDateDot('found-filter-date','found-filter-date-dot');" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; border: none; cursor: pointer;">
                 </div>
-                <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; gap: 8px; flex: 1; padding: 10px 15px; height: 40px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;">
+                <!-- Frame 47：關鍵字搜尋 -->
+                <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; gap: 8px; flex: 1; padding: 10px 15px; height: 45px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;">
                     <div style="width: 16px; height: 16px; background: url('magnifying-glass-solid.png') no-repeat center center / contain; flex-shrink: 0;"></div>
-                    <input id="found-filter-keyword" type="text" placeholder="關鍵字搜尋" oninput="window.filterMyFoundItems()" style="width: 100%; border: none; background: transparent; outline: none; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-size: 12px; color: #482B12;">
+                    <input id="found-filter-keyword" type="text" placeholder="搜尋" oninput="window.filterMyFoundItems()" style="width: 100%; border: none; background: transparent; outline: none; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-size: 14px; color: #482B12;">
                 </div>
             </div>
-            <div id="my-found-items-list">
+
+            <div id="my-found-items-list" style="width: 100%; max-width: 340px; margin: 20px auto 0; display: flex; flex-direction: column; gap: 15px; box-sizing: border-box; padding-bottom: 120px;">
                 <!-- Data populated here -->
             </div>
         </div>
@@ -2871,6 +2879,14 @@ const twLocations = {
             return true;
         }
 
+        // 日期篩選按鈕上的小紅點：有選日期時顯示，用來標示「目前正依日期篩選」
+        window.toggleDateDot = function(inputId, dotId) {
+            const input = document.getElementById(inputId);
+            const dot = document.getElementById(dotId);
+            if (!input || !dot) return;
+            dot.style.display = input.value ? 'block' : 'none';
+        }
+
         window._myLostItemsCache = [];
         function renderMyLostItems(items) {
             const container = document.getElementById('my-lost-items-list');
@@ -2881,24 +2897,23 @@ const twLocations = {
             container.innerHTML = '';
             items.forEach((data) => {
                 const status = data.status || "尋找中";
-                let badgeClass = 'badge-blue';
-                if (status === '已找到') badgeClass = 'badge-found';
-                else if (status === '尋找中') badgeClass = 'badge-seeking';
-                else if (status === '自動推播中' || status === '已排定發文') badgeClass = 'badge-yellow';
+                let statusColor = '#482B12';
+                if (status === '已找到') statusColor = '#2E7D32';
+                else if (status === '自動推播中' || status === '已排定發文') statusColor = '#B8860B';
                 const mainTag = (data.tags && data.tags.length > 0) ? data.tags[0] : '遺失物品';
                 const tagsText = (data.tags && data.tags.length > 0) ? data.tags.map(t => `#${t}`).join(' ') : `#${mainTag}`;
                 const imgSrc = data.image_base64 || './Logo2.png';
-                const imgHtml = `<img class="thumb" src="${imgSrc}" style="${data.image_base64 ? '' : 'object-fit: contain; background-color: var(--bg-color);'}" />`;
 
                 container.innerHTML += `
-                    <div class="card result-card" onclick="window.viewLostDetail('${data.id}')">
-                        ${imgHtml}
-                        <div class="flex-col" style="flex: 1; overflow: hidden;">
-                            <div class="caption-12" style="color: var(--dark-brown); font-weight: 700;">編號：＃${data.id}</div>
-                            <div class="text-14" style="font-weight: 700; margin-bottom: 4px; color: var(--primary-blue);">${tagsText}</div>
-                            <div class="caption-12 mb-2">遺失時間：${data.date || '未知日期'}</div>
-                            <div><span class="badge ${badgeClass}">${status}</span></div>
+                    <div onclick="window.viewLostDetail('${data.id}')" style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; gap: 15px; width: 100%; padding: 10px; background: #F3F0E1; border: 1px solid #000000; border-radius: 10px; cursor: pointer;">
+                        <div style="width: 100px; height: 100px; flex-shrink: 0; border-radius: 10px; background: #FFFFFF url('${imgSrc}') no-repeat center center / ${data.image_base64 ? 'cover' : 'contain'};"></div>
+                        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; overflow: hidden; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; color: #482B12;">
+                            <div style="font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">＃${data.id}</div>
+                            <div style="font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${tagsText}</div>
+                            <div style="font-size: 12px; font-weight: 400;">${data.date || '未知日期'}</div>
+                            <div style="font-size: 12px; font-weight: 500; color: ${statusColor};">${status}</div>
                         </div>
+                        <div style="width: 20px; height: 20px; flex-shrink: 0; background: url('chevron-left-solid.png') no-repeat center center / contain; transform: scaleX(-1);"></div>
                     </div>
                 `;
             });
@@ -2916,6 +2931,7 @@ const twLocations = {
             const keywordInput = document.getElementById('lost-filter-keyword');
             if (dateInput) dateInput.value = '';
             if (keywordInput) keywordInput.value = '';
+            window.toggleDateDot('lost-filter-date', 'lost-filter-date-dot');
             if(!db) {
                 container.innerHTML = '<div style="text-align: center; padding: 20px;">Firebase 尚未設定</div>';
                 return;
@@ -2948,21 +2964,19 @@ const twLocations = {
             }
             container.innerHTML = '';
             items.forEach((data) => {
-                const status = data.status || "保管中";
-                const badgeClass = status === '已歸還' ? 'badge-blue' : 'badge-yellow';
                 const mainTag = (data.tags && data.tags.length > 0) ? data.tags[0] : '拾獲物品';
-                const imgSrc = data.image_base64 || '';
-                const imgHtml = imgSrc ? `<img class="thumb" src="${imgSrc}" />` : `<div class="thumb"></div>`;
+                const tagsText = (data.tags && data.tags.length > 0) ? data.tags.map(t => `#${t}`).join(' ') : `#${mainTag}`;
+                const imgSrc = data.image_base64 || './Logo2.png';
 
                 container.innerHTML += `
-                    <div class="card result-card" onclick="window.viewFoundDetail('${data.id}')">
-                        ${imgHtml}
-                        <div class="flex-col" style="flex: 1; overflow: hidden;">
-                            <div class="caption-12" style="color: var(--dark-brown); font-weight: 700;">＃${data.id}</div>
-                            <div class="text-14" style="font-weight: 700;">${mainTag}</div>
-                            <div class="caption-12 mb-2">${data.location || '未知地點'} • ${data.date || '未知日期'}</div>
-                            <!-- <div><span class="badge ${badgeClass}">${status}</span></div> -->
+                    <div onclick="window.viewFoundDetail('${data.id}')" style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; gap: 15px; width: 100%; padding: 10px; background: #F3F0E1; border: 1px solid #000000; border-radius: 10px; cursor: pointer;">
+                        <div style="width: 100px; height: 100px; flex-shrink: 0; border-radius: 10px; background: #FFFFFF url('${imgSrc}') no-repeat center center / ${data.image_base64 ? 'cover' : 'contain'};"></div>
+                        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; overflow: hidden; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; color: #482B12;">
+                            <div style="font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">＃${data.id}</div>
+                            <div style="font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${tagsText}</div>
+                            <div style="font-size: 12px; font-weight: 400;">${data.date || '未知日期'}</div>
                         </div>
+                        <div style="width: 20px; height: 20px; flex-shrink: 0; background: url('chevron-left-solid.png') no-repeat center center / contain; transform: scaleX(-1);"></div>
                     </div>
                 `;
             });
@@ -2980,6 +2994,7 @@ const twLocations = {
             const keywordInput = document.getElementById('found-filter-keyword');
             if (dateInput) dateInput.value = '';
             if (keywordInput) keywordInput.value = '';
+            window.toggleDateDot('found-filter-date', 'found-filter-date-dot');
             if(!db) {
                 container.innerHTML = '<div style="text-align: center; padding: 20px;">Firebase 尚未設定</div>';
                 return;
