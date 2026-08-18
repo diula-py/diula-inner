@@ -154,6 +154,18 @@
             min-height: 44px; /* 確保在 mobile 上有足夠點擊高度 */
         }
 
+        /* 移除瀏覽器原生下拉選單樣式（含原生箭頭），改用自訂的 chevron-down-solid.png 圖示，
+           避免原生箭頭與自訂圖示重疊、擠壓掉膠囊內文字的顯示空間 */
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: none;
+        }
+        select::-ms-expand {
+            display: none;
+        }
+
         input::placeholder, textarea::placeholder {
             color: var(--text-gray);
         }
@@ -1566,7 +1578,9 @@ const twLocations = {
             const citySelects = document.querySelectorAll('.city-select, select[id^="city-"], select[id^="info-city-"]');
             citySelects.forEach(select => {
                 if (select.options.length > 1) return; // already initialized
-                let options = '<option value="" disabled selected>選擇縣市</option>';
+                // 保留 HTML 原本設定的提示文字（例如「遺失縣市」／「拾獲縣市」），不要蓋成通用的「選擇縣市」
+                const placeholderText = (select.options[0] && select.options[0].textContent) || '選擇縣市';
+                let options = `<option value="" disabled selected>${placeholderText}</option>`;
                 for (let city in twLocations) {
                     options += `<option value="${city}">${city}</option>`;
                 }
