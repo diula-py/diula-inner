@@ -464,11 +464,12 @@
             padding: 0 20px 20px 20px;
         }
         .tag-category-title {
+            font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
             font-size: 16px;
-            font-weight: 700;
-            color: var(--dark-brown);
-            margin-bottom: 8px;
-            margin-top: 24px;
+            font-weight: 500;
+            color: #482B12;
+            margin-bottom: 10px;
+            margin-top: 20px;
         }
         .tag-scroll-container {
             display: flex;
@@ -479,20 +480,29 @@
         }
         .tag-scroll-container::-webkit-scrollbar { display: none; }
         .modal-tag {
-            background-color: #D6E4F0;
-            color: var(--dark-brown);
-            padding: 6px 16px;
-            border-radius: 16px;
-            font-size: 14px;
+            box-sizing: border-box;
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            gap: 8px;
+            height: 30px;
+            background: #FFFFFF;
+            border: 1px solid #000000;
+            border-radius: 50px;
+            font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 12px;
+            color: #482B12;
             white-space: nowrap;
             flex-shrink: 0;
             cursor: pointer;
-            border: 2px solid transparent;
         }
         .modal-tag.selected {
-            background-color: var(--primary-blue);
-            color: var(--dark-brown);
-            font-weight: 700;
+            background: #DFEAF5;
+            font-weight: 400;
         }
         .info-card {
             background-color: var(--card-bg);
@@ -1501,24 +1511,24 @@
                 </div>
             </div>
         </div>
-        <!-- Tag Selection Modal -->
+        <!-- Tag Selection Modal (新增標籤彈窗) -->
         <div id="tag-modal" class="modal-overlay" onclick="if(event.target === this) window.closeTagModal()">
-            <div class="center-card">
-                <div class="sticky-top-section" style="position: sticky; top: 0; background: var(--bg-color); z-index: 10; border-radius: 24px 24px 0 0; border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                    <div class="modal-header" style="justify-content: space-between; padding: 16px;">
-                        <div class="modal-close" onclick="window.closeTagModal()" style="cursor: pointer; display: flex; align-items: center;">
-                            <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-                        </div>
-                        <div class="title-20" style="margin: 0;">選擇標籤</div>
-                        <div id="modal-check-btn" class="modal-check" onclick="window.submitTagModal()" style="cursor: pointer; color: var(--text-gray); display: flex; align-items: center; opacity: 0.5; transition: all 0.2s;">
-                            <svg class="icon" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-                        </div>
+            <div style="position: relative; width: 300px; max-height: 80vh; background: #F3F0E1; border-radius: 10px; display: flex; flex-direction: column; overflow: hidden;">
+                <!-- Header (Rectangle 110 + 已選標籤) -->
+                <div style="position: relative; width: 100%; flex-shrink: 0; background: #F3F0E1; border-radius: 10px 10px 0 0; padding: 15px 0 15px 0; box-sizing: border-box;">
+                    <div onclick="window.closeTagModal()" style="position: absolute; width: 28px; height: 28px; left: 15px; top: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #482B12;">
+                        <svg class="icon" viewBox="0 0 24 24" style="width: 20px; height: 20px;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                     </div>
-                    <div id="modal-selected-tags-container" style="padding: 0 20px 16px 20px; display: none; max-height: 150px; overflow-y: auto;">
+                    <div id="modal-check-btn" onclick="window.submitTagModal()" style="position: absolute; width: 28px; height: 28px; right: 15px; top: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-gray); opacity: 0.5; transition: all 0.2s;">
+                        <svg class="icon" viewBox="0 0 24 24" style="width: 20px; height: 20px;"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                    </div>
+                    <div style="width: 100%; box-sizing: border-box; padding: 0 15px; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; color: #482B12;">已選標籤</div>
+                    <div id="modal-selected-tags-container" style="margin-top: 15px; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 10px; max-height: 90px; overflow-y: auto;">
                         <!-- Selected tags injected here -->
                     </div>
                 </div>
-                <div class="modal-content" id="modal-categories-container">
+                <!-- Scrollable category list -->
+                <div class="modal-content" id="modal-categories-container" style="padding: 5px 20px 20px 20px; overflow-y: auto; flex: 1;">
                     <!-- Categories and tags injected by JS -->
                 </div>
             </div>
@@ -1948,7 +1958,7 @@ const twLocations = {
             const checkBtn = document.getElementById('modal-check-btn');
             if (checkBtn) {
                 if (window.tempSelectedTags.length > 0) {
-                    checkBtn.style.color = 'var(--dark-brown)';
+                    checkBtn.style.color = '#482B12';
                     checkBtn.style.opacity = '1';
                 } else {
                     checkBtn.style.color = 'var(--text-gray)';
@@ -1958,17 +1968,11 @@ const twLocations = {
             const selectedContainer = document.getElementById('modal-selected-tags-container');
             if (selectedContainer) {
                 if (window.tempSelectedTags.length > 0) {
-                    let selHtml = `<div class="tag-category-title" style="margin-top: 0; margin-bottom: 8px;">已選標籤</div>`;
-                    selHtml += `<div class="tag-scroll-container" style="flex-wrap: wrap; overflow-x: hidden; padding-bottom: 0;">`;
-                    window.tempSelectedTags.forEach(tag => {
-                        selHtml += `<div class="modal-tag selected" onclick="window.toggleTagFromModal('${tag}')" style="padding: 6px 20px; display: inline-flex; align-items: center; gap: 6px;">${tag} <span style="font-weight: bold; font-size: 16px; line-height: 1;">×</span></div>`;
-                    });
-                    selHtml += `</div>`;
-                    selectedContainer.innerHTML = selHtml;
-                    selectedContainer.style.display = 'block';
+                    selectedContainer.innerHTML = window.tempSelectedTags.map(tag =>
+                        `<div class="modal-tag selected" onclick="window.toggleTagFromModal('${tag}')">${tag} <span style="font-weight: bold; font-size: 14px; line-height: 1;">×</span></div>`
+                    ).join('');
                 } else {
-                    selectedContainer.innerHTML = '';
-                    selectedContainer.style.display = 'none';
+                    selectedContainer.innerHTML = `<div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-size: 12px; color: #482B12; opacity: 0.5;">尚未選擇標籤</div>`;
                 }
             }
 
@@ -1977,7 +1981,7 @@ const twLocations = {
 
             for (const cat in PREDEFINED_TAXONOMY) {
                 html += `<div class="tag-category-title">${cat}</div>`;
-                html += `<div class="tag-scroll-container">`;
+                html += `<div class="tag-scroll-container" style="flex-wrap: wrap; overflow-x: visible;">`;
                 PREDEFINED_TAXONOMY[cat].forEach(tag => {
                     const isSelected = window.tempSelectedTags.includes(tag);
                     const selClass = isSelected ? 'selected' : '';
@@ -2001,9 +2005,9 @@ const twLocations = {
             const container = document.getElementById(containerId);
             let html = '';
             window.selectedTags.forEach(tag => {
-                html += `<div class="modal-tag selected">${tag} <span class="remove" onclick="window.removeTag('${tag}', '${containerId}')" style="margin-left: 8px;">×</span></div>`;
+                html += `<div class="modal-tag selected">${tag} <span class="remove" onclick="window.removeTag('${tag}', '${containerId}')" style="margin-left: 6px; font-weight: bold; font-size: 14px; line-height: 1;">×</span></div>`;
             });
-            html += `<div class="modal-tag" onclick="window.openTagModal('${containerId}')">新增</div>`;
+            html += `<div class="modal-tag" onclick="window.openTagModal('${containerId}')"><span style="width: 12px; height: 12px; background: url('plus-solid.png') no-repeat center center / contain; display: inline-block; flex-shrink: 0;"></span>新增</div>`;
             container.innerHTML = html;
         }
 
