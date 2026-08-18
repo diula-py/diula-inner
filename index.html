@@ -1667,6 +1667,10 @@ const twLocations = {
                     window.liffProfile = profile;
                     console.log("成功取得 LINE Profile:", profile);
 
+                    // 記住這次登入的穩定 uid（LINE userId 不會變），避免之後 ensureAuth() 誤用匿名帳號
+                    window.currentUid = profile.userId;
+                    window.currentUserId = window.generateUserId('L', profile.userId);
+
                     if (loginBtn) loginBtn.style.display = 'none';
                     if (statusBadge) statusBadge.style.display = 'inline-block';
                     if (nameEl) nameEl.textContent = profile.displayName || "LINE 使用者";
@@ -1735,7 +1739,11 @@ const twLocations = {
                 .then((result) => {
                     const user = result.user;
                     console.log("Google 登入成功！使用者資訊:", user);
-                    
+
+                    // 記住這次登入的穩定 uid，避免之後 ensureAuth() 誤用匿名帳號
+                    window.currentUid = user.uid;
+                    window.currentUserId = window.generateUserId('G', user.uid);
+
                     // 根據需求跳轉到首頁 (page-02)
                     window.showPage('page-02', 'home');
                     
@@ -1818,6 +1826,11 @@ const twLocations = {
                 
                 if (user) {
                     if (user.providerData && user.providerData.some(p => p.providerId === 'google.com')) {
+                        // 刷新頁面後 Firebase 從 browserLocalPersistence 恢復 Google 登入狀態，
+                        // 補回 window.currentUid，避免 ensureAuth() 誤判成訪客而改用匿名帳號
+                        window.currentUid = user.uid;
+                        window.currentUserId = window.generateUserId('G', user.uid);
+
                         if (nameEl) nameEl.textContent = user.displayName || "Google 使用者";
                         if (idEl) idEl.textContent = "User ID：" + window.generateUserId('G', user.uid);
                         if (avatarImg && user.photoURL) {
@@ -1877,6 +1890,40 @@ const twLocations = {
         };
 
         window.ensureAuth = async function() {
+            // 優先使用「真正登入」的穩定身分，而不是隨便快取的 window.currentUid，
+            // 這樣登出、重新登入或重新整理後，才能對應到同一個 user_id，
+            // 不會讓「我的遺失物 / 我的拾獲物」因為換成新的匿名帳號而查不到資料。
+
+            // 1) LINE LIFF 已登入：使用 LINE 的 userId（不會變動）
+            if (window.isLiffSafeLoggedIn()) {
+                let uid = window.liffProfile && window.liffProfile.userId;
+                if (!uid) {
+                    try {
+                        const profile = await liff.getProfile();
+                        window.liffProfile = profile;
+                        uid = profile.userId;
+                    } catch (e) {
+                        console.error("取得 LINE Profile 失敗:", e);
+                    }
+                }
+                if (uid) {
+                    window.currentUid = uid;
+                    // Firestore 規則仍可能需要 Firebase 的登入狀態，這裡用匿名登入補上，
+                    // 但識別使用者身分一律以 LINE userId 為準，不使用這個匿名帳號的 uid
+                    if (auth && !auth.currentUser) {
+                        try { await signInAnonymously(auth); } catch (e) { console.warn("Firebase 匿名登入失敗:", e); }
+                    }
+                    return window.currentUid;
+                }
+            }
+
+            // 2) Firebase（Google）已登入：使用 Firebase 的 uid（同一個 Google 帳號永遠一樣）
+            if (auth && auth.currentUser && !auth.currentUser.isAnonymous) {
+                window.currentUid = auth.currentUser.uid;
+                return window.currentUid;
+            }
+
+            // 3) 兩者都沒登入：沿用（或建立）匿名帳號作為訪客模式
             if (window.currentUid) return window.currentUid;
             if (!auth) throw new Error("Auth not initialized");
             const userCredential = await signInAnonymously(auth);
@@ -3001,8 +3048,12 @@ const twLocations = {
                     console.error(e);
                 }
             }
-            
 
+            // 清除快取的身分資訊，避免下次登入（或改用其他帳號登入）時
+            // ensureAuth() 誤用登出前殘留的 uid，導致查不到「我的遺失物/我的拾獲物」
+            window.currentUid = null;
+            window.currentUserId = null;
+            window.liffProfile = null;
 
             window.showPage('page-01');
         }
