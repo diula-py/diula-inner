@@ -2050,7 +2050,8 @@ const twLocations = {
                 targetPage.classList.add('active');
             }
             
-            if (pageId === 'page-01' || pageId === 'page-13') {
+            const noBarPages = ['page-01', 'page-13', 'page-loading', 'page-03', 'page-04', 'page-05', 'page-10', 'page-11', 'page-12'];
+            if (noBarPages.includes(pageId)) {
                 if (bottomNav) bottomNav.style.display = 'none';
             } else {
                 if (bottomNav) bottomNav.style.display = 'flex';
