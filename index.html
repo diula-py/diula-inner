@@ -76,18 +76,6 @@
             background-color: var(--bg-color);
             position: relative;
         }
-        /* 每個頁面寬度都固定在 393px（Figma 設計稿寬度），當畫面（手機或桌機）比這個寬時，
-           app-container 本身的米色背景會從兩側露出，跟頁面自己的背景色不同而形成接縫。
-           這裡讓頁面背景色往兩側無限延伸鋪滿，內容本身的定位完全不受影響。 */
-        .page::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: -100vw;
-            right: -100vw;
-            background-color: inherit;
-        }
 
         .page.active {
             display: flex;
@@ -576,7 +564,7 @@
 <body>
     <div class="app-container">
                 <!-- PAGE 01: Login -->
-        <div id="page-01" class="page active" style="position: relative; width: 100%; max-width: 393px;  min-height: 100dvh; margin: 0 auto; background: #DFEAF5; box-sizing: border-box; overflow-y: auto; overflow-x: visible;">
+        <div id="page-01" class="page active" style="position: relative; width: 100%; max-width: 393px;  min-height: 100dvh; margin: 0 auto; background: #DFEAF5; box-sizing: border-box; overflow-y: auto;">
             
             <div style="position: absolute; width: 393px; height: 128px; left: calc(50% - 393px/2); top: 189px; background: url('DiuLa_logo_transparent.png') no-repeat center center / 100% auto;"></div>
             
@@ -592,7 +580,7 @@
             
         </div>
                                 <!-- PAGE 02: Home -->
-        <div id="page-02" class="page" style="position: relative; width: 100%; max-width: 393px;  min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: visible;">
+        <div id="page-02" class="page" style="position: relative; width: 100%; max-width: 393px;  min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto;">
             
             <!-- Group 17 (Header) -->
             <div style="position: absolute; width: 395px; height: 109px; left: calc(50% - 395px/2); top: 0px; pointer-events: none;">
@@ -640,7 +628,7 @@
             <div style="height: 850px; width: 100%;"></div>
         </div>
                 <!-- PAGE 03: Find (Image tab) -->
-        <div id="page-03" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: visible; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
+        <div id="page-03" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
             <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                 
                 <!-- Group 17 (Header) -->
@@ -711,7 +699,7 @@
             </div>
         </div>
                 <!-- PAGE 04: Find (Text tab) -->
-        <div id="page-04" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: visible; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
+        <div id="page-04" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
             <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                 
                 <!-- Group 17 (Header) -->
@@ -792,7 +780,7 @@
             </div>
         </div>
                 <!-- PAGE 05 -->
-        <div id="page-05" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: visible; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
+        <div id="page-05" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
             <div id="page-05-content" style="display: flex; flex-direction: column; align-items: center; width: 100%; position: relative;">
                 
                 <!-- Group 17 (Header) -->
@@ -871,7 +859,7 @@
             </div>
         </div>
                 <!-- PAGE 06: 比對結果（跨平台尋找遺失物） -->
-        <div id="page-06" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: visible; padding-bottom: calc(120px + env(safe-area-inset-bottom));">
+        <div id="page-06" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; padding-bottom: calc(120px + env(safe-area-inset-bottom));">
             <div style="display: flex; flex-direction: column; align-items: center; width: 100%; position: relative;">
 
                 <!-- Header（向下延伸包含分頁列，與下方無縫銜接） -->
@@ -958,7 +946,7 @@
             </div>
         </div>
                 <!-- PAGE 10: Register Found (Non-ID) -->
-        <div id="page-10" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: visible; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
+        <div id="page-10" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
 <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
             
             <!-- Group 17 (Header) -->
@@ -1029,7 +1017,7 @@
         </div>
         </div>
                 <!-- PAGE 11 -->
-        <div id="page-11" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: visible; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
+        <div id="page-11" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
             <div id="page-11-content" style="display: flex; flex-direction: column; align-items: center; width: 100%; position: relative;">
                 
                 <!-- Group 17 (Header) -->
@@ -1108,7 +1096,7 @@
             </div>
         </div>
         <!-- PAGE 12: Register Found (ID) -->
-        <div id="page-12" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: visible; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
+        <div id="page-12" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
 <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
             
             <!-- Header -->
@@ -1212,7 +1200,7 @@
             </div>
         </div>
                         <!-- PAGE 14: Profile -->
-                <div id="page-14" class="page" style="position: relative; width: 100%; max-width: 393px;  min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: visible;">
+                <div id="page-14" class="page" style="position: relative; width: 100%; max-width: 393px;  min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto;">
             
             <!-- Group 17 (Header) -->
             <div style="position: absolute; width: 395px; height: 109px; left: 0px; top: 0px; pointer-events: none;">
@@ -1256,7 +1244,7 @@
             <div style="height: 850px; width: 100%;"></div>
         </div>
         <!-- PAGE 15: My Lost Items -->
-        <div id="page-15" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: visible;">
+        <div id="page-15" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto;">
             <!-- Group 17 (Header，向下延伸包含搜尋列，與下方無縫銜接) -->
             <div style="position: relative; width: 100%; max-width: 395px; height: 174px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px;">
                 <div style="position: absolute; width: 100%; height: 20px; left: 0; top: 74px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">我的遺失物</div>
@@ -1283,7 +1271,7 @@
             </div>
         </div>
                 <!-- PAGE 16: My Lost Item Detail -->
-        <div id="page-16" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: visible;">
+        <div id="page-16" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto;">
             <!-- Group 17 Header -->
             <div style="position: absolute; width: 395px; height: 90px; left: calc(50% - 395px/2); top: 0px;">
                 <div style="position: absolute; width: 395px; height: 90px; left: 0px; top: 0px; background: #F3F0E1; border-radius: 0px 0px 20px 20px;"></div>
@@ -1353,7 +1341,7 @@
             <div style="height: 1050px; width: 100%; padding-bottom: 100px;"></div>
         </div>
         <!-- PAGE 17: Threads 跨平台尋找遺失物 (圖片) -->
-        <div id="page-17" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: visible;">
+        <div id="page-17" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto;">
 
             <!-- Header -->
             <div style="position: relative; width: 100%; max-width: 395px; height: 80px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px; display: flex; justify-content: center; align-items: center;">
@@ -1376,7 +1364,7 @@
             <div style="height: 120px; width: 100%;"></div>
         </div>
         <!-- PAGE 18: My Found Items -->
-        <div id="page-18" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: visible;">
+        <div id="page-18" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto;">
             <!-- Group 17 (Header) -->
             <div style="position: relative; width: 100%; max-width: 395px; height: 174px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px;">
                 <div style="position: absolute; width: 100%; height: 20px; left: 0; top: 74px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">我的拾獲物</div>
@@ -1403,7 +1391,7 @@
             </div>
         </div>
                 <!-- PAGE 19: Found Item Details -->
-        <div id="page-19" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: visible;">
+        <div id="page-19" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto;">
             <!-- Group 17 Header -->
             <div style="position: absolute; width: 395px; height: 90px; left: calc(50% - 395px/2); top: 0px;">
                 <div style="position: absolute; width: 395px; height: 90px; left: 0px; top: 0px; background: #F3F0E1; border-radius: 0px 0px 20px 20px;"></div>
@@ -2061,8 +2049,14 @@ const twLocations = {
             const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.classList.add('active');
+                // 讓 app-container 的背景色跟著目前頁面變化，避免螢幕比 393px 設計稿寬時，
+                // 兩側露出 app-container 固定的米色背景、跟頁面自己的背景色不同而形成接縫
+                const appContainerEl = document.querySelector('.app-container');
+                if (appContainerEl) {
+                    appContainerEl.style.backgroundColor = getComputedStyle(targetPage).backgroundColor;
+                }
             }
-            
+
             const noBarPages = ['page-01', 'page-13', 'page-loading', 'page-03', 'page-04', 'page-05', 'page-10', 'page-11', 'page-12'];
             if (noBarPages.includes(pageId)) {
                 if (bottomNav) bottomNav.style.display = 'none';
