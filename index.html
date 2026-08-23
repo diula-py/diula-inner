@@ -1459,31 +1459,35 @@
             </div>
         </div>
         </div>
-<!-- 刪除確認彈窗 -->
-        <div id="delete-modal" style="
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
-            justify-content: center;
-            align-items: center;">
-            <div style="
-                background: var(--bg-color);
-                border-radius: 16px;
-                padding: 24px;
-                width: 80%;
-                max-width: 300px;
-                text-align: center;">
-                <div class="title-20" style="margin-bottom: 8px;">確定要刪除？</div>
-                <div class="caption-12" style="margin-bottom: 24px;">
-                    提醒：確認後不會立即刪除，<br>將排定於系統處理
+<!-- 刪除確認彈窗（我的遺失物／我的拾獲物共用） -->
+        <div id="delete-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center;">
+            <div style="position: relative; width: 300px; height: 251px; background: #F3F0E1; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); border-radius: 10px;">
+                <!-- X Close Button -->
+                <div onclick="window.cancelDelete()" style="position: absolute; width: 35px; height: 35px; left: 11px; top: 10px; background: url('xmark-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
+
+                <!-- 是否永久刪除此筆資料？ -->
+                <div style="position: absolute; width: 220px; left: calc(50% - 220px/2); top: 95px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">是否永久刪除此筆資料？</div>
+
+                <!-- 是 (Yes) -->
+                <div onclick="window.executeDelete()" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 35px; gap: 10px; position: absolute; width: 90px; height: 60px; left: 41px; top: 146px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12; pointer-events: none;">是</div>
                 </div>
-                <div style="display: flex; gap: 12px;">
-                    <button class="btn btn-white" style="margin: 0; flex: 1;"
-                        onclick="window.cancelDelete()">否</button>
-                    <button class="btn btn-red" style="margin: 0; flex: 1;"
-                        onclick="window.executeDeleteLost()">是</button>
+
+                <!-- 否 (No) -->
+                <div onclick="window.cancelDelete()" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 35px; gap: 10px; position: absolute; width: 90px; height: 60px; left: 170px; top: 146px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12; pointer-events: none;">否</div>
+                </div>
+            </div>
+        </div>
+        <!-- 刪除成功彈窗（我的遺失物／我的拾獲物共用） -->
+        <div id="delete-success-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center;">
+            <div style="position: relative; width: 300px; height: 230px; background: #F3F0E1; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); border-radius: 10px;">
+                <!-- 該筆資料已被刪除！ -->
+                <div style="position: absolute; width: 262px; left: calc(50% - 262px/2); top: 80px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">該筆資料已被刪除！</div>
+
+                <!-- 確認 -->
+                <div onclick="window.confirmDeleteSuccess()" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px 35px; gap: 10px; position: absolute; width: 180px; height: 60px; left: calc(50% - 180px/2); top: 140px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12; pointer-events: none;">確認</div>
                 </div>
             </div>
         </div>
@@ -3207,35 +3211,52 @@ const twLocations = {
             }
         }
 
-        // 點「刪除此筆」按鈕
+        // 點「刪除此筆資料」按鈕（我的遺失物／我的拾獲物共用一套確認彈窗）
+        window.pendingDeleteType = null;
         window.confirmDeleteLost = function() {
             if (!window.currentViewingLostId) {
                 alert('找不到案件編號，請返回列表重試');
                 return;
             }
-            // 顯示確認彈窗
+            window.pendingDeleteType = 'lost';
             document.getElementById('delete-modal').style.display = 'flex';
         }
 
-        // 彈窗點「是」
-        window.executeDeleteLost = async function() {
+        // 彈窗點「是」：依照要刪除的類型呼叫對應的 API
+        window.executeDelete = async function() {
             document.getElementById('delete-modal').style.display = 'none';
-            
             try {
-                await deleteDoc(doc(db, 'lost_items', window.currentViewingLostId));
-                console.log('✅ 刪除成功:', window.currentViewingLostId);
-                window.currentViewingLostId = null;
-                // 返回列表並重新載入
-                window.showPage('page-15', 'profile');
+                if (window.pendingDeleteType === 'lost') {
+                    await deleteDoc(doc(db, 'lost_items', window.currentViewingLostId));
+                    console.log('✅ 刪除成功:', window.currentViewingLostId);
+                } else if (window.pendingDeleteType === 'found') {
+                    await deleteDoc(doc(db, 'found_items', window.currentViewingFoundId));
+                    console.log('✅ 刪除成功:', window.currentViewingFoundId);
+                }
+                document.getElementById('delete-success-modal').style.display = 'flex';
             } catch (err) {
                 console.error('❌ 刪除失敗:', err);
                 alert('刪除失敗：' + err.message);
             }
         }
 
+        // 刪除成功彈窗點「確認」：返回對應的列表頁
+        window.confirmDeleteSuccess = function() {
+            document.getElementById('delete-success-modal').style.display = 'none';
+            if (window.pendingDeleteType === 'lost') {
+                window.currentViewingLostId = null;
+                window.showPage('page-15', 'profile');
+            } else if (window.pendingDeleteType === 'found') {
+                window.currentViewingFoundId = null;
+                window.showPage('page-18', 'profile');
+            }
+            window.pendingDeleteType = null;
+        }
+
         // 彈窗點「否」
         window.cancelDelete = function() {
             document.getElementById('delete-modal').style.display = 'none';
+            window.pendingDeleteType = null;
         }
 
         window.cancelLogout = function() {
@@ -3372,22 +3393,8 @@ const twLocations = {
                 alert('找不到案件編號，請返回列表重試');
                 return;
             }
-            if(confirm("確定要刪除這筆拾獲紀錄嗎？")) {
-                window.executeDeleteFound();
-            }
-        }
-
-        window.executeDeleteFound = async function() {
-            if (!window.currentViewingFoundId) return;
-            try {
-                await deleteDoc(doc(db, "found_items", window.currentViewingFoundId));
-                alert('已成功刪除該筆拾獲紀錄');
-                window.currentViewingFoundId = null;
-                window.showPage('page-18', 'profile');
-            } catch(e) {
-                console.error("Delete Error", e);
-                alert('刪除失敗，請稍後再試');
-            }
+            window.pendingDeleteType = 'found';
+            document.getElementById('delete-modal').style.display = 'flex';
         }
     </script>
 </body>
