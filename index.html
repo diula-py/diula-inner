@@ -861,19 +861,21 @@
         <div id="page-06" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: hidden; padding-bottom: calc(120px + env(safe-area-inset-bottom));">
             <div style="display: flex; flex-direction: column; align-items: center; width: 100%; position: relative;">
 
-                <!-- Header -->
-                <div style="position: relative; width: 100%; max-width: 395px; height: 80px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px; display: flex; justify-content: center; align-items: center; z-index: 10;">
-                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12;">比對結果</div>
-                    <div onclick="window.showPage('page-05')" style="position: absolute; width: 30px; height: 30px; left: 22px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
-                </div>
+                <!-- Header（向下延伸包含分頁列，與下方無縫銜接） -->
+                <div style="position: relative; width: 100%; max-width: 395px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; padding-bottom: 20px; box-sizing: border-box;">
+                    <div style="position: relative; width: 100%; height: 80px; display: flex; justify-content: center; align-items: center; flex-shrink: 0;">
+                        <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12;">比對結果</div>
+                        <div onclick="window.showPage('page-05')" style="position: absolute; width: 30px; height: 30px; left: 22px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
+                    </div>
 
-                <!-- Platform Tabs -->
-                <div id="match-tabs" style="display: flex; flex-direction: row; gap: 10px; margin-top: 20px; flex-shrink: 0;">
-                    <div class="match-tab" data-tab="police" onclick="window.switchMatchTab('police')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">警政署</div>
-                    <div class="match-tab" data-tab="mrt" onclick="window.switchMatchTab('mrt')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">北捷</div>
-                    <div class="match-tab" data-tab="thsr" onclick="window.switchMatchTab('thsr')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">高鐵</div>
-                    <div class="match-tab active" data-tab="diula" onclick="window.switchMatchTab('diula')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F3F0E1; border: 1.5px solid #000000; border-radius: 50px; cursor: pointer;">
-                        <div style="width: 60px; height: 19px; background: url('DiuLa_logo_transparent.png') no-repeat center center / contain;"></div>
+                    <!-- Platform Tabs -->
+                    <div id="match-tabs" style="display: flex; flex-direction: row; gap: 10px; flex-shrink: 0;">
+                        <div class="match-tab" data-tab="police" onclick="window.switchMatchTab('police')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">警政署</div>
+                        <div class="match-tab" data-tab="mrt" onclick="window.switchMatchTab('mrt')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">北捷</div>
+                        <div class="match-tab" data-tab="thsr" onclick="window.switchMatchTab('thsr')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">高鐵</div>
+                        <div class="match-tab active" data-tab="diula" onclick="window.switchMatchTab('diula')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 4px 6px; background: #F3F0E1; border: 1.5px solid #000000; border-radius: 50px; cursor: pointer; overflow: hidden;">
+                            <div style="width: 74px; height: 23px; background: url('DiuLa_logo_transparent.png') no-repeat center center / contain;"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -896,12 +898,10 @@
                     </div>
                 </div>
 
-                <!-- 都沒有我的物品：跟著內容一起捲動，不會被底部導覽列擋住 -->
-                <div style="width: 100%; max-width: 340px; display: flex; justify-content: flex-end; margin-top: 25px; box-sizing: border-box;">
-                    <div onclick="document.getElementById('notfound-modal').style.display='flex'" style="width: 80px; height: 80px; flex-shrink: 0; background: #DFEAF5; border: 1px solid #000000; border-radius: 40px; display: flex; justify-content: center; align-items: center; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; color: #482B12; cursor: pointer;">都沒有<br>我的物品</div>
+                <!-- 都沒有我的物品：懸停於畫面右下角，不隨內容捲動，浮在底部導覽列上方 -->
+                <div style="position: fixed; left: 50%; transform: translateX(-50%); bottom: 105px; width: 340px; display: flex; justify-content: flex-end; pointer-events: none; z-index: 90;">
+                    <div onclick="document.getElementById('notfound-modal').style.display='flex'" style="pointer-events: auto; width: 80px; height: 80px; flex-shrink: 0; background: #DFEAF5; border-radius: 40px; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); display: flex; justify-content: center; align-items: center; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; color: #482B12; cursor: pointer;">都沒有<br>我的物品</div>
                 </div>
-
-                <div style="height: 40px; width: 100%;"></div>
             </div>
 
             <!-- 沒有我的東西：選項彈窗 -->
@@ -911,7 +911,7 @@
                     <div style="text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12; margin: 25px 0 20px;">都沒有我的東西！</div>
                     <div style="display: flex; flex-direction: column; gap: 12px;">
                         <div onclick="window.handleAutoPush()" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 15px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">開啟自動尋找並推播</div>
-                        <div onclick="window.handleThreadsPost()" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 15px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">幫你發Threads的協尋文</div>
+                        <div onclick="window.handleThreadsPost()" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 15px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">幫我在Threads發協尋文</div>
                         <div onclick="document.getElementById('notfound-modal').style.display='none'; document.getElementById('notfound-home-confirm').style.display='flex';" style="text-align: center; margin-top: 5px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 14px; color: #482B12; text-decoration: underline; cursor: pointer;">返回首頁</div>
                     </div>
                 </div>
@@ -919,12 +919,12 @@
 
             <!-- 確認是否回首頁 -->
             <div id="notfound-home-confirm" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center;">
-                <div style="position: relative; width: 300px; height: 251px; background: #F3F0E1; border-radius: 10px;">
+                <div style="position: relative; width: 300px; height: 251px; background: #F3F0E1; border-radius: 10px; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">
                     <div onclick="document.getElementById('notfound-home-confirm').style.display='none'" style="position: absolute; width: 35px; height: 35px; left: 11px; top: 10px; background: url('xmark-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
-                    <div style="position: absolute; width: 228px; left: calc(50% - 114px); top: 99px; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 130%; color: #482B12;">是否確認要返回首頁？</div>
-                    <div style="position: absolute; width: 228px; left: calc(50% - 114px); top: 150px; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; opacity: 0.7;">提醒：返回首頁後此次比對結果將無法返回</div>
-                    <div onclick="window.showPage('page-02', 'home')" style="position: absolute; left: 41px; top: 175px; width: 90px; height: 60px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; color: #482B12;">是</div>
-                    <div onclick="document.getElementById('notfound-home-confirm').style.display='none'" style="position: absolute; left: 170px; top: 175px; width: 90px; height: 60px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; color: #482B12;">否</div>
+                    <div style="position: absolute; width: 200px; left: calc(50% - 100px); top: 85px; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 130%; color: #482B12;">是否確認要返回首頁？</div>
+                    <div style="position: absolute; width: 228px; left: calc(50% - 114px); top: 116px; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; opacity: 0.7;">提醒：返回首頁後將結束比對流程</div>
+                    <div onclick="window.showPage('page-02', 'home')" style="position: absolute; left: 41px; top: 146px; width: 90px; height: 60px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; color: #482B12;">是</div>
+                    <div onclick="document.getElementById('notfound-home-confirm').style.display='none'" style="position: absolute; left: 170px; top: 146px; width: 90px; height: 60px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; color: #482B12;">否</div>
                 </div>
             </div>
 
@@ -1244,24 +1244,24 @@
         </div>
         <!-- PAGE 15: My Lost Items -->
         <div id="page-15" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: hidden;">
-            <!-- Group 17 (Header) -->
-            <div style="position: relative; width: 100%; max-width: 395px; height: 109px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px;">
+            <!-- Group 17 (Header，向下延伸包含搜尋列，與下方無縫銜接) -->
+            <div style="position: relative; width: 100%; max-width: 395px; height: 174px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px;">
                 <div style="position: absolute; width: 100%; height: 20px; left: 0; top: 74px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">我的遺失物</div>
                 <div class="back-btn" onclick="window.showPage('page-14', 'profile')" style="position: absolute; width: 30px; height: 30px; left: 21px; top: 69px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
-            </div>
 
-            <!-- Group 36：搜尋列（日期／關鍵字擇一或兩者一起皆可篩選） -->
-            <div style="display: flex; flex-direction: row; gap: 10px; width: 100%; max-width: 340px; margin: 20px auto 0; box-sizing: border-box;">
-                <!-- Frame 46：日期篩選（純圖示按鈕） -->
-                <div style="position: relative; width: 95px; height: 45px; flex-shrink: 0; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; display: flex; align-items: center; justify-content: center;">
-                    <div style="width: 20px; height: 20px; background: url('calendar-days-solid.png') no-repeat center center / contain; pointer-events: none;"></div>
-                    <div id="lost-filter-date-dot" style="display: none; position: absolute; top: 8px; right: 14px; width: 8px; height: 8px; background: #C72F02; border-radius: 50%; pointer-events: none;"></div>
-                    <input id="lost-filter-date" type="date" oninput="window.filterMyLostItems(); window.toggleDateDot('lost-filter-date','lost-filter-date-dot');" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; border: none; cursor: pointer;">
-                </div>
-                <!-- Frame 47：關鍵字搜尋 -->
-                <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; gap: 8px; flex: 1; padding: 10px 15px; height: 45px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;">
-                    <div style="width: 16px; height: 16px; background: url('magnifying-glass-solid.png') no-repeat center center / contain; flex-shrink: 0;"></div>
-                    <input id="lost-filter-keyword" type="text" placeholder="搜尋" oninput="window.filterMyLostItems()" style="width: 100%; border: none; background: transparent; outline: none; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-size: 14px; color: #482B12;">
+                <!-- Group 36：搜尋列（日期／關鍵字擇一或兩者一起皆可篩選，併入 header 無縫銜接） -->
+                <div style="position: absolute; left: 50%; transform: translateX(-50%); top: 109px; display: flex; flex-direction: row; gap: 10px; width: 100%; max-width: 340px; box-sizing: border-box;">
+                    <!-- Frame 46：日期篩選（純圖示按鈕） -->
+                    <div style="position: relative; width: 95px; height: 45px; flex-shrink: 0; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; display: flex; align-items: center; justify-content: center;">
+                        <div style="width: 20px; height: 20px; background: url('calendar-days-solid.png') no-repeat center center / contain; pointer-events: none;"></div>
+                        <div id="lost-filter-date-dot" style="display: none; position: absolute; top: 8px; right: 14px; width: 8px; height: 8px; background: #C72F02; border-radius: 50%; pointer-events: none;"></div>
+                        <input id="lost-filter-date" type="date" oninput="window.filterMyLostItems(); window.toggleDateDot('lost-filter-date','lost-filter-date-dot');" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; border: none; cursor: pointer;">
+                    </div>
+                    <!-- Frame 47：關鍵字搜尋 -->
+                    <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; gap: 8px; flex: 1; padding: 10px 15px; height: 45px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;">
+                        <div style="width: 16px; height: 16px; background: url('magnifying-glass-solid.png') no-repeat center center / contain; flex-shrink: 0;"></div>
+                        <input id="lost-filter-keyword" type="text" placeholder="搜尋" oninput="window.filterMyLostItems()" style="width: 100%; border: none; background: transparent; outline: none; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-size: 14px; color: #482B12;">
+                    </div>
                 </div>
             </div>
 
@@ -1365,23 +1365,23 @@
         <!-- PAGE 18: My Found Items -->
         <div id="page-18" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; overflow-x: hidden;">
             <!-- Group 17 (Header) -->
-            <div style="position: relative; width: 100%; max-width: 395px; height: 109px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px;">
+            <div style="position: relative; width: 100%; max-width: 395px; height: 174px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px;">
                 <div style="position: absolute; width: 100%; height: 20px; left: 0; top: 74px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">我的拾獲物</div>
                 <div class="back-btn" onclick="window.showPage('page-14', 'profile')" style="position: absolute; width: 30px; height: 30px; left: 21px; top: 69px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
-            </div>
 
-            <!-- Group 36：搜尋列（日期／關鍵字擇一或兩者一起皆可篩選） -->
-            <div style="display: flex; flex-direction: row; gap: 10px; width: 100%; max-width: 340px; margin: 20px auto 0; box-sizing: border-box;">
-                <!-- Frame 46：日期篩選（純圖示按鈕） -->
-                <div style="position: relative; width: 95px; height: 45px; flex-shrink: 0; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; display: flex; align-items: center; justify-content: center;">
-                    <div style="width: 20px; height: 20px; background: url('calendar-days-solid.png') no-repeat center center / contain; pointer-events: none;"></div>
-                    <div id="found-filter-date-dot" style="display: none; position: absolute; top: 8px; right: 14px; width: 8px; height: 8px; background: #C72F02; border-radius: 50%; pointer-events: none;"></div>
-                    <input id="found-filter-date" type="date" oninput="window.filterMyFoundItems(); window.toggleDateDot('found-filter-date','found-filter-date-dot');" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; border: none; cursor: pointer;">
-                </div>
-                <!-- Frame 47：關鍵字搜尋 -->
-                <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; gap: 8px; flex: 1; padding: 10px 15px; height: 45px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;">
-                    <div style="width: 16px; height: 16px; background: url('magnifying-glass-solid.png') no-repeat center center / contain; flex-shrink: 0;"></div>
-                    <input id="found-filter-keyword" type="text" placeholder="搜尋" oninput="window.filterMyFoundItems()" style="width: 100%; border: none; background: transparent; outline: none; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-size: 14px; color: #482B12;">
+                <!-- Group 36：搜尋列（日期／關鍵字擇一或兩者一起皆可篩選，併入 header 無縫銜接） -->
+                <div style="position: absolute; left: 50%; transform: translateX(-50%); top: 109px; display: flex; flex-direction: row; gap: 10px; width: 100%; max-width: 340px; box-sizing: border-box;">
+                    <!-- Frame 46：日期篩選（純圖示按鈕） -->
+                    <div style="position: relative; width: 95px; height: 45px; flex-shrink: 0; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; display: flex; align-items: center; justify-content: center;">
+                        <div style="width: 20px; height: 20px; background: url('calendar-days-solid.png') no-repeat center center / contain; pointer-events: none;"></div>
+                        <div id="found-filter-date-dot" style="display: none; position: absolute; top: 8px; right: 14px; width: 8px; height: 8px; background: #C72F02; border-radius: 50%; pointer-events: none;"></div>
+                        <input id="found-filter-date" type="date" oninput="window.filterMyFoundItems(); window.toggleDateDot('found-filter-date','found-filter-date-dot');" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; border: none; cursor: pointer;">
+                    </div>
+                    <!-- Frame 47：關鍵字搜尋 -->
+                    <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; gap: 8px; flex: 1; padding: 10px 15px; height: 45px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;">
+                        <div style="width: 16px; height: 16px; background: url('magnifying-glass-solid.png') no-repeat center center / contain; flex-shrink: 0;"></div>
+                        <input id="found-filter-keyword" type="text" placeholder="搜尋" oninput="window.filterMyFoundItems()" style="width: 100%; border: none; background: transparent; outline: none; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-size: 14px; color: #482B12;">
+                    </div>
                 </div>
             </div>
 
@@ -2786,10 +2786,7 @@ const twLocations = {
                         <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 20px; gap: 15px; width: 100%; background: #F5F5F5; border: 1px solid #000000; border-radius: 10px;">
                             ${imgHtml}
                             <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
-                                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 16px; color: #482B12; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${title}</div>
-                                    <div style="flex-shrink: 0; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 12px; color: #482B12; background: #DFEAF5; border-radius: 10px; padding: 3px 10px;">相符 ${item.matchCount}</div>
-                                </div>
+                                <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 16px; color: #482B12; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${title}</div>
                                 <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; opacity: 0.7;">${data.location || '未知地點'} • ${data.date || '未知日期'}</div>
                                 <div style="display: flex; flex-wrap: wrap;">${tagsHtml}</div>
                             </div>
