@@ -772,10 +772,10 @@
                 <div style="width: 80px; height: 80px; background: url('wand-magic-sparkles-solid.png') no-repeat center center / contain;"></div>
             </div>
             <div style="position: absolute; left: 51px; top: 456px; width: 290px; height: 15px; background: #FFFFFF; border-radius: 10px; overflow: hidden;">
-                <div id="loading-bar-inner" class="loading-progress" style="height: 100%; background: #482B12; opacity: 0.7; border-radius: 10px;"></div>
+                <div id="loading-bar-inner" class="loading-progress" style="width: 0%; height: 100%; background: #482B12; opacity: 0.7; border-radius: 10px; transition: width 0.3s ease-out;"></div>
             </div>
             <div style="position: absolute; left: 47px; top: 561px; width: 299px; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-size: 15px; color: #000000; opacity: 0.4; line-height: 18px;">
-                提示：AI 會自動標記類別， 您可以在下一步進行修正。
+                提示：AI 會自動標記類別，<br>您可以在下一步進行修正。
             </div>
         </div>
                 <!-- PAGE 05 -->
@@ -2135,7 +2135,32 @@ const twLocations = {
         // =========================================================================
         // Data Flow Logic
         // =========================================================================
-        
+
+        // AI 辨識載入畫面的進度條：因為實際等候時間（AI 辨識+網路）無法預知，
+        // 採用「漸進趨緩、卡在 90% 等結果回來」的常見做法，讓使用者持續看到進度在跑
+        let loadingProgressInterval = null;
+        window.startLoadingProgress = function() {
+            const bar = document.getElementById('loading-bar-inner');
+            if (!bar) return;
+            clearInterval(loadingProgressInterval);
+            bar.style.transition = 'none';
+            bar.style.width = '0%';
+            void bar.offsetWidth; // 強制重繪，讓下面重新啟用的 transition 生效
+            bar.style.transition = 'width 0.3s ease-out';
+            let progress = 0;
+            loadingProgressInterval = setInterval(() => {
+                progress += (90 - progress) * 0.08 + 0.3;
+                if (progress > 90) progress = 90;
+                bar.style.width = progress + '%';
+            }, 200);
+        };
+        window.finishLoadingProgress = function() {
+            clearInterval(loadingProgressInterval);
+            loadingProgressInterval = null;
+            const bar = document.getElementById('loading-bar-inner');
+            if (bar) bar.style.width = '100%';
+        };
+
         window.analyzeWithGemini = async function(imageBase64, textContent, targetTagContainerId) {
             const container = document.getElementById(targetTagContainerId);
             const originalHTML = container ? container.innerHTML : '';
@@ -2326,6 +2351,7 @@ const twLocations = {
 
             // Immediately switch to loading page
             window.showPage('page-loading');
+            window.startLoadingProgress();
 
             window.selectedTags = [];
             renderTags('tags-container-05');
@@ -2411,6 +2437,7 @@ const twLocations = {
             // 避免下次重新進入「跨平台尋找遺失物」時還看到上一次填寫的內容
             if (window.resetLostEntryFields) window.resetLostEntryFields();
 
+            window.finishLoadingProgress();
             window.showPage('page-05');
         }
         window.selectIdType = function(labelEl) {
@@ -2535,6 +2562,7 @@ const twLocations = {
             
             // Immediately switch to loading page
             window.showPage('page-loading');
+            window.startLoadingProgress();
 
             const imgEl11 = document.getElementById('confirm-img-11');
             const imgView11 = document.getElementById('confirm-image-view-11');
@@ -2610,6 +2638,7 @@ const twLocations = {
                 if (window.resetFoundEntryFields) window.resetFoundEntryFields();
             }
 
+            window.finishLoadingProgress();
             window.showPage('page-11');
         }
 
