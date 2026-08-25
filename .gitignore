@@ -70,3 +70,6 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+# Font source files (raw .ttc, design use only — web build uses fonts/gensen-rounded/*.woff2)
+源泉圓體/
