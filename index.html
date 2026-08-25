@@ -11,6 +11,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
+        @font-face {
+            font-family: 'GenSenRounded2 TW';
+            src: url('fonts/gensen-rounded/GenSenRounded-R.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'GenSenRounded2 TW';
+            src: url('fonts/gensen-rounded/GenSenRounded-M.woff2') format('woff2');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'GenSenRounded2 TW';
+            src: url('fonts/gensen-rounded/GenSenRounded-B.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
         :root {
             --bg-color: #F3F0E1;
             --beige-color: transparent;
@@ -873,27 +895,24 @@
         <div id="page-06" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; padding-bottom: calc(120px + env(safe-area-inset-bottom));">
             <div style="display: flex; flex-direction: column; align-items: center; width: 100%; position: relative;">
 
-                <!-- Header（向下延伸包含分頁列，與下方無縫銜接） -->
-                <div style="position: relative; width: 100%; max-width: 395px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; padding-bottom: 20px; box-sizing: border-box;">
-                    <div style="position: relative; width: 100%; height: 80px; display: flex; justify-content: center; align-items: center; flex-shrink: 0;">
-                        <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12;">比對結果</div>
-                        <div onclick="window.showPage('page-05')" style="position: absolute; width: 30px; height: 30px; left: 22px; top: 25px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
-                    </div>
+                <!-- Header（僅「比對結果」標題有底色，不含返回鍵） -->
+                <div style="position: relative; width: 100%; max-width: 395px; height: 80px; flex-shrink: 0; background: #F3F0E1; border-radius: 0px 0px 20px 20px; display: flex; justify-content: center; align-items: center; z-index: 10; box-sizing: border-box;">
+                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12;">比對結果</div>
+                </div>
 
-                    <!-- Platform Tabs -->
-                    <div id="match-tabs" style="display: flex; flex-direction: row; gap: 10px; flex-shrink: 0;">
-                        <div class="match-tab" data-tab="police" onclick="window.switchMatchTab('police')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">警政署</div>
-                        <div class="match-tab" data-tab="mrt" onclick="window.switchMatchTab('mrt')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">北捷</div>
-                        <div class="match-tab" data-tab="thsr" onclick="window.switchMatchTab('thsr')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">高鐵</div>
-                        <div class="match-tab active" data-tab="diula" onclick="window.switchMatchTab('diula')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 4px 6px; background: #F3F0E1; border: 1.5px solid #000000; border-radius: 50px; cursor: pointer; overflow: hidden;">
-                            <div style="width: 74px; height: 23px; background: url('DiuLa_logo_transparent.png') no-repeat center center / contain;"></div>
-                        </div>
+                <!-- Platform Tabs（未選取時無底色，選取後才變米色） -->
+                <div id="match-tabs" style="display: flex; flex-direction: row; gap: 10px; flex-shrink: 0; margin-top: 20px;">
+                    <div class="match-tab" data-tab="police" onclick="window.switchMatchTab('police')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">警政署</div>
+                    <div class="match-tab" data-tab="mrt" onclick="window.switchMatchTab('mrt')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">北捷</div>
+                    <div class="match-tab" data-tab="thsr" onclick="window.switchMatchTab('thsr')" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 8px 14px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; color: #000000;">高鐵</div>
+                    <div class="match-tab active" data-tab="diula" onclick="window.switchMatchTab('diula')" style="box-sizing: border-box; position: relative; display: flex; justify-content: center; align-items: center; width: 80px; height: 45px; padding: 4px 6px; background: #F3F0E1; border: 1.5px solid #000000; border-radius: 50px; cursor: pointer;">
+                        <div style="position: relative; width: 108px; height: 34px; flex-shrink: 0; background: url('DiuLa_logo_transparent.png') no-repeat center center / contain; z-index: 1;"></div>
                     </div>
                 </div>
 
                 <!-- 丟啦！(DiuLa!) 站內即時比對 -->
                 <div id="match-diula-content" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                    <div id="match-results-list" style="width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 20px; margin-top: 25px; box-sizing: border-box;">
+                    <div id="match-results-list" style="width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 20px; margin-top: 20px; box-sizing: border-box;">
                         <!-- Data populated from found_items matching algorithm -->
                     </div>
                 </div>
@@ -923,8 +942,8 @@
                     <div style="text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12; margin: 25px 0 20px;">都沒有我的東西！</div>
                     <div style="display: flex; flex-direction: column; gap: 12px;">
                         <div onclick="window.handleAutoPush()" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 15px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">開啟自動尋找並推播</div>
-                        <div onclick="window.handleThreadsPost()" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 15px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">幫我在Threads發協尋文</div>
-                        <div onclick="document.getElementById('notfound-modal').style.display='none'; document.getElementById('notfound-home-confirm').style.display='flex';" style="text-align: center; margin-top: 5px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 14px; color: #482B12; text-decoration: underline; cursor: pointer;">返回首頁</div>
+                        <div onclick="window.openThreadsForm()" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 15px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">幫我在Threads發協尋文</div>
+                        <div onclick="document.getElementById('notfound-modal').style.display='none'; document.getElementById('notfound-home-confirm').style.display='flex';" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 15px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">返回首頁</div>
                     </div>
                 </div>
             </div>
@@ -934,7 +953,7 @@
                 <div style="position: relative; width: 300px; height: 251px; background: #F3F0E1; border-radius: 10px; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">
                     <div onclick="document.getElementById('notfound-home-confirm').style.display='none'" style="position: absolute; width: 35px; height: 35px; left: 11px; top: 10px; background: url('xmark-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
                     <div style="position: absolute; width: 200px; left: calc(50% - 100px); top: 85px; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 130%; color: #482B12;">是否確認要返回首頁？</div>
-                    <div style="position: absolute; width: 228px; left: calc(50% - 114px); top: 116px; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; opacity: 0.7;">提醒：返回首頁後將結束比對流程</div>
+                    <div style="position: absolute; width: 228px; left: calc(50% - 114px); top: 116px; text-align: center; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; opacity: 0.7;">提醒：返回首頁後此次比對結果將無法返回</div>
                     <div onclick="window.showPage('page-02', 'home')" style="position: absolute; left: 41px; top: 146px; width: 90px; height: 60px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; color: #482B12;">是</div>
                     <div onclick="document.getElementById('notfound-home-confirm').style.display='none'" style="position: absolute; left: 170px; top: 146px; width: 90px; height: 60px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; color: #482B12;">否</div>
                 </div>
@@ -942,19 +961,12 @@
 
             <!-- 開啟推播 成功 -->
             <div id="notfound-push-success" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center;">
-                <div style="width: 300px; background: #F3F0E1; border-radius: 10px; padding: 35px 20px; box-sizing: border-box; text-align: center;">
-                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12; margin-bottom: 25px;">自動尋找與推播已開啟！</div>
-                    <div onclick="document.getElementById('notfound-push-success').style.display='none'; window.showPage('page-15', 'profile');" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 15px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">返回我的遺失物</div>
+                <div style="width: 300px; height: 230px; background: #F3F0E1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 10px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 36px;">
+                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">自動尋找與推播已開啟！</div>
+                    <div onclick="document.getElementById('notfound-push-success').style.display='none'; window.showPage('page-15', 'profile');" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 20px 35px; width: 214px; height: 55px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; color: #482B12;">返回我的遺失物</div>
                 </div>
             </div>
 
-            <!-- 發脆文 成功 -->
-            <div id="notfound-thread-success" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center;">
-                <div style="width: 300px; background: #F3F0E1; border-radius: 10px; padding: 35px 20px; box-sizing: border-box; text-align: center;">
-                    <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; color: #482B12; margin-bottom: 25px;">Threads串文已排定發佈！</div>
-                    <div onclick="document.getElementById('notfound-thread-success').style.display='none'; window.showPage('page-15', 'profile');" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 15px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; color: #482B12;">返回我的遺失物</div>
-                </div>
-            </div>
         </div>
                 <!-- PAGE 10: Register Found (Non-ID) -->
         <div id="page-10" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
@@ -1409,53 +1421,62 @@
                 <!-- PAGE 19: Found Item Details -->
         <div id="page-19" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto;">
             <!-- Group 17 Header -->
-            <div style="position: absolute; width: 395px; height: 90px; left: calc(50% - 395px/2); top: 0px;">
-                <div style="position: absolute; width: 395px; height: 90px; left: 0px; top: 0px; background: #F3F0E1; border-radius: 0px 0px 20px 20px;"></div>
-                <div id="found-detail-main-tag" style="position: absolute; width: 100%; height: 20px; left: 0; top: 55px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">--</div>
-                <div class="back-btn" onclick="window.showPage(window.foundDetailReturnPage || 'page-18', window.foundDetailReturnTab || 'profile')" style="position: absolute; width: 30px; height: 30px; left: 21px; top: 50px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
+            <div style="position: absolute; width: 395px; height: 109px; left: calc(50% - 395px/2); top: 0px;">
+                <div style="position: absolute; width: 395px; height: 109px; left: 0px; top: 0px; background: #F3F0E1; border-radius: 0px 0px 20px 20px;"></div>
+                <div id="found-detail-main-tag" style="position: absolute; width: 100%; height: 20px; left: 0; top: 70px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">--</div>
+                <div class="back-btn" onclick="window.showPage(window.foundDetailReturnPage || 'page-18', window.foundDetailReturnTab || 'profile')" style="position: absolute; width: 35px; height: 35px; left: 26px; top: 62px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
             </div>
 
             <!-- Image -->
-            <div id="found-detail-img" style="position: absolute; width: 340px; height: 200px; left: calc(50% - 340px/2); top: 110px; background-color: #F5F5F5; background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 10px;"></div>
+            <div id="found-detail-img" style="position: absolute; width: 340px; height: 200px; left: calc(50% - 340px/2); top: 129px; background-color: #F5F5F5; background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 10px;"></div>
 
             <!-- Form Details Box -->
-            <div style="position: absolute; width: 340px; height: 175px; left: calc(50% - 340px/2); top: 330px; background: #F3F0E1; border-radius: 10px;"></div>
+            <div style="position: absolute; width: 340px; height: 230px; left: calc(50% - 340px/2); top: 346px; background: #F3F0E1; border-radius: 10px;"></div>
 
-            <div style="position: absolute; width: 55px; height: 55px; left: 41px; top: 342px;">
+            <div style="position: absolute; width: 55px; height: 55px; left: 41px; top: 361px;">
                 <div style="position: absolute; width: 35px; height: 35px; left: 10px; top: 10px; background: url('calendar-days-solid.png') no-repeat center center / contain;"></div>
             </div>
-            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 111px; top: 349px; background: #FFFFFF; border-radius: 10px;">
+            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 111px; top: 368px; background: #FFFFFF; border-radius: 10px;">
                 <div id="found-detail-date" style="width: 195px; height: 13px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; line-height: 13px; color: #482B12;">--</div>
             </div>
 
-            <div style="position: absolute; width: 55px; height: 55px; left: 41px; top: 392px;">
+            <!-- 拾獲地點 -->
+            <div style="position: absolute; width: 55px; height: 55px; left: 41px; top: 411px;">
                 <div style="position: absolute; width: 35px; height: 35px; left: 10px; top: 10px; background: url('location-dot-solid.png') no-repeat center center / contain;"></div>
             </div>
-            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 111px; top: 399px; background: #FFFFFF; border-radius: 10px;">
+            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 111px; top: 418px; background: #FFFFFF; border-radius: 10px;">
                 <div id="found-detail-loc" style="width: 204px; height: 12px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; line-height: 12px; color: #482B12;">--</div>
             </div>
 
-            <div style="position: absolute; width: 32px; height: 16px; left: 53px; top: 459px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; line-height: 16px; text-align: center; color: #482B12;">備註</div>
-            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 111px; top: 447px; background: #FFFFFF; border-radius: 10px;">
+            <!-- 送往地點 -->
+            <div style="position: absolute; width: 55px; height: 55px; left: 41px; top: 461px;">
+                <div style="position: absolute; width: 35px; height: 35px; left: 10px; top: 10px; background: url('person-chalkboard-solid.png') no-repeat center center / contain;"></div>
+            </div>
+            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 111px; top: 468px; background: #FFFFFF; border-radius: 10px;">
+                <div id="found-detail-drop" style="width: 204px; height: 12px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; line-height: 12px; color: #482B12;">--</div>
+            </div>
+
+            <div style="position: absolute; width: 32px; height: 16px; left: 53px; top: 530px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; line-height: 16px; text-align: center; color: #482B12;">備註</div>
+            <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; gap: 10px; position: absolute; width: 234px; height: 40px; left: 111px; top: 518px; background: #FFFFFF; border-radius: 10px;">
                 <div id="found-detail-notes" style="width: 204px; height: 12px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; line-height: 12px; color: #482B12; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">--</div>
             </div>
 
             <!-- AI Tags -->
-            <div style="position: absolute; width: 340px; height: 98px; left: calc(50% - 340px/2); top: 525px; background: #F3F0E1; border-radius: 10px;">
+            <div style="position: absolute; width: 340px; height: 98px; left: calc(50% - 340px/2); top: 586px; background: #F3F0E1; border-radius: 10px;">
                 <div style="position: absolute; width: 93.33px; height: 18px; left: 20px; top: 20px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 600; font-size: 16px; line-height: 18px; color: #482B12;">AI 標籤</div>
                 <div id="found-detail-tags-container" style="position: absolute; top: 48px; left: 20px; display: flex; flex-direction: row; gap: 10px;">
                     <!-- dynamic tags -->
                 </div>
             </div>
 
-            <!-- Submit Button (dynamically positioned at 643px) -->
-            <div id="found-detail-action-btn" onclick="window.confirmFound()" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 30px 40px; gap: 30px; position: absolute; width: 350px; height: 60px; left: calc(50% - 350px/2); top: 643px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+            <!-- Submit Button (dynamically positioned at 704px) -->
+            <div id="found-detail-action-btn" onclick="window.confirmFound()" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 30px 40px; gap: 30px; position: absolute; width: 350px; height: 60px; left: calc(50% - 350px/2); top: 704px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
                 <div style="width: 40px; height: 40px; background: url('circle-check-regular.png') no-repeat center center / contain; flex: none; order: 0;"></div>
                 <div style="width: 176px; height: 16px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1;">我找到了！立即更新狀態</div>
             </div>
 
             <!-- 刪除此筆資料 -->
-            <div onclick="window.confirmDeleteFound()" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; position: absolute; width: 100px; height: 40px; left: calc(50% - 100px/2); top: 723px; background: #FFFFFF; border: 1px solid #C4C4C4; border-radius: 50px; cursor: pointer;">
+            <div onclick="window.confirmDeleteFound()" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; position: absolute; width: 100px; height: 40px; left: calc(50% - 100px/2); top: 784px; background: #FFFFFF; border: 1px solid #C4C4C4; border-radius: 50px; cursor: pointer;">
                 <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 12px; line-height: 12px; text-align: center; color: #C4C4C4;">刪除此筆資料</div>
             </div>
 
@@ -1469,6 +1490,66 @@
                 <div style="width: 35px; height: 35px; background: url('icon_profile.png') no-repeat center center / contain;"></div>
             </div>
         </div>
+        <!-- PAGE 20: 幫你發Threads的協尋文 -->
+        <div id="page-20" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto;">
+            <!-- Header -->
+            <div style="position: absolute; width: 395px; height: 109px; left: calc(50% - 395px/2); top: 0px;">
+                <div style="position: absolute; width: 395px; height: 109px; left: 0px; top: 0px; background: #F3F0E1; border-radius: 0px 0px 20px 20px;"></div>
+                <div style="position: absolute; width: 220px; left: calc(50% - 110px); top: 70px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 20px; line-height: 20px; text-align: center; color: #482B12;">幫你發Threads的協尋文</div>
+                <div class="back-btn" onclick="window.showPage('page-06')" style="position: absolute; width: 35px; height: 35px; left: 26px; top: 62px; background: url('chevron-left-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
+            </div>
+
+            <!-- 說明文字 -->
+            <div style="box-sizing: border-box; display: flex; align-items: center; padding: 10px 15px; position: absolute; width: 340px; height: 60px; left: 27px; top: 129px; background: #F3F0E1; border-radius: 10px;">
+                <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 12px; line-height: 12px; color: #482B12;">照欄位填，系統會套用統一模版由 DiuLa 官方帳號 發佈到 Threads 協尋，你的個人帳號不會露出。</div>
+            </div>
+
+            <!-- 物品名稱 -->
+            <div style="position: absolute; width: 100px; left: 27px; top: 209px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 12px; line-height: 12px; color: #482B12;">物品名稱</div>
+            <div style="box-sizing: border-box; display: flex; align-items: center; padding: 10px 15px; position: absolute; width: 340px; height: 40px; left: 27px; top: 231px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;">
+                <input id="threads-form-item" type="text" style="width: 100%; border: none; background: transparent; outline: none; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; line-height: 13px; color: #482B12;">
+            </div>
+
+            <!-- 遺失日期 -->
+            <div style="position: absolute; width: 100px; left: 26px; top: 281px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 12px; line-height: 12px; color: #482B12;">遺失日期</div>
+            <div style="box-sizing: border-box; display: flex; align-items: center; padding: 10px 15px; position: absolute; width: 340px; height: 40px; left: 27px; top: 307px; background: #F5F5F5; border-radius: 10px;">
+                <div id="threads-form-date" style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; line-height: 12px; color: #482B12; opacity: 0.7;">--</div>
+            </div>
+
+            <!-- 遺失地點 -->
+            <div style="position: absolute; width: 100px; left: 27px; top: 357px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 12px; line-height: 12px; color: #482B12;">遺失地點</div>
+            <div style="box-sizing: border-box; display: flex; align-items: center; padding: 10px 15px; position: absolute; width: 340px; height: 40px; left: 28px; top: 383px; background: #F5F5F5; border-radius: 10px;">
+                <div id="threads-form-loc" style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; line-height: 12px; color: #482B12; opacity: 0.7;">--</div>
+            </div>
+
+            <!-- 詳細地點（選填） -->
+            <div style="position: absolute; width: 130px; left: 27px; top: 433px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 12px; line-height: 12px; color: #482B12;">詳細地點（選填）</div>
+            <div style="box-sizing: border-box; display: flex; align-items: center; padding: 10px 15px; position: absolute; width: 340px; height: 40px; left: 27px; top: 455px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;">
+                <input id="threads-form-detail-loc" type="text" placeholder="如：世新山洞口、景美站2號出口" style="width: 100%; border: none; background: transparent; outline: none; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; line-height: 13px; color: #482B12;">
+            </div>
+
+            <!-- 備註 -->
+            <div style="position: absolute; width: 50px; left: 28px; top: 505px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 12px; line-height: 12px; color: #482B12;">備註</div>
+            <div style="box-sizing: border-box; display: flex; align-items: center; padding: 10px 15px; position: absolute; width: 340px; height: 40px; left: 28px; top: 527px; background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;">
+                <input id="threads-form-notes" type="text" placeholder="如：對我很有紀念意義，謝謝大家幫忙留意" style="width: 100%; border: none; background: transparent; outline: none; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; line-height: 13px; color: #482B12;">
+            </div>
+
+            <!-- 送出 -->
+            <div id="threads-form-submit-btn" onclick="window.submitThreadsForm(this)" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 30px 40px; gap: 30px; position: absolute; width: 350px; height: 60px; left: calc(50% - 350px/2); top: 597px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
+                <div style="width: 40px; height: 40px; background: url('circle-check-regular.png') no-repeat center center / contain; flex: none;"></div>
+                <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none;">填寫完成！查看貼文預覽</div>
+            </div>
+
+            <div style="height: 900px; width: 100%; padding-bottom: 100px;"></div>
+        </div>
+        </div>
+<!-- 發脆文 成功（跨頁共用，需獨立於各 page 之外，才能在協尋文表單頁提交後正常顯示） -->
+        <div id="notfound-thread-success" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center;">
+            <div style="position: relative; width: 300px; height: 251px; background: #F3F0E1; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 10px; box-sizing: border-box;">
+                <div onclick="document.getElementById('notfound-thread-success').style.display='none'" style="position: absolute; width: 35px; height: 35px; left: 11px; top: 10px; background: url('xmark-solid.png') no-repeat center center / contain; cursor: pointer;"></div>
+                <div style="position: absolute; width: 246px; left: calc(50% - 123px); top: 87px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 22px; text-align: center; color: #482B12;">Threads串文已排定發佈！</div>
+                <div onclick="document.getElementById('notfound-thread-success').style.display='none'; window.showPage('page-15', 'profile');" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 20px 35px; position: absolute; width: 214px; height: 60px; left: 41px; top: 146px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 20px; line-height: 20px; color: #482B12;">返回我的遺失物</div>
+            </div>
         </div>
 <!-- 刪除確認彈窗（我的遺失物／我的拾獲物共用） -->
         <div id="delete-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center;">
@@ -2950,6 +3031,53 @@ const twLocations = {
             document.getElementById('notfound-thread-success').style.display = 'flex';
         }
 
+        // 「幫我在Threads發協尋文」：開啟協尋文表單頁，帶入已知的物品標籤／日期／地點
+        window.openThreadsForm = function() {
+            document.getElementById('notfound-modal').style.display = 'none';
+            const data = window.currentLostData || {};
+            const tags = (data.tags && data.tags.length) ? data.tags : (window.selectedTags || []);
+            document.getElementById('threads-form-item').value = tags.length ? tags.join(' / ') : '';
+            document.getElementById('threads-form-date').innerText = data.date || '未知日期';
+            document.getElementById('threads-form-loc').innerText = data.location || '未知地點';
+            document.getElementById('threads-form-detail-loc').value = '';
+            document.getElementById('threads-form-notes').value = '';
+            window.showPage('page-20');
+        }
+
+        // 協尋文表單送出：補上詳細地點／備註後，沿用原本的發文排程邏輯
+        window.submitThreadsForm = async function(btnElement) {
+            const data = window.currentLostData;
+            const itemName = document.getElementById('threads-form-item').value.trim();
+            const detailLocation = document.getElementById('threads-form-detail-loc').value.trim();
+            const notes = document.getElementById('threads-form-notes').value.trim();
+
+            if (btnElement) {
+                btnElement.style.opacity = '0.7';
+                btnElement.style.cursor = 'not-allowed';
+            }
+
+            if (db && data && data.id) {
+                try {
+                    await updateDoc(doc(db, "lost_items", data.id), {
+                        status: "已排定發文",
+                        threadsPostScheduled: true,
+                        threadsItemName: itemName,
+                        threadsDetailLocation: detailLocation,
+                        threadsNotes: notes
+                    });
+                    data.status = "已排定發文";
+                } catch (e) {
+                    console.error("Error scheduling threads post: ", e);
+                }
+            }
+
+            if (btnElement) {
+                btnElement.style.opacity = '1';
+                btnElement.style.cursor = 'pointer';
+            }
+            document.getElementById('notfound-thread-success').style.display = 'flex';
+        }
+
         // 依日期／關鍵字篩選（擇一或兩者一起輸入皆可）
         function itemMatchesFilter(data, dateVal, keyword) {
             if (dateVal && data.date !== dateVal) return false;
@@ -3367,6 +3495,7 @@ const twLocations = {
             document.getElementById('found-detail-img').style.backgroundImage = '';
             document.getElementById('found-detail-date').innerText = "--";
             document.getElementById('found-detail-loc').innerText = "--";
+            document.getElementById('found-detail-drop').innerText = "--";
             document.getElementById('found-detail-notes').innerText = "--";
             document.getElementById('found-detail-tags-container').innerHTML = "";
             
@@ -3384,7 +3513,8 @@ const twLocations = {
                     }
                     
                     document.getElementById('found-detail-date').innerText = data.date || "未知日期";
-                    document.getElementById('found-detail-loc').innerText = data.location || "未知地點";
+                    document.getElementById('found-detail-loc').innerText = "拾獲地點：" + (data.location || "未知地點");
+                    document.getElementById('found-detail-drop').innerText = "送往：" + (data.dropLocation || "未知地點");
                     document.getElementById('found-detail-notes').innerText = data.notes || data.desc || "--";
                     
                     const tagsHtml = (data.tags || []).map(t => `<div style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 20px; gap: 10px; height: 30px; background: #FFFFFF; border-radius: 10px;"><div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12;">${t}</div></div>`).join('');
