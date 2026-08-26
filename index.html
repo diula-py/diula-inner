@@ -176,6 +176,11 @@
             appearance: none;
             min-height: 44px; /* 確保在 mobile 上有足夠點擊高度 */
         }
+        /* WebKit（手機瀏覽器）的日期文字是瀏覽器內建元件，預設置中對齊且不受 line-height 控制，
+           這裡強制改回齊左，桌機 Chrome 不受影響所以原本沒發現 */
+        input[type="date"]::-webkit-date-and-time-value {
+            text-align: left;
+        }
 
         /* 移除瀏覽器原生下拉選單樣式（含原生箭頭），改用自訂的 chevron-down-solid.png 圖示，
            避免原生箭頭與自訂圖示重疊、擠壓掉膠囊內文字的顯示空間 */
@@ -692,7 +697,7 @@
                     <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                         <div style="width: 35px; height: 35px; background: url('calendar-days-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
                         <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
-                            <input type="date" id="lost-date-03" style="box-sizing: border-box; width: 100%; height: 20px; line-height: 20px; padding: 0; margin: 0; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                            <input type="date" id="lost-date-03" style="box-sizing: border-box; width: 100%; height: 20px; min-height: 20px; line-height: 20px; padding: 0; margin: 0; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
                         </div>
                     </div>
 
@@ -761,7 +766,7 @@
                     <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                         <div style="width: 35px; height: 35px; background: url('calendar-days-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
                         <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
-                            <input type="date" id="lost-date-04" style="box-sizing: border-box; width: 100%; height: 20px; line-height: 20px; padding: 0; margin: 0; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                            <input type="date" id="lost-date-04" style="box-sizing: border-box; width: 100%; height: 20px; min-height: 20px; line-height: 20px; padding: 0; margin: 0; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
                         </div>
                     </div>
 
@@ -843,7 +848,7 @@
                     <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                         <div style="width: 35px; height: 35px; background: url('calendar-days-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
                         <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
-                            <input type="date" id="info-date-05" style="height: 20px; line-height: 20px; padding: 0; margin: 0; width: 100%; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                            <input type="date" id="info-date-05" style="height: 20px; min-height: 20px; line-height: 20px; padding: 0; margin: 0; width: 100%; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
                         </div>
                     </div>
 
@@ -992,7 +997,7 @@
                 <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                     <div style="width: 35px; height: 35px; background: url('calendar-days-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
                     <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
-                        <input type="date" id="found-date-10" style="height: 20px; line-height: 20px; padding: 0; margin: 0; width: 100%; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                        <input type="date" id="found-date-10" style="height: 20px; min-height: 20px; line-height: 20px; padding: 0; margin: 0; width: 100%; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
                     </div>
                 </div>
 
@@ -1070,7 +1075,7 @@
                     <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                         <div style="width: 35px; height: 35px; background: url('calendar-days-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
                         <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
-                            <input type="date" id="info-date-11" style="height: 20px; line-height: 20px; padding: 0; margin: 0; width: 100%; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                            <input type="date" id="info-date-11" style="height: 20px; min-height: 20px; line-height: 20px; padding: 0; margin: 0; width: 100%; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
                         </div>
                     </div>
 
@@ -1162,7 +1167,7 @@
                 <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                     <div style="width: 35px; height: 35px; background: url('calendar-days-solid.png') no-repeat center center / contain; flex-shrink: 0; margin-left: 10px;"></div>
                     <div style="box-sizing: border-box; display: flex; flex-direction: row; align-items: center; padding: 10px 15px; flex-grow: 1; height: 40px; background: #FFFFFF; border: 1px solid #000000; border-radius: 50px;">
-                        <input type="date" id="found-date-12" style="height: 20px; line-height: 20px; padding: 0; margin: 0; width: 100%; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
+                        <input type="date" id="found-date-12" style="height: 20px; min-height: 20px; line-height: 20px; padding: 0; margin: 0; width: 100%; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12; border: none; background: transparent; outline: none;">
                     </div>
                 </div>
 
