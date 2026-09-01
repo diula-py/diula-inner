@@ -2173,7 +2173,11 @@ const twLocations = {
                 if (bottomNav) bottomNav.style.display = 'flex';
             }
 
-            if (navTab) {
+            if (pageId === 'page-06') {
+                // 比對結果頁不屬於「首頁」或「個人資料」任一分頁，Bar 只是給使用者快速跳轉用，
+                // 所以兩顆 icon 底下都不應該顯示白底膠囊（停留狀態）
+                document.querySelectorAll('.pill-nav-item').forEach(nav => nav.classList.remove('active'));
+            } else if (navTab) {
                 document.querySelectorAll('.pill-nav-item').forEach(nav => nav.classList.remove('active'));
                 const navEl = document.getElementById('nav-' + navTab);
                 if (navEl) navEl.classList.add('active');
