@@ -1340,9 +1340,9 @@
             </div>
 
             <!-- AI Tags -->
-            <div style="position: absolute; width: 340px; height: 98px; left: calc(50% - 340px/2); top: 572px; background: #F3F0E1; border-radius: 10px;">
+            <div id="lost-detail-tags-box" style="position: absolute; width: 340px; height: 98px; left: calc(50% - 340px/2); top: 572px; background: #F3F0E1; border-radius: 10px;">
                 <div style="position: absolute; width: 93.33px; height: 18px; left: 20px; top: 20px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 600; font-size: 16px; line-height: 18px; color: #482B12;">AI 標籤</div>
-                <div id="lost-detail-tags-container" style="position: absolute; top: 48px; left: 20px; display: flex; flex-direction: row; gap: 10px;">
+                <div id="lost-detail-tags-container" style="position: absolute; top: 48px; left: 20px; width: 300px; display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px;">
                     <!-- dynamic tags -->
                 </div>
             </div>
@@ -1358,14 +1358,14 @@
                 </div>
             </div>
 
-            <!-- Submit Button (dynamically positioned at 690px or 770px) -->
+            <!-- Submit Button（實際位置由 JS 依 AI 標籤換行後的高度動態往下推，避免標籤太多時被蓋住） -->
             <div id="lost-detail-action-btn" onclick="window.confirmFound()" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 30px 40px; gap: 30px; position: absolute; width: 350px; height: 60px; left: calc(50% - 350px/2); top: 690px; background: #DFEAF5; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
                 <div style="width: 40px; height: 40px; background: url('circle-check-regular.png') no-repeat center center / contain; flex: none; order: 0;"></div>
                 <div style="width: 176px; height: 16px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1;">我找到了！立即更新狀態</div>
             </div>
 
             <!-- 刪除此筆資料 -->
-            <div onclick="window.confirmDeleteLost()" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; position: absolute; width: 100px; height: 40px; left: calc(50% - 100px/2); top: 770px; background: #FFFFFF; border: 1px solid #C4C4C4; border-radius: 50px; cursor: pointer;">
+            <div id="lost-detail-delete-btn" onclick="window.confirmDeleteLost()" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; position: absolute; width: 100px; height: 40px; left: calc(50% - 100px/2); top: 770px; background: #FFFFFF; border: 1px solid #C4C4C4; border-radius: 50px; cursor: pointer;">
                 <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 12px; line-height: 12px; text-align: center; color: #C4C4C4;">刪除此筆資料</div>
             </div>
 
@@ -1465,21 +1465,21 @@
             </div>
 
             <!-- AI Tags -->
-            <div style="position: absolute; width: 340px; height: 98px; left: calc(50% - 340px/2); top: 586px; background: #F3F0E1; border-radius: 10px;">
+            <div id="found-detail-tags-box" style="position: absolute; width: 340px; height: 98px; left: calc(50% - 340px/2); top: 586px; background: #F3F0E1; border-radius: 10px;">
                 <div style="position: absolute; width: 93.33px; height: 18px; left: 20px; top: 20px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 600; font-size: 16px; line-height: 18px; color: #482B12;">AI 標籤</div>
-                <div id="found-detail-tags-container" style="position: absolute; top: 48px; left: 20px; display: flex; flex-direction: row; gap: 10px;">
+                <div id="found-detail-tags-container" style="position: absolute; top: 48px; left: 20px; width: 300px; display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px;">
                     <!-- dynamic tags -->
                 </div>
             </div>
 
-            <!-- Submit Button (dynamically positioned at 704px) -->
+            <!-- Submit Button（實際位置由 JS 依 AI 標籤換行後的高度動態往下推，避免標籤太多時被蓋住） -->
             <div id="found-detail-action-btn" onclick="window.confirmFound()" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 30px 40px; gap: 30px; position: absolute; width: 350px; height: 60px; left: calc(50% - 350px/2); top: 704px; background: #F3F0E1; border: 1px solid #000000; border-radius: 50px; cursor: pointer;">
                 <div style="width: 40px; height: 40px; background: url('circle-check-regular.png') no-repeat center center / contain; flex: none; order: 0;"></div>
                 <div style="width: 176px; height: 16px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 500; font-size: 16px; line-height: 16px; text-align: center; color: #482B12; flex: none; order: 1;">我找到了！立即更新狀態</div>
             </div>
 
             <!-- 刪除此筆資料 -->
-            <div onclick="window.confirmDeleteFound()" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; position: absolute; width: 100px; height: 40px; left: calc(50% - 100px/2); top: 784px; background: #FFFFFF; border: 1px solid #C4C4C4; border-radius: 50px; cursor: pointer;">
+            <div id="found-detail-delete-btn" onclick="window.confirmDeleteFound()" style="box-sizing: border-box; display: flex; justify-content: center; align-items: center; position: absolute; width: 100px; height: 40px; left: calc(50% - 100px/2); top: 784px; background: #FFFFFF; border: 1px solid #C4C4C4; border-radius: 50px; cursor: pointer;">
                 <div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 700; font-size: 12px; line-height: 12px; text-align: center; color: #C4C4C4;">刪除此筆資料</div>
             </div>
 
@@ -3281,6 +3281,25 @@ const twLocations = {
         window.currentViewingLostId = null;
 
         // 從列表點進詳情時，記錄 docId
+        // AI 標籤太多、換行變成兩三排時，讓標籤框自動長高，
+        // 並把下面所有固定定位的按鈕依序往下推，避免被標籤蓋住
+        // tagsBoxEl：標籤外框；tagsContainerEl：實際換行的標籤容器；boxTop：外框固定的 top 值（px）
+        // followers：外框下面、要依序往下推的元素，[{el, gap}]，gap 是跟上一個元素的間距
+        window.reflowTagsBoxAndFollowers = function(tagsBoxEl, tagsContainerEl, boxTop, followers) {
+            if (!tagsBoxEl || !tagsContainerEl) return;
+            const contentHeight = 48 + tagsContainerEl.scrollHeight + 20; // 48=標籤容器離頂部距離，20=底部留白
+            const newHeight = Math.max(98, contentHeight);
+            tagsBoxEl.style.height = newHeight + 'px';
+
+            let cursor = boxTop + newHeight;
+            followers.forEach(({ el, gap }) => {
+                if (!el || getComputedStyle(el).display === 'none') return;
+                cursor += gap;
+                el.style.top = cursor + 'px';
+                cursor += el.offsetHeight;
+            });
+        };
+
         window.viewLostDetail = async function(docId) {
             window.currentViewingLostId = docId;
             window.showPage('page-16', 'profile');
@@ -3339,6 +3358,16 @@ const twLocations = {
                         });
                         tagsContainer.innerHTML = tagsHtml;
                     }
+                    window.reflowTagsBoxAndFollowers(
+                        document.getElementById('lost-detail-tags-box'),
+                        tagsContainer,
+                        572,
+                        [
+                            { el: threadsContainer, gap: 20 },
+                            { el: document.getElementById('lost-detail-action-btn'), gap: 20 },
+                            { el: document.getElementById('lost-detail-delete-btn'), gap: 20 }
+                        ]
+                    );
 
                     const status = data.status || "尋找中";
                     statusEl.innerText = status;
@@ -3522,6 +3551,15 @@ const twLocations = {
                     
                     const tagsHtml = (data.tags || []).map(t => `<div style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 10px 20px; gap: 10px; height: 30px; background: #FFFFFF; border-radius: 10px;"><div style="font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; color: #482B12;">${t}</div></div>`).join('');
                     document.getElementById('found-detail-tags-container').innerHTML = tagsHtml;
+                    window.reflowTagsBoxAndFollowers(
+                        document.getElementById('found-detail-tags-box'),
+                        document.getElementById('found-detail-tags-container'),
+                        586,
+                        [
+                            { el: document.getElementById('found-detail-action-btn'), gap: 20 },
+                            { el: document.getElementById('found-detail-delete-btn'), gap: 20 }
+                        ]
+                    );
                 } else {
                     alert("找不到該筆資料");
                 }
