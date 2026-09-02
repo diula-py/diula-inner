@@ -71,5 +71,9 @@ node_modules/
 # dataconnect generated files
 .dataconnect
 
+# Firebase 服務帳戶金鑰（migrate-user-ids.js 用），絕對不能上傳到 GitHub
+serviceAccountKey.json
+*serviceAccountKey*.json
+
 # Font source files (raw .ttc, design use only — web build uses fonts/gensen-rounded/*.woff2)
 源泉圓體/

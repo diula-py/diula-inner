@@ -1755,15 +1755,15 @@ const twLocations = {
 
                     // 記住這次登入的穩定 uid（LINE userId 不會變），避免之後 ensureAuth() 誤用匿名帳號
                     window.currentUid = profile.userId;
-                    window.currentUserId = window.generateUserId('L', profile.userId);
+                    window.currentUserId = await window.getOrCreateUserId('L', profile.userId);
 
                     if (loginBtn) loginBtn.style.display = 'none';
                     if (statusBadge) statusBadge.style.display = 'inline-block';
                     if (nameEl) nameEl.textContent = profile.displayName || "LINE 使用者";
-                    
+
                     const idEl = document.getElementById('profile-id-text');
                     if (idEl) {
-                        idEl.textContent = "User ID：" + window.generateUserId('L', profile.userId);
+                        idEl.textContent = "User ID：" + window.currentUserId;
                     }
 
                     if (avatarImg && profile.pictureUrl) {
@@ -1822,24 +1822,24 @@ const twLocations = {
             }
             const provider = new GoogleAuthProvider();
             signInWithPopup(auth, provider)
-                .then((result) => {
+                .then(async (result) => {
                     const user = result.user;
                     console.log("Google 登入成功！使用者資訊:", user);
 
                     // 記住這次登入的穩定 uid，避免之後 ensureAuth() 誤用匿名帳號
                     window.currentUid = user.uid;
-                    window.currentUserId = window.generateUserId('G', user.uid);
+                    window.currentUserId = await window.getOrCreateUserId('G', user.uid);
 
                     // 根據需求跳轉到首頁 (page-02)
                     window.showPage('page-02', 'home');
-                    
+
                     // 更新 UI 顯示為 Google 使用者
                     const nameEl = document.getElementById('profile-name-text');
                     const idEl = document.getElementById('profile-id-text');
                     const avatarImg = document.getElementById('profile-avatar-img');
-                    
+
                     if (nameEl) nameEl.textContent = user.displayName || "Google 使用者";
-                    if (idEl) idEl.textContent = "User ID：" + window.generateUserId('G', user.uid);
+                    if (idEl) idEl.textContent = "User ID：" + window.currentUserId;
                     if (avatarImg) {
                         avatarImg.src = user.photoURL || 'icon_profile.png';
                         avatarImg.style.display = 'block';
@@ -1905,20 +1905,20 @@ const twLocations = {
 
         // Auth State Listener
         if (auth) {
-            onAuthStateChanged(auth, (user) => {
+            onAuthStateChanged(auth, async (user) => {
                 const nameEl = document.getElementById('profile-name-text');
                 const idEl = document.getElementById('profile-id-text');
                 const avatarImg = document.getElementById('profile-avatar-img');
-                
+
                 if (user) {
                     if (user.providerData && user.providerData.some(p => p.providerId === 'google.com')) {
                         // 刷新頁面後 Firebase 從 browserLocalPersistence 恢復 Google 登入狀態，
                         // 補回 window.currentUid，避免 ensureAuth() 誤判成訪客而改用匿名帳號
                         window.currentUid = user.uid;
-                        window.currentUserId = window.generateUserId('G', user.uid);
+                        window.currentUserId = await window.getOrCreateUserId('G', user.uid);
 
                         if (nameEl) nameEl.textContent = user.displayName || "Google 使用者";
-                        if (idEl) idEl.textContent = "User ID：" + window.generateUserId('G', user.uid);
+                        if (idEl) idEl.textContent = "User ID：" + window.currentUserId;
                         if (avatarImg && user.photoURL) {
                             avatarImg.src = user.photoURL;
                             avatarImg.style.display = 'block';
@@ -1955,11 +1955,9 @@ const twLocations = {
             return `DL-${type}${cat}-${yy}${mm}${dd}-${randomCode}`;
         };
 
-        window.generateUserId = function(loginProvider, originalUid) {
-            const date = new Date();
-            const yy = String(date.getFullYear()).slice(-2);
-            const mm = String(date.getMonth() + 1).padStart(2, '0');
-            
+        // 將原始 UID（LINE userId / Firebase uid）雜湊成固定 4 碼，同一個人永遠得到同樣的結果，
+        // 不受任何時間影響 —— 這是辨識「同一個人」的依據，也是 user_id 註冊表的查詢鍵之一。
+        window._hashUid = function(originalUid) {
             let hashStr = originalUid;
             if (originalUid && originalUid.length > 4) {
                 let hash = 0;
@@ -1970,9 +1968,48 @@ const twLocations = {
                 }
                 hashStr = Math.abs(hash).toString(36).toUpperCase().substring(0, 4);
             }
-            hashStr = (hashStr || '').padStart(4, '0');
-            
-            return `${loginProvider}${yy}${mm}${hashStr}`;
+            return (hashStr || '').padStart(4, '0');
+        };
+
+        // 取得（或建立）某個使用者「永久不變」的 user_id。
+        // 格式仍是 provider + yy + mm，但 yy/mm 只在「這個人第一次使用丟拉」時決定一次，
+        // 並存進 user_registry 這個 collection，之後不論哪個月份登入都直接讀回同一組 ID，
+        // 不會再像舊版一樣每次都用「當下」的年月重算，導致舊資料查不到。
+        window.getOrCreateUserId = async function(loginProvider, originalUid) {
+            const hash4 = window._hashUid(originalUid);
+            const registryId = `${loginProvider}_${hash4}`;
+
+            if (db) {
+                try {
+                    const registryRef = doc(db, "user_registry", registryId);
+                    const snap = await getDoc(registryRef);
+                    if (snap.exists() && snap.data().user_id) {
+                        return snap.data().user_id;
+                    }
+
+                    // 註冊表裡沒有紀錄 → 視為第一次使用，用「現在」的年月建立一次性的永久 ID
+                    const date = new Date();
+                    const yy = String(date.getFullYear()).slice(-2);
+                    const mm = String(date.getMonth() + 1).padStart(2, '0');
+                    const newUserId = `${loginProvider}${yy}${mm}${hash4}`;
+
+                    await setDoc(registryRef, {
+                        user_id: newUserId,
+                        login_provider: loginProvider,
+                        yy, mm,
+                        created_at: serverTimestamp()
+                    });
+                    return newUserId;
+                } catch (e) {
+                    console.error("讀取/建立 user_registry 失敗，改用臨時 user_id：", e);
+                }
+            }
+
+            // db 尚未就緒等異常情況下的備援：至少維持同一個 hash4，避免完全無法使用
+            const date = new Date();
+            const yy = String(date.getFullYear()).slice(-2);
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            return `${loginProvider}${yy}${mm}${hash4}`;
         };
 
         window.ensureAuth = async function() {
@@ -2790,7 +2827,7 @@ const twLocations = {
             try {
                 const uid = await window.ensureAuth();
                 const loginProvider = (window.isLiffSafeLoggedIn()) ? 'L' : 'G';
-                window.currentUserId = window.generateUserId(loginProvider, uid);
+                window.currentUserId = await window.getOrCreateUserId(loginProvider, uid);
                 // Check if any selected tag contains "證件"
                 const isIdCategory = window.selectedTags.some(t => t.includes('證件') || t.includes('卡'));
                 const customId = window.generateItemId('L', isIdCategory);
@@ -2840,7 +2877,7 @@ const twLocations = {
             try {
                 const uid = await window.ensureAuth();
                 const loginProvider = (window.isLiffSafeLoggedIn()) ? 'L' : 'G';
-                window.currentUserId = window.generateUserId(loginProvider, uid);
+                window.currentUserId = await window.getOrCreateUserId(loginProvider, uid);
                 const isIdCategory = window.selectedTags.some(t => t.includes('證件') || t.includes('卡'));
                 const customId = window.generateItemId('F', isIdCategory);
 
@@ -3160,7 +3197,7 @@ const twLocations = {
             try {
                 const uid = await window.ensureAuth();
                 const loginProvider = (window.isLiffSafeLoggedIn()) ? 'L' : 'G';
-                window.currentUserId = window.generateUserId(loginProvider, uid);
+                window.currentUserId = await window.getOrCreateUserId(loginProvider, uid);
                 const q = query(collection(db, "lost_items"), where("user_id", "==", window.currentUserId));
                 const querySnapshot = await getDocs(q);
                 let items = [];
@@ -3223,7 +3260,7 @@ const twLocations = {
             try {
                 const uid = await window.ensureAuth();
                 const loginProvider = (window.isLiffSafeLoggedIn()) ? 'L' : 'G';
-                window.currentUserId = window.generateUserId(loginProvider, uid);
+                window.currentUserId = await window.getOrCreateUserId(loginProvider, uid);
                 const q = query(collection(db, "found_items"), where("user_id", "==", window.currentUserId));
                 const querySnapshot = await getDocs(q);
                 let items = [];
