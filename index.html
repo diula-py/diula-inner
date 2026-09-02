@@ -3525,6 +3525,8 @@ const twLocations = {
             window.foundDetailReturnPage = options.returnPage || 'page-18';
             window.foundDetailReturnTab = options.returnTab || 'profile';
             document.getElementById('found-detail-action-btn').style.display = options.hideActionBtn ? 'none' : 'flex';
+            // 從比對結果點進來看的是別人上傳的拾獲物，不是自己的資料，不能顯示「刪除此筆資料」
+            document.getElementById('found-detail-delete-btn').style.display = options.hideActionBtn ? 'none' : 'flex';
             window.showPage('page-19', 'profile');
 
             document.getElementById('found-detail-main-tag').innerText = "載入中...";
