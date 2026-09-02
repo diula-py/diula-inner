@@ -33,7 +33,11 @@
  *   4) 確認輸出的報告沒問題之後，加上 --apply 才會真的寫入 Firestore：
  *        node migrate-user-ids.js --key=./serviceAccountKey.json --apply
  *
- *   這支腳本可以重複執行多次，不會重複修壞資料（idempotent）。
+ *   這支腳本可以重複執行多次，不會重複修壞資料（idempotent）：如果某個人已經在
+ *   user_registry 裡有紀錄，之後重跑只會沿用那筆紀錄，不會再重算。
+ *   如果要修正「已經寫進 user_registry、但年月算錯」的舊紀錄，加上 --fix-registry
+ *   （平常不需要用到，只有先前跑錯才需要）：
+ *        node migrate-user-ids.js --key=./serviceAccountKey.json --fix-registry --apply
  * =========================================================================
  */
 
@@ -41,15 +45,16 @@ const path = require('path');
 
 function parseArgs() {
     const args = process.argv.slice(2);
-    const out = { apply: false, key: null };
+    const out = { apply: false, key: null, fixRegistry: false };
     for (const arg of args) {
         if (arg === '--apply') out.apply = true;
+        else if (arg === '--fix-registry') out.fixRegistry = true;
         else if (arg.startsWith('--key=')) out.key = arg.slice('--key='.length);
     }
     return out;
 }
 
-const { apply, key } = parseArgs();
+const { apply, key, fixRegistry } = parseArgs();
 
 if (!key) {
     console.error('請用 --key=你的服務帳戶金鑰路徑.json 指定 Firebase 服務帳戶金鑰。');
@@ -57,14 +62,15 @@ if (!key) {
     process.exit(1);
 }
 
-const admin = require('firebase-admin');
+const { initializeApp, cert } = require('firebase-admin/app');
+const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 const serviceAccount = require(path.resolve(process.cwd(), key));
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
+initializeApp({
+    credential: cert(serviceAccount)
 });
 
-const db = admin.firestore();
+const db = getFirestore();
 
 // user_id 格式：1 碼 provider + 2 碼 yy + 2 碼 mm + 4 碼 hash（英數字）
 const USER_ID_PATTERN = /^([A-Z])(\d{2})(\d{2})([A-Z0-9]{4})$/;
@@ -86,7 +92,11 @@ async function main() {
     ]);
 
     // 2) 依照「provider + hash4」把同一個人的資料分組
-    //    group: { provider, hash4, earliestMs, earliestYY, earliestMM, docs: [{ ref, collection, oldUserId, hasPickerId }] }
+    //    「最早」是用每筆舊資料 user_id 自己記錄的 yy/mm 直接比較（例如 "2608" < "2609"），
+    //    不依賴 timestamp 欄位 —— 有些早期測試資料沒有 timestamp 欄位，若用它來判斷，
+    //    每次查詢 Firestore 回傳的文件順序不保證一致，會讓「最早」的判斷結果不穩定。
+    //    yy/mm 本來就是舊 user_id 唯一可靠、一定存在的時間資訊，直接比較最準確。
+    //    group: { provider, hash4, earliestYY, earliestMM, docs: [{ ref, collection, oldUserId, hasPickerId }] }
     const groups = new Map();
     let skipped = 0;
 
@@ -103,7 +113,6 @@ async function main() {
             groups.set(key, {
                 provider: parsed.provider,
                 hash4: parsed.hash4,
-                earliestMs: Infinity,
                 earliestYY: parsed.yy,
                 earliestMM: parsed.mm,
                 docs: []
@@ -111,12 +120,8 @@ async function main() {
         }
         const group = groups.get(key);
 
-        // timestamp 可能是 Firestore Timestamp，也可能因為 serverTimestamp() 尚未落地而是 null
-        const ts = data.timestamp && typeof data.timestamp.toMillis === 'function'
-            ? data.timestamp.toMillis()
-            : null;
-        if (ts !== null && ts < group.earliestMs) {
-            group.earliestMs = ts;
+        // 字串比較即可：yy、mm 都固定 2 碼零填補，"2608" < "2609" 這種比法是對的
+        if (`${parsed.yy}${parsed.mm}` < `${group.earliestYY}${group.earliestMM}`) {
             group.earliestYY = parsed.yy;
             group.earliestMM = parsed.mm;
         }
@@ -135,8 +140,11 @@ async function main() {
     console.log(`共找到 ${groups.size} 位不同的使用者，${skipped} 筆資料因格式不符被略過。\n`);
 
     // 3) 對每一組決定「永久 user_id」：優先採用 user_registry 裡已經有的紀錄，
-    //    沒有的話才用這個人最早一筆資料的年月現算一組
+    //    沒有的話才用這個人最早一筆資料的年月現算一組。
+    //    若加上 --fix-registry，且重新計算出來的「最早年月」比註冊表裡存的更早，
+    //    才會覆蓋註冊表（用於修正先前因為 bug 算錯的紀錄，平常不會用到這個選項）。
     let registryWrites = 0;
+    let registryFixes = 0;
     let docUpdates = 0;
     let unchanged = 0;
 
@@ -148,26 +156,48 @@ async function main() {
         const registryRef = registryColl.doc(registryId);
         const registrySnap = await registryRef.get();
 
+        const recomputedYY = group.earliestYY;
+        const recomputedMM = group.earliestMM;
+        const recomputedUserId = `${group.provider}${recomputedYY}${recomputedMM}${group.hash4}`;
+
         let canonicalUserId;
         if (registrySnap.exists && registrySnap.data().user_id) {
-            canonicalUserId = registrySnap.data().user_id;
+            const existing = registrySnap.data();
+            const existingYYMM = `${existing.yy}${existing.mm}`;
+            const recomputedYYMM = `${recomputedYY}${recomputedMM}`;
+            if (fixRegistry && recomputedYYMM < existingYYMM) {
+                canonicalUserId = recomputedUserId;
+                batchOps.push({
+                    type: 'set',
+                    ref: registryRef,
+                    data: {
+                        user_id: canonicalUserId,
+                        login_provider: group.provider,
+                        yy: recomputedYY, mm: recomputedMM,
+                        migrated: true,
+                        fixed_at: FieldValue.serverTimestamp()
+                    }
+                });
+                registryFixes++;
+                console.log(`[修正註冊表] ${registryId}：${existing.user_id} -> ${canonicalUserId}`);
+            } else {
+                canonicalUserId = existing.user_id;
+            }
         } else {
-            const yy = group.earliestYY;
-            const mm = group.earliestMM;
-            canonicalUserId = `${group.provider}${yy}${mm}${group.hash4}`;
+            canonicalUserId = recomputedUserId;
             batchOps.push({
                 type: 'set',
                 ref: registryRef,
                 data: {
                     user_id: canonicalUserId,
                     login_provider: group.provider,
-                    yy, mm,
+                    yy: recomputedYY, mm: recomputedMM,
                     migrated: true,
-                    migrated_at: admin.firestore.FieldValue.serverTimestamp()
+                    migrated_at: FieldValue.serverTimestamp()
                 }
             });
             registryWrites++;
-            console.log(`[新增註冊表] ${registryId} -> ${canonicalUserId}（依最早資料時間推算）`);
+            console.log(`[新增註冊表] ${registryId} -> ${canonicalUserId}（依最早資料年月推算）`);
         }
 
         for (const docInfo of group.docs) {
@@ -183,7 +213,7 @@ async function main() {
         }
     }
 
-    console.log(`\n預計新增 ${registryWrites} 筆 user_registry 紀錄，更新 ${docUpdates} 筆舊資料，${unchanged} 筆資料本來就是正確的不需變動。`);
+    console.log(`\n預計新增 ${registryWrites} 筆 user_registry 紀錄，修正 ${registryFixes} 筆既有註冊表紀錄，更新 ${docUpdates} 筆舊資料，${unchanged} 筆資料本來就是正確的不需變動。`);
 
     if (!apply) {
         console.log('\n這是乾跑模式，尚未寫入任何東西。確認上面的報告沒問題後，加上 --apply 參數重新執行即可正式寫入。');
