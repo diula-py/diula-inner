@@ -5,9 +5,14 @@
 
 const { setGlobalOptions } = require("firebase-functions/v2");
 const { onCall, HttpsError } = require("firebase-functions/v2/https");
+const { onSchedule } = require("firebase-functions/v2/scheduler");
+const { initializeApp } = require("firebase-admin/app");
+const { getFirestore, FieldValue } = require("firebase-admin/firestore");
 const { GoogleGenAI } = require("@google/genai");
 
 setGlobalOptions({ maxInstances: 10, region: "asia-east1" }); // 設定在東京/亞洲區，對台灣連線最快
+
+initializeApp();
 
 exports.analyzeItem = onCall({ secrets: ["GEMINI_API_KEY"], cors: true }, async (request) => {
     const apiKey = process.env.GEMINI_API_KEY;
@@ -92,4 +97,32 @@ exports.analyzeItem = onCall({ secrets: ["GEMINI_API_KEY"], cors: true }, async 
         console.error("Gemini AI 辨識發生錯誤：", error);
         throw new HttpsError("internal", "AI 辨識服務暫時無法回應：" + error.message);
     }
+});
+
+const AUTO_PUSH_DAYS = 5;
+
+// 每小時檢查一次：自動推播滿五天的遺失物改為「結束自動推播」
+exports.expireAutoPush = onSchedule({ schedule: "every 1 hours", timeZone: "Asia/Taipei" }, async () => {
+    const db = getFirestore();
+    const cutoff = Date.now() - AUTO_PUSH_DAYS * 24 * 60 * 60 * 1000;
+
+    // 只用單一欄位查詢，避免需要建立複合索引，時間判斷在程式內處理
+    const snap = await db.collection("lost_items").where("status", "==", "自動推播中").get();
+
+    const batch = db.batch();
+    let expired = 0, backfilled = 0;
+    snap.forEach((docSnap) => {
+        const startedAt = docSnap.get("autoPushStartedAt");
+        if (!startedAt) {
+            // 舊資料沒有開始時間，從現在開始計算五天
+            batch.update(docSnap.ref, { autoPushStartedAt: FieldValue.serverTimestamp() });
+            backfilled++;
+        } else if (startedAt.toMillis() <= cutoff) {
+            batch.update(docSnap.ref, { status: "結束自動推播", autoPushEndedAt: FieldValue.serverTimestamp() });
+            expired++;
+        }
+    });
+
+    if (expired + backfilled > 0) await batch.commit();
+    console.log(`自動推播檢查完成：結束 ${expired} 筆、補上開始時間 ${backfilled} 筆`);
 });

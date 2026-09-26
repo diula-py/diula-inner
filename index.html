@@ -3052,7 +3052,8 @@ const twLocations = {
             const data = window.currentLostData;
             if (db && data && data.id) {
                 try {
-                    await updateDoc(doc(db, "lost_items", data.id), { status: "自動推播中" });
+                    // 記錄開始推播時間，後端排程會在滿五天後改為「結束自動推播」
+                    await updateDoc(doc(db, "lost_items", data.id), { status: "自動推播中", autoPushStartedAt: serverTimestamp() });
                     data.status = "自動推播中";
                 } catch (e) {
                     console.error("Error updating lost item status: ", e);
@@ -3157,6 +3158,7 @@ const twLocations = {
                 let statusColor = '#482B12';
                 if (status === '已找到') statusColor = '#2E7D32';
                 else if (status === '自動推播中' || status === '已排定發文') statusColor = '#B8860B';
+                else if (status === '結束自動推播') statusColor = '#8C8C8C';
                 const mainTag = (data.tags && data.tags.length > 0) ? data.tags[0] : '遺失物品';
                 const tagsText = (data.tags && data.tags.length > 0) ? data.tags.map(t => `#${t}`).join(' ') : `#${mainTag}`;
                 const imgSrc = data.image_base64 || './Logo2.png';
