@@ -100,29 +100,52 @@ exports.analyzeItem = onCall({ secrets: ["GEMINI_API_KEY"], cors: true }, async 
 });
 
 const AUTO_PUSH_DAYS = 5;
+const FLASK_BASE = "https://diula.onrender.com";
+
+// 停掉 outter 在 Flask 建立的推播訂閱（跟 outter「已找到」同一支 API）
+async function stopSubscription(subId) {
+    const res = await fetch(`${FLASK_BASE}/subscriptions/found`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: subId }),
+        signal: AbortSignal.timeout(60000), // Render 冷啟動可能要數十秒
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+}
 
 // 每小時檢查一次：自動推播滿五天的遺失物改為「結束自動推播」
-exports.expireAutoPush = onSchedule({ schedule: "every 1 hours", timeZone: "Asia/Taipei" }, async () => {
+exports.expireAutoPush = onSchedule({ schedule: "every 1 hours", timeZone: "Asia/Taipei", timeoutSeconds: 300 }, async () => {
     const db = getFirestore();
     const cutoff = Date.now() - AUTO_PUSH_DAYS * 24 * 60 * 60 * 1000;
 
     // 只用單一欄位查詢，避免需要建立複合索引，時間判斷在程式內處理
     const snap = await db.collection("lost_items").where("status", "==", "自動推播中").get();
 
-    const batch = db.batch();
-    let expired = 0, backfilled = 0;
-    snap.forEach((docSnap) => {
+    let expired = 0, backfilled = 0, failed = 0;
+    for (const docSnap of snap.docs) {
         const startedAt = docSnap.get("autoPushStartedAt");
         if (!startedAt) {
             // 舊資料沒有開始時間，從現在開始計算五天
-            batch.update(docSnap.ref, { autoPushStartedAt: FieldValue.serverTimestamp() });
+            await docSnap.ref.update({ autoPushStartedAt: FieldValue.serverTimestamp() });
             backfilled++;
-        } else if (startedAt.toMillis() <= cutoff) {
-            batch.update(docSnap.ref, { status: "結束自動推播", autoPushEndedAt: FieldValue.serverTimestamp() });
-            expired++;
+            continue;
         }
-    });
+        if (startedAt.toMillis() > cutoff) continue;
 
-    if (expired + backfilled > 0) await batch.commit();
-    console.log(`自動推播檢查完成：結束 ${expired} 筆、補上開始時間 ${backfilled} 筆`);
+        const subId = docSnap.get("sub_id");
+        if (subId) {
+            try {
+                await stopSubscription(subId);
+            } catch (e) {
+                // 訂閱沒停成功就先不改狀態，下個小時再試，避免顯示已結束卻還在推播
+                console.error(`停止訂閱 ${subId}（${docSnap.id}）失敗：`, e.message);
+                failed++;
+                continue;
+            }
+        }
+        await docSnap.ref.update({ status: "結束自動推播", autoPushEndedAt: FieldValue.serverTimestamp() });
+        expired++;
+    }
+
+    console.log(`自動推播檢查完成：結束 ${expired} 筆、補上開始時間 ${backfilled} 筆、停訂閱失敗 ${failed} 筆`);
 });
