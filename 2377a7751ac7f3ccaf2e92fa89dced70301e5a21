@@ -1,0 +1,1 @@
+此 commit 另含模型更換：functions/index.js 與 server.js 的 Gemini 模型由 gemini-3.1-flash-lite 改為 gemini-3.5-flash-lite（原因：辨識速度偏慢，改用較新的 Flash-Lite）。commit 訊息漏記，以此補註。
