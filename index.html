@@ -586,6 +586,398 @@
         * {
             box-shadow: none !important;
         }
+
+        /* =====================================================================
+           RWD 手機版（直式 / 橫式）
+           - 直式：維持 393px 設計稿不動，只在比 393 更窄的螢幕把 Figma 匯出的
+             固定寬度（395 / 393 / 350 / 340）改成流動寬度，避免被切掉。
+           - 橫式（橫向且視窗高 ≤ 540px＝手機橫放）：原本單欄 393px 會變成
+             「中間一條窄柱、兩側大片空白、一頁要捲三四屏」，這裡把容器加寬並
+             改成兩欄。平板與桌機（高度 > 540px）完全不受影響。
+           ===================================================================== */
+
+        /* ---------- 直式：窄螢幕（iPhone SE、小尺寸 Android）防溢出 ---------- */
+        @media (orientation: portrait) and (max-width: 392px) {
+            .page [style*="width: 395px"],
+            .page [style*="width: 393px"] {
+                width: 100% !important;
+                left: 0 !important;
+            }
+            .page [style*="position: absolute"][style*="width: 360px"],
+            .page [style*="position: absolute"][style*="width: 350px"],
+            .page [style*="position: absolute"][style*="width: 340px"] {
+                width: calc(100% - 44px) !important;
+                left: 22px !important;
+            }
+            /* 「都沒有我的物品」浮動鍵是固定 340px，窄螢幕會被切掉一半 */
+            #page-06 > div:first-of-type > div[style*="position: fixed"] {
+                width: calc(100% - 20px) !important;
+            }
+
+            /* 證件類型／比對平台這兩排膠囊在窄螢幕排不下，改成可換行 */
+            #page-12 > div:first-of-type > div[style*="padding: 0 20px"],
+            #match-tabs {
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                row-gap: 10px !important;
+            }
+
+            /* 詳情頁（16／19）的資訊列是固定 234px＋left 109，窄螢幕會凸出卡片 */
+            .page [style*="position: absolute"][style*="width: 234px"] {
+                width: calc(100% - 131px) !important;
+            }
+            #lost-detail-date, #lost-detail-loc, #lost-detail-notes,
+            #found-detail-date, #found-detail-loc, #found-detail-drop, #found-detail-notes {
+                width: auto !important;
+                flex: 1 1 auto !important;
+                min-width: 0 !important;
+            }
+            #lost-detail-tags-container, #found-detail-tags-container {
+                width: calc(100% - 40px) !important;
+            }
+            #lost-threads-container > div[style*="width: 190px"] {
+                width: auto !important;
+                flex: 1 1 auto !important;
+                min-width: 0 !important;
+            }
+            #bottom-nav.pill-nav {
+                width: calc(100% - 40px) !important;
+                max-width: 340px;
+            }
+            /* 底部導覽列的兩顆按鈕是絕對定位（left 11 / 184、寬 145），
+               膠囊縮窄後要改成各佔一半 */
+            #bottom-nav #nav-home {
+                left: 10px !important;
+                width: calc(50% - 15px) !important;
+            }
+            #bottom-nav #nav-profile {
+                left: auto !important;
+                right: 10px !important;
+                width: calc(50% - 15px) !important;
+            }
+        }
+
+        /* ---------- 橫式：加寬成兩欄 ---------- */
+        @media (orientation: landscape) and (max-height: 540px) {
+            :root {
+                --land-col: 340px;   /* 單欄寬度，沿用直式的 340 卡片寬 */
+                --land-gap: 28px;
+            }
+
+            body {
+                align-items: stretch;
+                background-color: var(--bg-color);
+            }
+            /* 手機橫放時不要再套桌機那層「深色底＋置中卡片」 */
+            .app-container {
+                max-width: 100% !important;
+                border-radius: 0 !important;
+                padding-left: env(safe-area-inset-left);
+                padding-right: env(safe-area-inset-right);
+            }
+            .page {
+                max-width: 100% !important;
+            }
+            .page [style*="width: 395px"],
+            .page [style*="width: 393px"] {
+                width: 100% !important;
+                left: 0 !important;
+            }
+
+            /* 兩欄容器：頁面本身或頁面內那層 flex column 包裝 */
+            #page-01.page.active,
+            #page-02.page.active,
+            #page-14.page.active,
+            #page-20.page.active,
+            #page-03 > div:first-of-type,
+            #page-04 > div:first-of-type,
+            #page-05-content,
+            #page-11-content,
+            #page-10 > div:first-of-type,
+            #page-12 > div:first-of-type {
+                display: grid !important;
+                grid-template-columns: repeat(2, minmax(0, var(--land-col)));
+                column-gap: var(--land-gap);
+                row-gap: 12px;
+                grid-auto-flow: row dense;
+                justify-content: center;
+                align-content: start;
+                align-items: start !important;
+                width: 100%;
+                box-sizing: border-box;
+                padding-bottom: 16px;
+            }
+
+            /* ---- 表單／流程頁（03 04 05 10 11 12）：左欄圖片、右欄欄位 ---- */
+            /* 頁首橫跨兩欄 */
+            #page-03 > div:first-of-type > div[style*="max-width: 395px"],
+            #page-04 > div:first-of-type > div[style*="max-width: 395px"],
+            #page-05-content > div[style*="max-width: 395px"],
+            #page-11-content > div[style*="max-width: 395px"],
+            #page-10 > div:first-of-type > div[style*="max-width: 395px"],
+            #page-12 > div:first-of-type > div[style*="max-width: 395px"] {
+                grid-column: 1 / -1;
+                /* 頁首滿版出血：grid 欄寬只有 708px，這裡拉到整個視窗寬 */
+                width: 100vw !important;
+                max-width: 100vw !important;
+                margin-left: calc(50% - 50vw) !important;
+                height: 64px !important;
+            }
+            /* 圖片／文字切換、證件類型切換：橫跨兩欄置中 */
+            #page-03 > div:first-of-type > div[style*="width: 168px"],
+            #page-04 > div:first-of-type > div[style*="width: 168px"],
+            #page-12 > div:first-of-type > div[style*="padding: 0 20px"] {
+                grid-column: 1 / -1;
+                justify-self: center;
+                margin-top: 0 !important;
+            }
+            /* 左欄：上傳區 / 圖片預覽 / 文字輸入框 */
+            #page-03 > div:first-of-type > label,
+            #page-10 > div:first-of-type > label,
+            #page-12 > div:first-of-type > label,
+            #page-04 > div:first-of-type > div[style*="height: 200px"],
+            #confirm-image-view-05,
+            #confirm-text-view-05,
+            #confirm-image-view-11,
+            #confirm-text-view-11 {
+                grid-column: 1;
+                margin-top: 0 !important;
+                max-width: none !important;
+            }
+            /* 右欄：日期／地區／備註等欄位，以及 AI 標籤 */
+            #page-03 > div:first-of-type > div[style*="padding: 15px"],
+            #page-04 > div:first-of-type > div[style*="padding: 15px"],
+            #page-05-content > div[style*="padding: 15px"],
+            #page-11-content > div[style*="padding: 15px"],
+            #page-10 > div:first-of-type > div[style*="padding: 15px"],
+            #page-12 > div:first-of-type > div[style*="padding: 15px"],
+            #page-05-content > div[style*="min-height: 98px"],
+            #page-11-content > div[style*="min-height: 98px"] {
+                grid-column: 2;
+                margin-top: 0 !important;
+                max-width: none !important;
+            }
+            /* 只為了把送出鍵推到底的彈性空白，兩欄排版後不需要 */
+            .page div[style*="flex-grow: 1"]:empty {
+                display: none !important;
+            }
+            /* 送出鍵：橫跨兩欄置中 */
+            #page-03 > div:first-of-type > div[style*="max-width: 350px"],
+            #page-04 > div:first-of-type > div[style*="max-width: 350px"],
+            #page-05-content > div[style*="max-width: 350px"],
+            #page-11-content > div[style*="max-width: 350px"],
+            #page-10 > div:first-of-type > div[style*="max-width: 350px"],
+            #page-12 > div:first-of-type > div[style*="max-width: 350px"] {
+                grid-column: 1 / -1;
+                justify-self: center;
+                margin-top: 4px !important;
+                margin-bottom: 0 !important;
+            }
+
+            /* ---- 首頁（page-02）：Figma 的絕對定位攤平成兩欄 ---- */
+            #page-02 > div {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                width: 100% !important;
+            }
+            #page-02 > div:nth-child(1) { grid-column: 1 / -1; height: 88px !important;
+                width: 100vw !important; max-width: 100vw !important; margin-left: calc(50% - 50vw) !important; }
+            #page-02 > div:nth-child(2) { grid-column: 1; }                 /* 尋找遺失物（小標） */
+            #page-02 > div:nth-child(3) { grid-column: 1; height: 88px !important; }
+            #page-02 > div:nth-child(4) { grid-column: 1; height: 88px !important; }
+            #page-02 > div:nth-child(5) { grid-column: 2; }                 /* 登錄拾獲物（小標） */
+            #page-02 > div:nth-child(6) { grid-column: 2; height: 88px !important; }
+            #page-02 > div:nth-child(7) { grid-column: 2; height: 88px !important; }
+            #page-02 > div:last-child   { display: none !important; }       /* 捲動用的墊片 */
+            #page-02 > div:nth-child(2),
+            #page-02 > div:nth-child(5) { width: auto !important; justify-self: start; }
+
+            /* ---- 個人頁（page-14）：左欄個資卡、右欄功能 ---- */
+            #page-14 > div {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                width: 100% !important;
+            }
+            #page-14 > div:nth-child(1) { grid-column: 1 / -1; height: 88px !important;
+                width: 100vw !important; max-width: 100vw !important; margin-left: calc(50% - 50vw) !important; }
+            #page-14 > div:nth-child(2) { grid-column: 1; height: auto !important; padding: 20px !important; }
+            #page-14 > div:nth-child(3) { grid-column: 2; height: 88px !important; }
+            #page-14 > div:nth-child(4) { grid-column: 2; height: 88px !important; }
+            #page-14 > div:nth-child(5) { grid-column: 2; width: auto !important; justify-self: center; }
+            #page-14 > div:nth-child(6) { grid-column: 2; width: auto !important; justify-self: center; }
+            #page-14 > div:last-child   { display: none !important; }
+
+            /* ---- 登入頁（page-01）：左欄 logo、右欄登入鍵 ---- */
+            #page-01.page.active {
+                align-content: center;
+                min-height: 100dvh;
+            }
+            #page-01 > * {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                width: 100% !important;
+            }
+            #page-01 > div:nth-child(1) {           /* logo */
+                grid-column: 1;
+                height: 110px !important;
+                background-size: contain !important;
+                align-self: center;
+            }
+            #page-01 > div:nth-child(2) { grid-column: 1; align-self: center; }   /* 標語 */
+            #page-01 > button          { grid-column: 2; max-width: 290px; justify-self: center; }
+            #page-01 > a,
+            #page-01 > div:last-child  { grid-column: 2; justify-self: center; text-align: center; }
+
+            /* ---- AI 辨識中（page-loading）：攤平成置中單欄 ---- */
+            #page-loading.page.active {
+                display: flex !important;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 20px;
+            }
+            #page-loading > div {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+            }
+
+            /* ---- 比對結果（page-06）／社群（17）／我的遺失物・拾獲物（15 18）：
+                   清單本身改成兩欄卡片 ---- */
+            #match-results-list,
+            #community-list,
+            #my-lost-items-list,
+            #my-found-items-list {
+                max-width: calc(var(--land-col) * 2 + var(--land-gap)) !important;
+                display: grid !important;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 14px !important;
+                align-items: start;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+            #match-info-content > div[style*="max-width: 340px"] {
+                max-width: 520px !important;
+            }
+            /* 「都沒有我的物品」浮動鍵：對齊加寬後的清單右緣，並讓開底部導覽列 */
+            #page-06 > div:first-of-type > div[style*="position: fixed"] {
+                width: calc(var(--land-col) * 2 + var(--land-gap)) !important;
+                max-width: calc(100% - 32px) !important;
+                bottom: 76px !important;
+            }
+            /* 清單頁頁首（含日期／關鍵字篩選）壓低，篩選列跟著加寬 */
+            #page-15 > div:first-of-type,
+            #page-18 > div:first-of-type {
+                max-width: none !important;
+                height: 150px !important;
+            }
+            #page-15 > div:first-of-type > div[style*="max-width: 340px"],
+            #page-18 > div:first-of-type > div[style*="max-width: 340px"],
+            #page-17 > div[style*="max-width: 340px"][style*="height: 46px"] {
+                max-width: calc(var(--land-col) * 2 + var(--land-gap)) !important;
+            }
+
+            /* ---- 協尋發文（page-20）：左欄三個欄位、右欄兩個欄位 ---- */
+            #page-20 > div, #page-20 > input {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                width: 100% !important;
+            }
+            #page-20 > div:nth-child(1) { grid-column: 1 / -1; height: 88px !important;
+                width: 100vw !important; max-width: 100vw !important; margin-left: calc(50% - 50vw) !important; }
+            #page-20 > div:nth-child(2) { grid-column: 1 / -1; height: auto !important; }
+            #page-20 > div:nth-child(n+3):nth-child(-n+8)  { grid-column: 1; }
+            #page-20 > div:nth-child(n+9):nth-child(-n+12) { grid-column: 2; }
+            #page-20 > div:nth-child(13) { grid-column: 1 / -1; justify-self: center; max-width: 350px; }
+            #page-20 > div:last-child    { display: none !important; }
+
+            /* ---- 遺失物／拾獲物詳情（16 19）：版面是逐一絕對定位、元素彼此重疊，
+                   攤平會壞掉，橫式維持 393px 單欄置中可捲動 ---- */
+            #page-16, #page-19 {
+                max-width: 393px !important;
+                margin: 0 auto !important;
+            }
+
+            /* ---- 底部導覽列與彈窗：橫式螢幕矮，縮高度 ---- */
+            #bottom-nav.pill-nav {
+                height: 52px !important;
+                bottom: 10px !important;
+            }
+            #bottom-nav .pill-nav-item {
+                height: 40px !important;
+                top: 6px !important;
+            }
+            .center-card {
+                max-width: 560px;
+                max-height: 86vh;
+            }
+
+            /* ---- 橫式微調：讓主要按鈕進得了第一屏、頁首不要吃掉太多高度 ---- */
+            /* 上傳／預覽框在矮螢幕縮低 */
+            #page-03 > div:first-of-type > label,
+            #page-10 > div:first-of-type > label,
+            #page-12 > div:first-of-type > label,
+            #page-04 > div:first-of-type > div[style*="height: 200px"],
+            #confirm-image-view-05 > div[style*="height: 200px"],
+            #confirm-image-view-11 > div[style*="height: 200px"] {
+                height: 150px !important;
+                margin-top: 0 !important;
+            }
+
+            /* 攤平頁（首頁／個人頁／協尋發文）的頁首：滿版、壓低、內容重新置中 */
+            #page-02.page.active,
+            #page-14.page.active,
+            #page-20.page.active {
+                padding-top: 0 !important;
+            }
+            #page-02 > div:nth-child(1),
+            #page-14 > div:nth-child(1),
+            #page-20 > div:nth-child(1) {
+                height: 76px !important;
+            }
+            #page-02 > div:nth-child(1) > div[style*="height: 109px"],
+            #page-14 > div:nth-child(1) > div[style*="height: 109px"],
+            #page-20 > div:nth-child(1) > div[style*="height: 109px"] {
+                height: 100% !important;
+            }
+            #page-02 > div:nth-child(1) > div[style*="height: 35px"],
+            #page-14 > div:nth-child(1) > div[style*="height: 35px"] {
+                top: 20px !important;
+                left: calc(50% - 53px) !important;
+            }
+            #page-20 > div:nth-child(1) > div[style*="top: 70px"] { top: 28px !important; }
+            #page-20 > div:nth-child(1) > .back-btn { top: 20px !important; }
+            /* 協尋發文欄位多，列距再收緊一點，送出鍵才進得了第一屏 */
+            #page-20.page.active { row-gap: 6px; }
+            #page-20 > div:nth-child(2) { height: 52px !important; }
+
+            /* 個人頁：個資卡跨兩列，右欄兩張功能卡才不會被拉開 */
+            #page-14 > div:nth-child(2) { grid-row: span 2; }
+
+            /* 我的遺失物／拾獲物：頁首壓低，標題、返回鍵、篩選列跟著上移 */
+            #page-15 > div:first-of-type,
+            #page-18 > div:first-of-type {
+                height: 132px !important;
+            }
+            #page-15 > div:first-of-type > div:nth-child(1),
+            #page-18 > div:first-of-type > div:nth-child(1) { top: 46px !important; }
+            #page-15 > div:first-of-type > .back-btn,
+            #page-18 > div:first-of-type > .back-btn { top: 41px !important; }
+            #page-15 > div:first-of-type > div[style*="top: 109px"],
+            #page-18 > div:first-of-type > div[style*="top: 109px"] { top: 81px !important; }
+
+            /* 比對結果／社群頁的頁首也要滿版 */
+            #page-06 > div:first-of-type > div[style*="max-width: 395px"],
+            #page-17 > div[style*="max-width: 395px"] {
+                max-width: none !important;
+                height: 64px !important;
+            }
+        }
+
 </style>
 </head>
 <body>
