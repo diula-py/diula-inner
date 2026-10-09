@@ -47,72 +47,38 @@ app.post('/api/analyze-item', async (req, res) => {
             });
         }
 
-        // 1. 統一設定目標模型為最新版的 gemini-3.5-flash-lite
-        let targetModels = ["gemini-3.5-flash-lite"];
+        // 呼叫 Gemini，逾時就放棄（不再 SDK 失敗後改打 REST 重試：Gemini 過載時只會讓使用者等兩倍久）。
+        // 30 秒 = 正常 1～5 秒的充裕餘裕；前端另有 90 秒總逾時（含 Render 冷啟動）。
+        const MODEL = "gemini-3.5-flash-lite";
+        const GEMINI_TIMEOUT_MS = 30 * 1000;
+        let timer;
+        const timeout = new Promise((_, reject) => {
+            timer = setTimeout(() => reject(new Error("AI 回應逾時，請再試一次")), GEMINI_TIMEOUT_MS);
+        });
 
-        // 2. 嘗試呼叫目標模型 (先試 @google/genai SDK，若發生 404/錯誤則自動降級嘗試 REST API)
-        let responseText = null;
-        let lastError = null;
-
-        for (const modelName of targetModels) {
-            try {
-                console.log(`正在嘗試使用 SDK 呼叫模型: ${modelName}...`);
-                const response = await ai.models.generateContent({
-                    model: modelName,
+        console.log(`正在呼叫模型: ${MODEL}...`);
+        const startedAt = Date.now();
+        let response;
+        try {
+            response = await Promise.race([
+                ai.models.generateContent({
+                    model: MODEL,
                     contents: contents,
                     config: {
                         responseMimeType: "application/json",
                         temperature: 0.1
                     }
-                });
-                if (response && response.text) {
-                    responseText = response.text;
-                    console.log(`✨ 模型 ${modelName} 呼叫成功 (SDK)！`);
-                    break;
-                }
-            } catch (err) {
-                console.warn(`SDK 呼叫 ${modelName} 失敗:`, err.message);
-                lastError = err;
-
-                // 嘗試直接改發 REST API 以確保最廣泛的相容性
-                try {
-                    console.log(`嘗試改以直接 REST API 呼叫模型: ${modelName}...`);
-                    const restParts = [
-                        { "text": SYSTEM_PROMPT + `\n\n使用者輸入的物品描述/特徵：${text || '無（請以圖片辨識為主）'}` }
-                    ];
-                    if (base64Image) {
-                        const cleanBase64 = base64Image.replace(/^data:image\/\w+;base64,/, "");
-                        restParts.push({
-                            "inline_data": { "mime_type": "image/jpeg", "data": cleanBase64 }
-                        });
-                    }
-                    const restRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            "contents": [{ "parts": restParts }],
-                            "generationConfig": { "responseMimeType": "application/json", "temperature": 0.1 }
-                        })
-                    });
-                    if (restRes.ok) {
-                        const restData = await restRes.json();
-                        if (restData.candidates && restData.candidates[0]?.content?.parts[0]?.text) {
-                            responseText = restData.candidates[0].content.parts[0].text;
-                            console.log(`✨ 模型 ${modelName} 呼叫成功 (REST API)！`);
-                            break;
-                        }
-                    } else {
-                        const errJson = await restRes.json().catch(() => ({}));
-                        console.warn(`REST API 呼叫 ${modelName} 也失敗 (${restRes.status}):`, errJson.error?.message);
-                    }
-                } catch (restErr) {
-                    console.warn(`REST 呼叫例外:`, restErr.message);
-                }
-            }
+                }),
+                timeout
+            ]);
+        } finally {
+            clearTimeout(timer);
         }
+        console.log(`✨ 模型 ${MODEL} 回應，耗時 ${Date.now() - startedAt} ms`);
 
+        const responseText = response && response.text;
         if (!responseText) {
-            throw new Error(lastError ? lastError.message : "所有可用的 Gemini 模型皆無法回應，請檢查 API Key 是否正確或擁有足夠額度。");
+            throw new Error("Gemini 沒有回傳內容，請稍後再試。");
         }
 
         // 清理可能包含的 Markdown 或前後空白
