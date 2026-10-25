@@ -59,6 +59,11 @@
             color: var(--dark-brown);
         }
 
+        /* 桌機側邊導覽：預設隱藏（手機／平板用不到），≥1024px 才由 RWD 桌機版區塊打開 */
+        #desktop-sidebar {
+            display: none;
+        }
+
         .app-container {
             width: 100%;
             max-width: 393px;
@@ -73,8 +78,9 @@
             scrollbar-width: none;  /* Firefox */
         }
 
-        /* 筆電與大螢幕瀏覽時，維持乾淨的中央置中卡片，移除原本厚重的假手機框 */
-        @media (min-width: 481px) {
+        /* 平板（481~1023px）：維持乾淨的中央置中卡片，移除原本厚重的假手機框。
+           ≥1024px 的真正桌機版型在檔案後段的「RWD 桌機版」區塊，會整個蓋掉這裡。 */
+        @media (min-width: 481px) and (max-width: 1023px) {
             body {
                 background-color: #2c2c2c;
             }
@@ -978,9 +984,313 @@
             }
         }
 
+        /* =====================================================================
+           RWD 桌機版（≥1024px）
+           直式手機／橫式手機／平板（見上面三段）都維持不動；只有真正夠寬的桌機
+           視窗才會套這段：加一條側邊導覽取代底部膠囊，各頁改成兩欄或多欄卡片，
+           不再是「深色底置中漂浮手機卡片」。
+           ===================================================================== */
+        @media (min-width: 1024px) {
+            :root {
+                --desk-sidebar: 240px;
+                --desk-col: 340px;     /* 沿用跟手機/橫式一樣的卡片寬，風格才一致 */
+                --desk-gap: 48px;
+                --desk-max: 1180px;    /* .page 本身的寬度上限，在側欄右側置中 */
+            }
+
+            body {
+                display: block;
+                background-color: var(--bg-color);
+            }
+
+            /* ---- 側邊導覽：登入前（page-01）由 JS 藏起來，見 showPage 裡 desktopSidebar 那段 ---- */
+            #desktop-sidebar {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: 0; left: 0; bottom: 0;
+                width: var(--desk-sidebar);
+                padding: 28px 16px;
+                box-sizing: border-box;
+                background: #FFFFFF;
+                border-right: 1px solid var(--border-color);
+                z-index: 200;
+                overflow-y: auto;
+            }
+            /* 登入頁（page-01）沒有導覽目標，JS 在 showPage 裡會加這個 class */
+            #desktop-sidebar.sidebar-hide {
+                display: none;
+            }
+            .sidebar-nav-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                height: 44px;
+                padding: 0 12px;
+                margin-bottom: 4px;
+                border-radius: 10px;
+                cursor: pointer;
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-weight: 500;
+                font-size: 14px;
+                color: var(--dark-brown);
+                transition: background-color .2s;
+            }
+            .sidebar-nav-item:hover { background-color: var(--bg-color); }
+            .sidebar-nav-item.active { background-color: var(--primary-blue); font-weight: 700; }
+
+            /* 桌機不需要底部膠囊導覽（側邊欄已取代）、也不要假手機框 */
+            #bottom-nav.pill-nav { display: none !important; }
+            .app-container {
+                margin-left: var(--desk-sidebar);
+                width: calc(100% - var(--desk-sidebar));
+                max-width: none;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            /* .page 本身有 inline max-width:393/395px，非 !important 蓋不過去 */
+            .page {
+                max-width: var(--desk-max) !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+
+            /* ---- 以頁面本身／頁面內第一層包裝為兩欄容器（跟橫式手機同一套邏輯） ---- */
+            #page-01.page.active,
+            #page-02.page.active,
+            #page-14.page.active,
+            #page-20.page.active,
+            #page-03 > div:first-of-type,
+            #page-04 > div:first-of-type,
+            #page-05-content,
+            #page-11-content,
+            #page-10 > div:first-of-type,
+            #page-12 > div:first-of-type {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, var(--desk-col)));
+                column-gap: var(--desk-gap);
+                row-gap: 20px;
+                grid-auto-flow: row dense;
+                justify-content: center;
+                align-content: start;
+                align-items: start;
+                width: 100%;
+                box-sizing: border-box;
+                padding-bottom: 32px;
+            }
+
+            /* ---- 表單／流程頁（03 04 05 10 11 12）：左欄圖片、右欄欄位 ---- */
+            #page-03 > div:first-of-type > div[style*="max-width: 395px"],
+            #page-04 > div:first-of-type > div[style*="max-width: 395px"],
+            #page-05-content > div[style*="max-width: 395px"],
+            #page-11-content > div[style*="max-width: 395px"],
+            #page-10 > div:first-of-type > div[style*="max-width: 395px"],
+            #page-12 > div:first-of-type > div[style*="max-width: 395px"] {
+                grid-column: 1 / -1;
+                width: 100% !important;
+                height: 72px !important;
+            }
+            #page-03 > div:first-of-type > div[style*="width: 168px"],
+            #page-04 > div:first-of-type > div[style*="width: 168px"],
+            #page-12 > div:first-of-type > div[style*="padding: 0 20px"] {
+                grid-column: 1 / -1;
+                justify-self: center;
+                margin-top: 0 !important;
+            }
+            #page-03 > div:first-of-type > label,
+            #page-10 > div:first-of-type > label,
+            #page-12 > div:first-of-type > label,
+            #page-04 > div:first-of-type > div[style*="height: 200px"],
+            #confirm-image-view-05,
+            #confirm-text-view-05,
+            #confirm-image-view-11,
+            #confirm-text-view-11 {
+                grid-column: 1;
+                margin-top: 0 !important;
+                max-width: none !important;
+            }
+            #page-03 > div:first-of-type > div[style*="padding: 15px"],
+            #page-04 > div:first-of-type > div[style*="padding: 15px"],
+            #page-05-content > div[style*="padding: 15px"],
+            #page-11-content > div[style*="padding: 15px"],
+            #page-10 > div:first-of-type > div[style*="padding: 15px"],
+            #page-12 > div:first-of-type > div[style*="padding: 15px"],
+            #page-05-content > div[style*="min-height: 98px"],
+            #page-11-content > div[style*="min-height: 98px"] {
+                grid-column: 2;
+                margin-top: 0 !important;
+                max-width: none !important;
+            }
+            .page div[style*="flex-grow: 1"]:empty { display: none !important; }
+            #page-03 > div:first-of-type > div[style*="max-width: 350px"],
+            #page-04 > div:first-of-type > div[style*="max-width: 350px"],
+            #page-05-content > div[style*="max-width: 350px"],
+            #page-11-content > div[style*="max-width: 350px"],
+            #page-10 > div:first-of-type > div[style*="max-width: 350px"],
+            #page-12 > div:first-of-type > div[style*="max-width: 350px"] {
+                grid-column: 1 / -1;
+                justify-self: center;
+                margin-top: 12px !important;
+                margin-bottom: 0 !important;
+            }
+
+            /* ---- 首頁（page-02）：Figma 的絕對定位攤平成兩欄 ---- */
+            #page-02 > div {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                width: 100% !important;
+            }
+            #page-02 > div:nth-child(1) { grid-column: 1 / -1; width: 100% !important; height: 96px !important; }
+            #page-02 > div:nth-child(2) { grid-column: 1; width: auto !important; justify-self: start; }
+            #page-02 > div:nth-child(3) { grid-column: 1; height: 96px !important; }
+            #page-02 > div:nth-child(4) { grid-column: 1; height: 96px !important; }
+            #page-02 > div:nth-child(5) { grid-column: 2; width: auto !important; justify-self: start; }
+            #page-02 > div:nth-child(6) { grid-column: 2; height: 96px !important; }
+            #page-02 > div:nth-child(7) { grid-column: 2; height: 96px !important; }
+            #page-02 > div:last-child   { display: none !important; }
+
+            /* ---- 個人頁（page-14）：左欄個資卡（跨兩列）、右欄功能與登出 ---- */
+            #page-14 > div {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                width: 100% !important;
+            }
+            #page-14 > div:nth-child(1) { grid-column: 1 / -1; width: 100% !important; height: 96px !important; }
+            #page-14 > div:nth-child(2) { grid-column: 1; grid-row: span 2; height: auto !important; padding: 24px !important; }
+            #page-14 > div:nth-child(3) { grid-column: 2; height: 96px !important; }
+            #page-14 > div:nth-child(4) { grid-column: 2; height: 96px !important; }
+            #page-14 > div:nth-child(5) { grid-column: 2; width: auto !important; justify-self: center; }
+            #page-14 > div:nth-child(6) { grid-column: 2; width: auto !important; justify-self: center; }
+            #page-14 > div:last-child   { display: none !important; }
+
+            /* ---- 登入頁（page-01）：左 logo、右登入鍵，整組垂直置中（側邊欄這頁隱藏） ---- */
+            #page-01.page.active {
+                align-content: center;
+                min-height: 100dvh;
+            }
+            #page-01 > * {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                width: 100% !important;
+            }
+            #page-01 > div:nth-child(1) { grid-column: 1; height: 150px !important; background-size: contain !important; align-self: center; }
+            #page-01 > div:nth-child(2) { grid-column: 1; align-self: center; }
+            #page-01 > button          { grid-column: 2; max-width: 290px; justify-self: center; }
+            #page-01 > a,
+            #page-01 > div:last-child  { grid-column: 2; justify-self: center; text-align: center; }
+
+            /* ---- AI 辨識中（page-loading）：攤平成置中單欄（跟橫式手機同一招） ---- */
+            #page-loading.page.active {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 24px;
+                min-height: 100dvh;
+            }
+            #page-loading > div {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+            }
+
+            /* ---- 登錄成功（page-13）：沒有 inline 寬度，桌機會被撐成滿版，縮回置中卡片 ---- */
+            #page-13 { max-width: 480px !important; }
+
+            /* ---- 比對結果／Threads／我的遺失物・拾獲物：清單改多欄（依寬度自動排 2～3 欄） ---- */
+            #match-results-list,
+            #community-list,
+            #my-lost-items-list,
+            #my-found-items-list {
+                max-width: var(--desk-max) !important;
+                display: grid !important;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px !important;
+                align-items: start;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+            #match-info-content > div[style*="max-width: 340px"] {
+                max-width: 640px !important;
+            }
+            /* FAB「都沒有我的物品」原本用 left:50% 對齊整個瀏覽器視窗置中，
+               桌機多了側邊欄，要扣掉側欄寬度再置中，否則會偏向畫面左側 */
+            #page-06 > div:first-of-type > div[style*="position: fixed"] {
+                left: calc(50% + (var(--desk-sidebar) / 2)) !important;
+                bottom: 32px !important;
+            }
+            #page-06 { padding-bottom: 48px !important; }
+            /* 清單頁頁首／篩選列／搜尋列也跟著加寬到跟清單同寬，上下對齊 */
+            #page-15 > div:first-of-type,
+            #page-18 > div:first-of-type,
+            #page-06 > div:first-of-type > div[style*="max-width: 395px"],
+            #page-17 > div[style*="max-width: 395px"] {
+                width: 100% !important;
+                max-width: none !important;
+            }
+            #page-15 > div:first-of-type > div[style*="max-width: 340px"],
+            #page-18 > div:first-of-type > div[style*="max-width: 340px"],
+            #page-17 > div[style*="max-width: 340px"][style*="height: 46px"] {
+                max-width: var(--desk-max) !important;
+            }
+
+            /* ---- 協尋發文（page-20）：左欄三個欄位、右欄兩個欄位 ---- */
+            #page-20 > div, #page-20 > input {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                width: 100% !important;
+            }
+            #page-20 > div:nth-child(1) { grid-column: 1 / -1; width: 100% !important; height: 96px !important; }
+            #page-20 > div:nth-child(2) { grid-column: 1 / -1; height: auto !important; }
+            #page-20 > div:nth-child(n+3):nth-child(-n+8)  { grid-column: 1; }
+            #page-20 > div:nth-child(n+9):nth-child(-n+12) { grid-column: 2; }
+            #page-20 > div:nth-child(13) { grid-column: 1 / -1; justify-self: center; max-width: 350px; }
+            #page-20 > div:last-child    { display: none !important; }
+
+            /* ---- 遺失物／拾獲物詳情（16 19）：元素是逐一絕對定位、彼此刻意重疊，
+                   攤平會壞掉，桌機維持跟手機一樣的單欄，只加寬成比較舒服的閱讀寬度 ---- */
+            #page-16, #page-19 { max-width: 480px !important; }
+        }
+
 </style>
 </head>
 <body>
+    <!-- ============================================================
+         桌機側邊導覽（≥1024px 才顯示，見 RWD 桌機版 CSS；手機／平板這裡
+         一律 display:none，不占版面、不影響既有的底部膠囊導覽邏輯）。
+         登入前（page-01）沒有導覽目標，JS 的 showPage 會把它藏起來。
+         ============================================================ -->
+    <nav id="desktop-sidebar" class="sidebar-hide" aria-label="主導覽">
+        <div onclick="window.showPage('page-02', 'home')" style="cursor: pointer; display: flex; align-items: center; justify-content: center; height: 48px; margin-bottom: 32px;">
+            <img src="DiuLa_logo_transparent.png" alt="DiuLa!" style="height: 32px; object-fit: contain;">
+        </div>
+        <div id="sidebar-nav-home" class="sidebar-nav-item" onclick="window.showPage('page-02', 'home')">
+            <div style="width: 24px; height: 24px; background: url('house-solid.png') no-repeat center center / contain;"></div>
+            <span>首頁</span>
+        </div>
+        <div id="sidebar-nav-mylost" class="sidebar-nav-item" onclick="window.showPage('page-15', 'profile')">
+            <div style="width: 24px; height: 24px; background: url('cubes-solid.png') no-repeat center center / contain;"></div>
+            <span>我的遺失物</span>
+        </div>
+        <div id="sidebar-nav-myfound" class="sidebar-nav-item" onclick="window.showPage('page-18', 'profile')">
+            <div style="width: 24px; height: 24px; background: url('folder-closed-solid.png') no-repeat center center / contain;"></div>
+            <span>我的拾獲物</span>
+        </div>
+        <div id="sidebar-nav-profile" class="sidebar-nav-item" onclick="window.showPage('page-14', 'profile')">
+            <div style="width: 24px; height: 24px; background: url('icon_profile.png') no-repeat center center / contain;"></div>
+            <span>個人資料</span>
+        </div>
+        <div style="flex: 1;"></div>
+        <div class="sidebar-nav-item" onclick="document.getElementById('logout-modal').style.display='flex';">
+            <div style="width: 24px; height: 24px; background: url('xmark-solid.png') no-repeat center center / contain; opacity: .6;"></div>
+            <span>登出</span>
+        </div>
+    </nav>
+
     <div class="app-container">
                 <!-- PAGE 01: Login -->
         <div id="page-01" class="page active" style="position: relative; width: 100%; max-width: 393px;  min-height: 100dvh; margin: 0 auto; background: #DFEAF5; box-sizing: border-box; overflow-y: auto;">
@@ -2572,6 +2882,15 @@ const twLocations = {
         // Global UI Functions
         // =========================================================================
         const bottomNav = document.getElementById('bottom-nav');
+        const desktopSidebar = document.getElementById('desktop-sidebar');
+        // 桌機側邊導覽（≥1024px）的「目前在哪一頁」對照表：只有這幾個 id 有對應的側邊欄按鈕，
+        // 其餘頁面（表單、比對結果、Threads 列表、協尋發文…）都不亮燈，跟底部膠囊導覽的邏輯一致。
+        const SIDEBAR_PAGE_MAP = {
+            'page-02': 'sidebar-nav-home',
+            'page-15': 'sidebar-nav-mylost', 'page-16': 'sidebar-nav-mylost',
+            'page-18': 'sidebar-nav-myfound', 'page-19': 'sidebar-nav-myfound',
+            'page-14': 'sidebar-nav-profile',
+        };
 
                 window.showPage = function(pageId, navTab = '') {
             if (window.initCitySelects) window.initCitySelects();
@@ -2600,6 +2919,21 @@ const twLocations = {
                 if (bottomNav) bottomNav.style.display = 'none';
             } else {
                 if (bottomNav) bottomNav.style.display = 'flex';
+            }
+
+            // 側邊導覽只在登入前（page-01）沒有意義時隱藏，表單／結果頁都繼續顯示——
+            // 桌機版側邊欄是跟內容並排、不像手機的底部膠囊會蓋住畫面，沒有必要跟著表單頁藏起來。
+            if (desktopSidebar) {
+                // 用 class 切換、不要寫 inline display：JS 不管螢幕寬度都會跑到這段，
+                // 若直接設 element.style.display，手機／平板也會被這行 inline 蓋過
+                // CSS 的「#desktop-sidebar{display:none}」，導致側邊欄跑到手機畫面上。
+                desktopSidebar.classList.toggle('sidebar-hide', pageId === 'page-01');
+                document.querySelectorAll('.sidebar-nav-item').forEach(el => el.classList.remove('active'));
+                const activeId = SIDEBAR_PAGE_MAP[pageId];
+                if (activeId) {
+                    const el = document.getElementById(activeId);
+                    if (el) el.classList.add('active');
+                }
             }
 
             if (pageId === 'page-06') {
