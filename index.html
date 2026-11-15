@@ -59,11 +59,6 @@
             color: var(--dark-brown);
         }
 
-        /* 桌機側邊導覽：預設隱藏（手機／平板用不到），≥1024px 才由 RWD 桌機版區塊打開 */
-        #desktop-sidebar {
-            display: none;
-        }
-
         .app-container {
             width: 100%;
             max-width: 393px;
@@ -992,10 +987,9 @@
            ===================================================================== */
         @media (min-width: 1024px) {
             :root {
-                --desk-sidebar: 240px;
                 --desk-col: 340px;     /* 沿用跟手機/橫式一樣的卡片寬，風格才一致 */
                 --desk-gap: 48px;
-                --desk-max: 1400px;    /* .page 本身的寬度上限，在側欄右側置中（2026-10 從 1180 放寬） */
+                --desk-max: 1400px;    /* 表單／清單等頁面 .page 本身的寬度上限 */
             }
 
             body {
@@ -1003,47 +997,10 @@
                 background-color: var(--bg-color);
             }
 
-            /* ---- 側邊導覽：登入前（page-01）由 JS 藏起來，見 showPage 裡 desktopSidebar 那段 ---- */
-            #desktop-sidebar {
-                display: flex;
-                flex-direction: column;
-                position: fixed;
-                top: 0; left: 0; bottom: 0;
-                width: var(--desk-sidebar);
-                padding: 28px 16px;
-                box-sizing: border-box;
-                background: #FFFFFF;
-                border-right: 1px solid var(--border-color);
-                z-index: 200;
-                overflow-y: auto;
-            }
-            /* 登入頁（page-01）沒有導覽目標，JS 在 showPage 裡會加這個 class */
-            #desktop-sidebar.sidebar-hide {
-                display: none;
-            }
-            .sidebar-nav-item {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                height: 44px;
-                padding: 0 12px;
-                margin-bottom: 4px;
-                border-radius: 10px;
-                cursor: pointer;
-                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
-                font-weight: 500;
-                font-size: 14px;
-                color: var(--dark-brown);
-                transition: background-color .2s;
-            }
-            .sidebar-nav-item:hover { background-color: var(--bg-color); }
-            .sidebar-nav-item.active { background-color: var(--primary-blue); font-weight: 700; }
-
-            /* 桌機不需要底部膠囊導覽（側邊欄已取代）、也不要假手機框 */
+            /* 桌機不需要底部膠囊導覽（登入／首頁／個人中心改用上方導覽列，
+               其餘頁面靠自己頁首的返回鍵），也不要假手機框 */
             #bottom-nav.pill-nav { display: none !important; }
             .app-container {
-                margin-left: var(--desk-sidebar);
-                width: calc(100% - var(--desk-sidebar));
                 max-width: none;
                 border-radius: 0;
                 box-shadow: none;
@@ -1056,9 +1013,6 @@
             }
 
             /* ---- 以頁面本身／頁面內第一層包裝為兩欄容器（跟橫式手機同一套邏輯） ---- */
-            #page-01.page.active,
-            #page-02.page.active,
-            #page-14.page.active,
             #page-20.page.active,
             #page-03 > div:first-of-type,
             #page-04 > div:first-of-type,
@@ -1134,94 +1088,21 @@
                 margin-bottom: 0 !important;
             }
 
-            /* ---- 首頁（page-02）：Figma 的絕對定位攤平成兩欄 ---- */
-            #page-02 > div {
-                position: relative !important;
-                left: auto !important;
-                top: auto !important;
-                width: 100% !important;
+            /* ---- 登入／首頁／個人中心（page-01／02／14）：2026-11 改版，照新版
+                   Figma（上方導覽列＋Hero＋雙卡片）另外刻一套桌機版專用元件（class
+                   開頭 d-，定義在本檔最後「桌機版新版元件」區塊），這裡只需要把舊的
+                   手機版絕對定位內容藏起來，換新元件登場。新元件都有 .d-only
+                   class，用 :not(.d-only) 排除，才不會連新元件一起藏掉。 ---- */
+            #page-01.page.active,
+            #page-02.page.active,
+            #page-14.page.active {
+                display: block !important;
             }
-            /* 首頁改成「兩大區塊、每區塊內兩顆橫排」：4 欄 grid，色塊色塊滿版延伸到側欄右側
-               整個視窗寬（不受 --desk-max 限制），Logo 等比放大；區塊標題放大置中、橫跨
-               自己那兩欄；四顆按鈕排在同一列，各佔一欄。 */
-            #page-02 > div:nth-child(1) {
-                grid-column: 1 / -1;
-                grid-row: 1;
-                width: max(100%, calc(100vw - var(--desk-sidebar))) !important;
-                margin-left: min(0px, calc((var(--desk-max) + var(--desk-sidebar)) / 2 - 50vw)) !important;
-                height: 170px !important;
+            #page-01 > *:not(.d-only),
+            #page-02 > *:not(.d-only),
+            #page-14 > *:not(.d-only) {
+                display: none !important;
             }
-            #page-02 > div:nth-child(1) > div[style*="height: 109px"] { width: 100% !important; height: 100% !important; }
-            #page-02 > div:nth-child(1) > div[style*="height: 35px"] {
-                width: 220px !important;
-                height: 73px !important;
-                left: calc(50% - 110px) !important;
-                top: 48px !important;
-            }
-            /* 1024~1299px：安全的兩欄堆疊（跟 page-01/14/20 同一套），區塊標題放大置中、
-               橫跨自己那一欄；按鈕維持直式手機的大小與上下堆疊，不會被壓窄。
-               ≥1300px 才有空間把每區塊的兩顆按鈕改成橫排，見下面獨立的 1300px 區塊。 */
-            #page-02 > div:nth-child(2) {
-                grid-column: 1; width: 100% !important; justify-self: stretch;
-                justify-content: center; gap: 16px; height: auto !important;
-            }
-            #page-02 > div:nth-child(2) > div:first-child { width: 40px !important; border-width: 4px !important; }
-            #page-02 > div:nth-child(2) > div:last-child  { width: auto !important; height: auto !important; font-size: 28px !important; }
-            #page-02 > div:nth-child(3) { grid-column: 1; }
-            #page-02 > div:nth-child(4) { grid-column: 1; }
-            #page-02 > div:nth-child(5) {
-                grid-column: 2; width: 100% !important; justify-self: stretch;
-                justify-content: center; gap: 16px; height: auto !important;
-            }
-            #page-02 > div:nth-child(5) > div:first-child { width: 40px !important; border-width: 4px !important; }
-            #page-02 > div:nth-child(5) > div:last-child  { width: auto !important; height: auto !important; font-size: 28px !important; }
-            #page-02 > div:nth-child(6) { grid-column: 2; }
-            #page-02 > div:nth-child(7) { grid-column: 2; }
-            #page-02 > div:last-child   { display: none !important; }
-
-            /* ---- 個人頁（page-14）：左欄個資卡（跨兩列）、右欄功能與登出 ---- */
-            #page-14 > div {
-                position: relative !important;
-                left: auto !important;
-                top: auto !important;
-                width: 100% !important;
-            }
-            #page-14 > div:nth-child(1) {
-                grid-column: 1 / -1;
-                width: max(100%, calc(100vw - var(--desk-sidebar))) !important;
-                margin-left: min(0px, calc((var(--desk-max) + var(--desk-sidebar)) / 2 - 50vw)) !important;
-                height: 170px !important;
-            }
-            #page-14 > div:nth-child(1) > div[style*="height: 109px"] { width: 100% !important; height: 100% !important; }
-            #page-14 > div:nth-child(1) > div[style*="height: 35px"] {
-                width: 220px !important;
-                height: 73px !important;
-                left: calc(50% - 110px) !important;
-                top: 48px !important;
-            }
-            #page-14 > div:nth-child(2) { grid-column: 1; grid-row: span 2; height: auto !important; padding: 24px !important; }
-            #page-14 > div:nth-child(3) { grid-column: 2; height: 96px !important; }
-            #page-14 > div:nth-child(4) { grid-column: 2; height: 96px !important; }
-            #page-14 > div:nth-child(5) { grid-column: 2; width: auto !important; justify-self: center; }
-            #page-14 > div:nth-child(6) { grid-column: 2; width: auto !important; justify-self: center; }
-            #page-14 > div:last-child   { display: none !important; }
-
-            /* ---- 登入頁（page-01）：左 logo、右登入鍵，整組垂直置中（側邊欄這頁隱藏） ---- */
-            #page-01.page.active {
-                align-content: center;
-                min-height: 100dvh;
-            }
-            #page-01 > * {
-                position: relative !important;
-                left: auto !important;
-                top: auto !important;
-                width: 100% !important;
-            }
-            #page-01 > div:nth-child(1) { grid-column: 1; height: 150px !important; background-size: contain !important; align-self: center; }
-            #page-01 > div:nth-child(2) { grid-column: 1; align-self: center; }
-            #page-01 > button          { grid-column: 2; max-width: 290px; justify-self: center; }
-            #page-01 > a,
-            #page-01 > div:last-child  { grid-column: 2; justify-self: center; text-align: center; }
 
             /* ---- AI 辨識中（page-loading）：攤平成置中單欄（跟橫式手機同一招） ---- */
             #page-loading.page.active {
@@ -1258,9 +1139,8 @@
                 max-width: 640px !important;
             }
             /* FAB「都沒有我的物品」原本用 left:50% 對齊整個瀏覽器視窗置中，
-               桌機多了側邊欄，要扣掉側欄寬度再置中，否則會偏向畫面左側 */
+               桌機沒有側邊欄、置中剛好對齊畫面，只需要把底部留白縮短 */
             #page-06 > div:first-of-type > div[style*="position: fixed"] {
-                left: calc(50% + (var(--desk-sidebar) / 2)) !important;
                 bottom: 32px !important;
             }
             #page-06 { padding-bottom: 48px !important; }
@@ -1297,76 +1177,217 @@
             #page-16, #page-19 { max-width: 480px !important; }
         }
 
-        /* ---- 首頁（page-02）≥1300px：空間夠大才把兩大區塊各自的兩顆按鈕改成橫排
-               （4 欄 grid）；1024~1299px 維持上面那段的安全兩欄堆疊，避免窄桌機視窗
-               被壓到文字互相重疊、跑出畫面。 ---- */
-        @media (min-width: 1300px) {
-            #page-02.page.active {
-                grid-template-columns: repeat(4, minmax(0, 310px));
-                column-gap: 40px;
+        /* =====================================================================
+           桌機版新版元件（2026-11，照 Figma「DiuLa 桌面版」重做登入／首頁／
+           個人中心）：上方導覽列＋Hero 區塊＋左右兩張大卡片＋頁尾。
+           只套用在 page-01／02／14，其他頁面（表單、清單、詳情）維持上面
+           既有的兩欄版型不動。這裡的 class 一律 d- 開頭、預設 display:none
+           （手機／平板看不到），只有 ≥1024px 才顯示——跟桌機版 CSS 其他地方
+           一樣，用 .d-only 讓 page-01/02/14 的「藏起手機版內容」規則不會
+           連這些新元件也一起藏掉。
+           ===================================================================== */
+        .d-topnav, .d-hero, .d-cards, .d-footer, .d-blob, .d-logout-btn {
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
+            /* ---- 上方導覽列 ---- */
+            .d-topnav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                max-width: 1536px;
+                margin: 0 auto;
+                padding: 24px 40px;
+                box-sizing: border-box;
+                background: #F7F4E5;
             }
-            #page-02 > div:nth-child(2) { grid-column: 1 / 3; }
-            #page-02 > div:nth-child(3) { grid-column: 1; grid-row: 3; height: 120px !important; }
-            #page-02 > div:nth-child(4) { grid-column: 2; grid-row: 3; height: 120px !important; }
-            #page-02 > div:nth-child(5) { grid-column: 3 / 5; }
-            #page-02 > div:nth-child(6) { grid-column: 3; grid-row: 3; height: 120px !important; }
-            #page-02 > div:nth-child(7) { grid-column: 4; grid-row: 3; height: 120px !important; }
-            /* 四顆按鈕原本是給 350px 寬設計的 padding/間距，310px 欄位放不太下，縮窄一點 */
-            #page-02 > div:nth-child(3),
-            #page-02 > div:nth-child(4),
-            #page-02 > div:nth-child(6),
-            #page-02 > div:nth-child(7) {
-                padding: 24px 20px !important;
-                gap: 16px !important;
-                min-width: 0 !important;
+            .d-topnav-logo { height: 23px; object-fit: contain; cursor: pointer; opacity: .8; border: none; background: none; padding: 0; }
+            .d-topnav-nav { display: flex; align-items: center; gap: 30px; list-style: none; margin: 0; padding: 0; }
+            .d-topnav-link {
+                appearance: none; background: none; border: none; cursor: pointer; padding: 0 0 4px; margin: 0;
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-size: 16px; font-weight: 400; color: #492C13;
+                border-bottom: 2px solid transparent;
             }
-            /* 裡面的文字原本寫死寬度（128/142/144px）不會換行，欄位變窄時要能換行 */
-            #page-02 > div:nth-child(3) > div:last-child,
-            #page-02 > div:nth-child(4) > div:last-child,
-            #page-02 > div:nth-child(6) > div:last-child,
-            #page-02 > div:nth-child(7) > div:last-child {
-                width: auto !important;
-                height: auto !important;
-                min-width: 0 !important;
-                white-space: normal !important;
+            .d-topnav-link.active { font-weight: 700; border-bottom-color: #492C13; }
+
+            /* ---- Hero ---- */
+            .d-hero {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 64px;
+                max-width: 1440px;
+                margin: 32px auto 0;
+                padding: 64px;
+                box-sizing: border-box;
+                background: #D2E1F5;
+                border: 1px solid #482B12;
+                border-radius: 40px;
+                position: relative;
+            }
+            .d-hero-content { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; max-width: 1054px; width: 100%; }
+            .d-hero-title {
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-weight: 700; font-size: 32px; line-height: 1.2; color: #482B12; margin: 0;
+            }
+            .d-hero-desc {
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-weight: 400; font-size: 18px; line-height: 1.6; color: #566475; max-width: 512px; margin: 0;
+            }
+            .d-hero-badges { display: flex; gap: 24px; margin-top: 8px; flex-wrap: wrap; }
+            .d-hero-badge {
+                appearance: none; cursor: pointer; text-decoration: none;
+                display: inline-flex; align-items: center; justify-content: center;
+                padding: 10px 24px; border-radius: 9999px; border: 1px solid #482B12;
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-weight: 600; font-size: 14px;
+            }
+            .d-hero-badge.lost { background: #BA1A1A; color: #FFFFFF; }
+            .d-hero-badge.found { background: #F9F9F9; color: #1A1C1C; }
+
+            /* ---- 左右兩張大卡片 ---- */
+            .d-cards {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                gap: 64px;
+                max-width: 1536px;
+                margin: 64px auto 0;
+                padding: 0 48px;
+                box-sizing: border-box;
+                flex-wrap: wrap;
+            }
+            .d-card {
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 40px;
+                width: 560px;
+                max-width: 100%;
+                padding: 64px;
+                background: #FFFFFF;
+                border: 1px solid #000000;
+                border-radius: 48px;
+            }
+            .d-card.tone-brown { border-color: #482B12; }
+            .d-card-header { display: flex; align-items: center; gap: 12px; }
+            .d-card-icon { width: 32px; height: 32px; flex-shrink: 0; object-fit: contain; }
+            .d-card-title {
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-size: 24px; font-weight: 400; color: #482B12; margin: 0;
+            }
+            .d-card-buttons { display: flex; flex-direction: column; gap: 24px; width: 100%; }
+            .d-card-btn {
+                appearance: none; cursor: pointer;
+                box-sizing: border-box;
+                display: flex; align-items: center; justify-content: center; gap: 40px;
+                width: 100%; height: 94px; padding: 30px 40px;
+                background: #F3F0E1; border: 2px solid #000000; border-radius: 50px;
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-size: 16px; font-weight: 500; color: #492C13;
+            }
+            .d-card.tone-brown .d-card-btn { border-color: #482B12; color: #482B12; }
+            .d-card-btn img { width: 30px; height: 30px; flex-shrink: 0; object-fit: contain; }
+
+            /* 個人中心：使用者資料卡（置中版型） */
+            .d-profile-card { justify-content: center; align-items: center; text-align: center; height: auto; }
+            .d-avatar {
+                width: 100px; height: 100px; border-radius: 50%;
+                background: #FFFFFF; border: 1px solid #000000;
+                display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;
+            }
+            .d-avatar img { width: 100%; height: 100%; object-fit: cover; }
+            .d-avatar svg { width: 57px; height: 57px; }
+            .d-profile-name {
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-size: 24px; font-weight: 500; color: #482B12; margin: 0;
+            }
+            .d-profile-id { font-family: 'Comfortaa', sans-serif; font-size: 16px; font-weight: 500; color: #482B12; margin: 0; }
+
+            .d-logout-btn {
+                appearance: none; cursor: pointer;
+                display: flex; align-items: center; justify-content: center;
+                margin: 40px auto 0;
+                width: 560px; max-width: 100%; height: 70px;
+                background: #F5F5F5; border: 1px solid #000000; border-radius: 50px;
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-size: 20px; font-weight: 500; color: #482B12;
+            }
+
+            /* ---- 頁尾 ---- */
+            .d-footer {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                margin-top: 64px;
+                background: #F7F4E5;
+                border-top: 1px solid #F3F0E1;
+            }
+            .d-footer-inner {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                max-width: 1280px;
+                padding: 48px 32px;
+                box-sizing: border-box;
+                gap: 24px;
+                flex-wrap: wrap;
+            }
+            .d-footer-logo { height: 23px; opacity: .8; object-fit: contain; }
+            .d-footer-nav { display: flex; gap: 24px; flex-wrap: wrap; }
+            .d-footer-nav a {
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-size: 14px; font-weight: 500; color: #492C13; text-decoration: none; opacity: .8;
+            }
+            .d-footer-copy {
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-size: 14px; font-weight: 500; color: #492C13;
+            }
+
+            /* ---- 登入頁背景裝飾模糊泡泡 ---- */
+            #page-01 { background: #FFFFFF !important; }
+            .d-blob { display: block; position: absolute; border-radius: 9999px; filter: blur(32px); pointer-events: none; }
+            .d-blob.orange { width: 256px; height: 256px; left: 0; top: 85px; background: rgba(255, 220, 195, .5); }
+            .d-blob.blue   { width: 320px; height: 320px; right: 0; bottom: 60px; background: rgba(213, 228, 248, .6); }
+            .d-login-wrap {
+                display: flex; flex-direction: column; align-items: center; justify-content: center;
+                gap: 24px; max-width: 480px; margin: 72px auto; padding: 0 24px; text-align: center;
+                position: relative;
+            }
+            .d-login-logo { width: 240px; height: auto; object-fit: contain; }
+            .d-login-tagline {
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-size: 20px; font-weight: 500; color: #000000; margin: 0;
+            }
+            .d-login-btn {
+                appearance: none; cursor: pointer; box-sizing: border-box;
+                display: flex; align-items: center; justify-content: center; gap: 12px;
+                width: 290px; max-width: 100%; height: 62px; border-radius: 50px;
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-size: 18px; font-weight: 700;
+            }
+            .d-login-btn.line { background: #6ADA19; color: #FFFFFF; border: 1px solid #000000; }
+            .d-login-btn.google { background: #FFFFFF; color: #000000; border: 1px solid #000000; }
+            .d-login-help {
+                appearance: none; background: none; border: none; cursor: pointer; padding: 0;
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-size: 16px; color: #000000; opacity: .5;
+            }
+            .d-login-consent {
+                font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif;
+                font-size: 12px; color: #000000; opacity: .5; margin: 0;
             }
         }
 
 </style>
 </head>
 <body>
-    <!-- ============================================================
-         桌機側邊導覽（≥1024px 才顯示，見 RWD 桌機版 CSS；手機／平板這裡
-         一律 display:none，不占版面、不影響既有的底部膠囊導覽邏輯）。
-         登入前（page-01）沒有導覽目標，JS 的 showPage 會把它藏起來。
-         ============================================================ -->
-    <nav id="desktop-sidebar" class="sidebar-hide" aria-label="主導覽">
-        <div onclick="window.showPage('page-02', 'home')" style="cursor: pointer; display: flex; align-items: center; justify-content: center; height: 48px; margin-bottom: 32px;">
-            <img src="DiuLa_logo_transparent.png" alt="DiuLa!" style="height: 32px; object-fit: contain;">
-        </div>
-        <div id="sidebar-nav-home" class="sidebar-nav-item" onclick="window.showPage('page-02', 'home')">
-            <div style="width: 24px; height: 24px; background: url('house-solid.png') no-repeat center center / contain;"></div>
-            <span>首頁</span>
-        </div>
-        <div id="sidebar-nav-mylost" class="sidebar-nav-item" onclick="window.showPage('page-15', 'profile')">
-            <div style="width: 24px; height: 24px; background: url('cubes-solid.png') no-repeat center center / contain;"></div>
-            <span>我的遺失物</span>
-        </div>
-        <div id="sidebar-nav-myfound" class="sidebar-nav-item" onclick="window.showPage('page-18', 'profile')">
-            <div style="width: 24px; height: 24px; background: url('folder-closed-solid.png') no-repeat center center / contain;"></div>
-            <span>我的拾獲物</span>
-        </div>
-        <div id="sidebar-nav-profile" class="sidebar-nav-item" onclick="window.showPage('page-14', 'profile')">
-            <div style="width: 24px; height: 24px; background: url('icon_profile.png') no-repeat center center / contain;"></div>
-            <span>個人資料</span>
-        </div>
-        <div style="flex: 1;"></div>
-        <div class="sidebar-nav-item" onclick="document.getElementById('logout-modal').style.display='flex';">
-            <div style="width: 24px; height: 24px; background: url('xmark-solid.png') no-repeat center center / contain; opacity: .6;"></div>
-            <span>登出</span>
-        </div>
-    </nav>
-
     <div class="app-container">
                 <!-- PAGE 01: Login -->
         <div id="page-01" class="page active" style="position: relative; width: 100%; max-width: 393px;  min-height: 100dvh; margin: 0 auto; background: #DFEAF5; box-sizing: border-box; overflow-y: auto;">
@@ -1393,7 +1414,44 @@
             <a href="mailto:diula.112ics@gmail.com" style="position: absolute; width: 96px; height: 18px; left: calc(50% - 96px/2 + 0.5px); top: 683px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 16px; line-height: 18px; text-align: center; color: #000000; opacity: 0.5; text-decoration: none;">遇到問題嗎？</a>
 
             <div style="position: absolute; width: 264px; height: 13px; left: calc(50% - 264px/2 + 0.5px); top: 723px; font-family: 'Comfortaa', 'GenSenRounded2 TW', 'Chiron GoRound TC', sans-serif; font-weight: 400; font-size: 12px; line-height: 13px; text-align: center; color: #000000; opacity: 0.5;">登入即代表您同意本平台的服務條款與隱私權政策</div>
-            
+
+            <!-- ======== 桌機版（≥1024px）：登入頁，照新版 Figma 重做 ======== -->
+            <header class="d-topnav d-only">
+                <img class="d-topnav-logo" src="DiuLa_logo_transparent.png" alt="DiuLa!">
+            </header>
+            <div class="d-blob orange d-only"></div>
+            <div class="d-blob blue d-only"></div>
+            <div class="d-login-wrap d-only">
+                <img class="d-login-logo" src="DiuLa_logo_transparent.png" alt="DiuLa!">
+                <p class="d-login-tagline">尋找你遺失物的好夥伴！</p>
+                <button type="button" class="d-login-btn line" onclick="window.handleLineLogin()">
+                    <img src="line-login-icon.png" alt="" style="width: 24px; height: 24px; flex-shrink: 0;">
+                    <span>使用 LINE 登入</span>
+                </button>
+                <button type="button" class="d-login-btn google" onclick="window.googleLogin()">
+                    <svg width="22" height="22" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.9-2.26 5.36-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                    <span>使用 Google 登入</span>
+                </button>
+                <button type="button" class="d-login-help" onclick="window.location.href='mailto:diula.112ics@gmail.com'">遇到問題嗎？</button>
+                <p class="d-login-consent">登入即代表您同意本平台的服務條款與隱私權政策</p>
+            </div>
+            <footer class="d-footer d-only">
+                <div class="d-footer-inner">
+                    <img class="d-footer-logo" src="DiuLa_logo_transparent.png" alt="DiuLa!">
+                    <nav class="d-footer-nav">
+                        <a href="#">隱私權政策</a>
+                        <a href="#">服務條款</a>
+                        <a href="#">關於我們</a>
+                    </nav>
+                    <span class="d-footer-copy">© 2026 DiuLa! 一站式遺失物AI協尋平台. All rights reserved.</span>
+                </div>
+            </footer>
+
         </div>
                                 <!-- PAGE 02: Home -->
         <div id="page-02" class="page" style="position: relative; width: 100%; max-width: 393px;  min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto;">
@@ -1442,6 +1500,76 @@
 
             <!-- Scroll spacer -->
             <div style="height: 850px; width: 100%;"></div>
+
+            <!-- ======== 桌機版（≥1024px）：首頁，照新版 Figma 重做（上方導覽列＋Hero＋雙卡片） ======== -->
+            <header class="d-topnav d-only">
+                <img class="d-topnav-logo" src="DiuLa_logo_transparent.png" alt="DiuLa!" onclick="window.showPage('page-02', 'home')" style="cursor: pointer;">
+                <nav class="d-topnav-nav">
+                    <button type="button" class="d-topnav-link" data-nav="home" onclick="window.showPage('page-02', 'home')">首頁</button>
+                    <button type="button" class="d-topnav-link" data-nav="find" onclick="window.showPage('page-03')">尋找遺失物</button>
+                    <button type="button" class="d-topnav-link" data-nav="threads" onclick="window.showPage('page-17')">Threads尋找遺失物</button>
+                    <button type="button" class="d-topnav-link" data-nav="profile" onclick="window.showPage('page-14', 'profile')">個人中心</button>
+                </nav>
+            </header>
+
+            <section class="d-hero d-only">
+                <div class="d-hero-content">
+                    <h1 class="d-hero-title">丟東西了嗎？交給 DiuLa! 幫你找回來。</h1>
+                    <p class="d-hero-desc">歡迎使用 DiuLa!，一站式遺失物協尋平台。不管是東西不見了，還是撿到別人的失物，我們都讓物歸原主這件事變得簡單又安心。</p>
+                    <div class="d-hero-badges">
+                        <a href="#d-find-section" class="d-hero-badge lost">我遺失物品</a>
+                        <a href="#d-register-section" class="d-hero-badge found">我撿到物品</a>
+                    </div>
+                </div>
+            </section>
+
+            <div class="d-cards d-only">
+                <article id="d-find-section" class="d-card">
+                    <div class="d-card-header">
+                        <img class="d-card-icon" src="magnifying-glass-solid.png" alt="">
+                        <h2 class="d-card-title">尋找遺失物</h2>
+                    </div>
+                    <div class="d-card-buttons">
+                        <button type="button" class="d-card-btn" onclick="window.showPage('page-03')">
+                            <img src="magnifying-glass-solid.png" alt="">
+                            <span>跨平台尋找遺失物</span>
+                        </button>
+                        <button type="button" class="d-card-btn" onclick="window.showPage('page-17')">
+                            <img src="threads-brands-solid.png" alt="">
+                            <span>Threads尋找遺失物</span>
+                        </button>
+                    </div>
+                </article>
+                <article id="d-register-section" class="d-card tone-brown">
+                    <div class="d-card-header">
+                        <img class="d-card-icon" src="address-card-solid.png" alt="">
+                        <h2 class="d-card-title">登錄拾獲物</h2>
+                    </div>
+                    <div class="d-card-buttons">
+                        <button type="button" class="d-card-btn" onclick="window.showPage('page-12')">
+                            <img src="address-card-solid.png" alt="">
+                            <span>證件類遺失物登錄</span>
+                        </button>
+                        <button type="button" class="d-card-btn" onclick="window.showPage('page-10')">
+                            <img src="clipboard-question-solid.png" alt="">
+                            <span>非證件類遺失物登錄</span>
+                        </button>
+                    </div>
+                </article>
+            </div>
+
+            <footer class="d-footer d-only">
+                <div class="d-footer-inner">
+                    <img class="d-footer-logo" src="DiuLa_logo_transparent.png" alt="DiuLa!">
+                    <nav class="d-footer-nav">
+                        <a href="#">隱私權政策</a>
+                        <a href="#">服務條款</a>
+                        <a href="#">關於我們</a>
+                    </nav>
+                    <span class="d-footer-copy">© 2026 DiuLa! 一站式遺失物AI協尋平台. All rights reserved.</span>
+                </div>
+            </footer>
+
         </div>
                 <!-- PAGE 03: Find (Image tab) -->
         <div id="page-03" class="page" style="width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; padding-bottom: calc(80px + env(safe-area-inset-bottom)); padding-top: 0; padding-left: 0; padding-right: 0;">
@@ -2046,6 +2174,68 @@
 
             <!-- Scroll spacer -->
             <div style="height: 850px; width: 100%;"></div>
+
+            <!-- ======== 桌機版（≥1024px）：個人中心，照新版 Figma 重做 ======== -->
+            <header class="d-topnav d-only">
+                <img class="d-topnav-logo" src="DiuLa_logo_transparent.png" alt="DiuLa!" onclick="window.showPage('page-02', 'home')" style="cursor: pointer;">
+                <nav class="d-topnav-nav">
+                    <button type="button" class="d-topnav-link" data-nav="home" onclick="window.showPage('page-02', 'home')">首頁</button>
+                    <button type="button" class="d-topnav-link" data-nav="find" onclick="window.showPage('page-03')">尋找遺失物</button>
+                    <button type="button" class="d-topnav-link" data-nav="threads" onclick="window.showPage('page-17')">Threads尋找遺失物</button>
+                    <button type="button" class="d-topnav-link" data-nav="profile" onclick="window.showPage('page-14', 'profile')">個人中心</button>
+                </nav>
+            </header>
+
+            <div class="d-cards d-only">
+                <article class="d-card tone-brown">
+                    <div class="d-card-header">
+                        <img class="d-card-icon" src="magnifying-glass-solid.png" alt="">
+                        <h2 class="d-card-title">我的歷史紀錄</h2>
+                    </div>
+                    <div class="d-card-buttons">
+                        <button type="button" class="d-card-btn" onclick="window.showPage('page-15', 'profile')">
+                            <img src="cubes-solid.png" alt="">
+                            <span>我的遺失物</span>
+                        </button>
+                        <button type="button" class="d-card-btn" onclick="window.showPage('page-18', 'profile')">
+                            <img src="folder-closed-solid.png" alt="">
+                            <span>我的拾獲物</span>
+                        </button>
+                    </div>
+                </article>
+                <article class="d-card d-profile-card">
+                    <div class="d-avatar">
+                        <img id="profile-avatar-img-d" src="avatar.png" alt="大頭貼" onerror="this.src='icon_profile.png'">
+                    </div>
+                    <p id="profile-name-text-d" class="d-profile-name">訪客</p>
+                    <p id="profile-id-text-d" class="d-profile-id"></p>
+                </article>
+            </div>
+            <button type="button" class="d-logout-btn d-only" onclick="document.getElementById('logout-modal').style.display='flex';">登出</button>
+
+            <section class="d-hero d-only">
+                <div class="d-hero-content">
+                    <h1 class="d-hero-title">丟東西了嗎？交給 DiuLa! 幫你找回來。</h1>
+                    <p class="d-hero-desc">歡迎使用 DiuLa!，一站式遺失物協尋平台。不管是東西不見了，還是撿到別人的失物，我們都讓物歸原主這件事變得簡單又安心。</p>
+                    <div class="d-hero-badges">
+                        <button type="button" class="d-hero-badge lost" onclick="window.showPage('page-03')">我遺失物品</button>
+                        <button type="button" class="d-hero-badge found" onclick="window.showPage('page-10')">我撿到物品</button>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="d-footer d-only">
+                <div class="d-footer-inner">
+                    <img class="d-footer-logo" src="DiuLa_logo_transparent.png" alt="DiuLa!">
+                    <nav class="d-footer-nav">
+                        <a href="#">隱私權政策</a>
+                        <a href="#">服務條款</a>
+                        <a href="#">關於我們</a>
+                    </nav>
+                    <span class="d-footer-copy">© 2026 DiuLa! 一站式遺失物AI協尋平台. All rights reserved.</span>
+                </div>
+            </footer>
+
         </div>
         <!-- PAGE 15: My Lost Items -->
         <div id="page-15" class="page" style="position: relative; width: 100%; max-width: 393px; min-height: 100dvh; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; overflow-y: auto; padding-top: 0; padding-left: 0; padding-right: 0;">
@@ -2958,15 +3148,29 @@ const twLocations = {
         // Global UI Functions
         // =========================================================================
         const bottomNav = document.getElementById('bottom-nav');
-        const desktopSidebar = document.getElementById('desktop-sidebar');
-        // 桌機側邊導覽（≥1024px）的「目前在哪一頁」對照表：只有這幾個 id 有對應的側邊欄按鈕，
-        // 其餘頁面（表單、比對結果、Threads 列表、協尋發文…）都不亮燈，跟底部膠囊導覽的邏輯一致。
-        const SIDEBAR_PAGE_MAP = {
-            'page-02': 'sidebar-nav-home',
-            'page-15': 'sidebar-nav-mylost', 'page-16': 'sidebar-nav-mylost',
-            'page-18': 'sidebar-nav-myfound', 'page-19': 'sidebar-nav-myfound',
-            'page-14': 'sidebar-nav-profile',
-        };
+        // 桌機版上方導覽列（.d-topnav-link）的「目前在哪一頁」對照表，跟底部膠囊導覽的
+        // active 邏輯分開管理——頂部導覽只在 page-01/02/14 顯示，data-nav 屬性見下方
+        // 新版 HTML（個人中心 / 首頁 / Threads尋找遺失物 連結）。
+        const DESKTOP_NAV_MAP = { 'page-02': 'home', 'page-17': 'threads', 'page-03': 'find', 'page-14': 'profile' };
+        function syncDesktopNav(pageId) {
+            document.querySelectorAll('.d-topnav-link').forEach(el => {
+                el.classList.toggle('active', el.dataset.nav === DESKTOP_NAV_MAP[pageId]);
+            });
+        }
+        // 桌機版「個人中心」大頭貼／名稱／User ID 卡片跟手機版共用同一份資料，
+        // 但 getElementById 同一個 id 只能有一個，所以桌機版元素另外取 id（加 -d 字尾），
+        // 這裡在每次切到 page-14 時同步一次，不用動原本更新大頭貼／名稱的那幾處程式碼。
+        function syncDesktopProfile() {
+            const nameSrc = document.getElementById('profile-name-text');
+            const idSrc = document.getElementById('profile-id-text');
+            const avatarSrc = document.getElementById('profile-avatar-img');
+            const nameDst = document.getElementById('profile-name-text-d');
+            const idDst = document.getElementById('profile-id-text-d');
+            const avatarDst = document.getElementById('profile-avatar-img-d');
+            if (nameSrc && nameDst) nameDst.textContent = nameSrc.textContent;
+            if (idSrc && idDst) idDst.textContent = idSrc.textContent;
+            if (avatarSrc && avatarDst) avatarDst.src = avatarSrc.src;
+        }
 
                 window.showPage = function(pageId, navTab = '') {
             if (window.initCitySelects) window.initCitySelects();
@@ -2997,20 +3201,9 @@ const twLocations = {
                 if (bottomNav) bottomNav.style.display = 'flex';
             }
 
-            // 側邊導覽只在登入前（page-01）沒有意義時隱藏，表單／結果頁都繼續顯示——
-            // 桌機版側邊欄是跟內容並排、不像手機的底部膠囊會蓋住畫面，沒有必要跟著表單頁藏起來。
-            if (desktopSidebar) {
-                // 用 class 切換、不要寫 inline display：JS 不管螢幕寬度都會跑到這段，
-                // 若直接設 element.style.display，手機／平板也會被這行 inline 蓋過
-                // CSS 的「#desktop-sidebar{display:none}」，導致側邊欄跑到手機畫面上。
-                desktopSidebar.classList.toggle('sidebar-hide', pageId === 'page-01');
-                document.querySelectorAll('.sidebar-nav-item').forEach(el => el.classList.remove('active'));
-                const activeId = SIDEBAR_PAGE_MAP[pageId];
-                if (activeId) {
-                    const el = document.getElementById(activeId);
-                    if (el) el.classList.add('active');
-                }
-            }
+            // 桌機版上方導覽列的 active 連結；個人中心還要同步大頭貼／名稱／User ID
+            syncDesktopNav(pageId);
+            if (pageId === 'page-14') syncDesktopProfile();
 
             if (pageId === 'page-06') {
                 // 比對結果頁不屬於「首頁」或「個人資料」任一分頁，Bar 只是給使用者快速跳轉用，
